@@ -5,642 +5,817 @@
     <description>菊长就是我，我就是菊长.</description>
     <link>http://thisisagoodname.github.io//</link>
     <atom:link href="http://thisisagoodname.github.io//zfeed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 08 May 2015 15:35:23 +0800</pubDate>
-    <lastBuildDate>Fri, 08 May 2015 15:35:23 +0800</lastBuildDate>
+    <pubDate>Fri, 08 May 2015 16:09:30 +0800</pubDate>
+    <lastBuildDate>Fri, 08 May 2015 16:09:30 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
-        <title>2.0 version</title>
-        <description>&lt;p&gt;Today, I update the theme with some new features. Welcome to use freshman21 2.0 version(gh-pages branch).&lt;/p&gt;
+        <title>数字图像处理-离散余弦变换的蝶形运算</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css&quot; /&gt;
 
-&lt;p&gt;&lt;strong&gt;gh-pages branch new features&lt;/strong&gt; :&lt;/p&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js&quot;&gt;&lt;/script&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Google  search&lt;/li&gt;
-  &lt;li&gt;Google analytics&lt;/li&gt;
-  &lt;li&gt;Read more mode&lt;/li&gt;
-  &lt;li&gt;Open Graph META Tags&lt;/li&gt;
-  &lt;li&gt;Microdata(schema.org)&lt;/li&gt;
-  &lt;li&gt;back to top button&lt;/li&gt;
-  &lt;li&gt;font awesome icon&lt;/li&gt;
-&lt;/ul&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js&quot;&gt;&lt;/script&gt;
 
-&lt;p&gt;&lt;strong&gt;master branch new features&lt;/strong&gt; :&lt;/p&gt;
+&lt;script&gt;
+hljs.tabReplace = &#39; &#39;;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Open Graph META Tags&lt;/li&gt;
-  &lt;li&gt;Microdata(schema.org)&lt;/li&gt;
-&lt;/ul&gt;
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;MathJax.Hub.Config({tex2jax:{inlineMath:[[&#39;$$$&#39;,&#39;$$$&#39;]]}});&lt;/script&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
 
-&lt;p&gt;The main difference between master and gh-pages: only one Javascript (Mathjax) be included in master branch.&lt;/p&gt;
+&lt;p&gt;转自&lt;a href=&quot;http://blog.csdn.net/sno_guo/article/details/8039659&quot;&gt;http://blog.csdn.net/sno_guo/article/details/8039659&lt;/a&gt;,并自己做了一些内容上的删减。&lt;/p&gt;
 
-&lt;p&gt;Master branch is a more purified html+css framework than gh-pages branch.&lt;/p&gt;
+&lt;h3 id=&quot;section&quot;&gt;为什么要进行变换&lt;/h3&gt;
 
-&lt;p&gt;Clone master branch:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt; git clone https://github.com/yulijia/freshman21.git -b master --single-branch&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Clone gh-pages branch:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git clone https://github.com/yulijia/freshman21.git -b gh-pages --single-branch&lt;/code&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 31 Mar 2015 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//news/2015/03/31/2.0version.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//news/2015/03/31/2.0version.html</guid>
-        
-        <category>version</category>
-        
-        <category>new features</category>
-        
-        <category>google analytics</category>
-        
-        <category>google search</category>
-        
-        <category>back to top</category>
-        
-        <category>read more</category>
-        
-        
-        <category>news</category>
-        
-      </item>
-    
-      <item>
-        <title>update</title>
-        <description>&lt;p&gt;There are three versions.&lt;/p&gt;
+&lt;p&gt;       空间图像数据通常是很难压缩的：相邻的采样点具有很强的相关性（相互关联的），而且能量一般平均分布在一幅图像中，从而要想丢掉某些数据和降低数据精度而不明显影响图像质量，就要选择合适的变换，方法，使图像易于被压缩。适合压缩的变换方法要有这样几个性质：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;master branch: the simplest template, original version. No js.&lt;/li&gt;
+  &lt;li&gt;1.可以聚集图像的能量（将能量集中到少数有意义的数值上）；如下图：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;!-- more --&gt;
+&lt;p&gt;&lt;img src=&quot;http://img.blog.163.com/photo/QNUqLLTRxzhgqpkFYPQY3w==/1183883752046274017.jpg&quot; alt=&quot;三维DCT示意图&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;gh-pages branch: master branch with google analytics js template.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;readmore branch: master branch with article summary.&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;2.可以除去数据之间的相关性（以使丢掉不重要的数据对图像的质量影响很少）。&lt;/li&gt;
+  &lt;li&gt;3.变换方法应该适合用软硬件实现。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Enjoy.&lt;/p&gt;
-
-&lt;p&gt;I have been working on a big 2.0 update to this theme. Branch gh-pages and readmore will be merged.&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 16 Mar 2015 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2015/03/16/update.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2015/03/16/update.html</guid>
-        
-        <category>version</category>
-        
-        
-        <category>articles</category>
-        
-      </item>
-    
-      <item>
-        <title>Fix bugs</title>
-        <description>&lt;p&gt;Thanks to &lt;a href=&quot;http://blog.rickysu.com/about/&quot;&gt;@imrickysu&lt;/a&gt;!&lt;/p&gt;
-
-&lt;h4 id=&quot;typo-in-tagsmd&quot;&gt;typo in tags.md&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/yulijia/freshman21/issues/2&quot;&gt;issues #2&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;change-siteurl-to-sitebaseurl-can-make-it-work-at-localhost&quot;&gt;Change &lt;code&gt;site.url&lt;/code&gt; to &lt;code&gt;site.baseurl&lt;/code&gt; can make it work at localhost&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/yulijia/freshman21/issues/3&quot;&gt;issues #3&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;From now on, I only post articles at gh-pages branch.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 20 Feb 2015 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2015/02/20/fix-bugs.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2015/02/20/fix-bugs.html</guid>
-        
-        <category>bugs</category>
-        
-        
-        <category>articles</category>
-        
-      </item>
-    
-      <item>
-        <title>A small change</title>
-        <description>&lt;p&gt;I made a small change in the gh-pages branch, add google analytics script.&lt;/p&gt;
-
-&lt;p&gt;The main &lt;q&gt;JS&lt;/q&gt; script was in the &lt;q&gt;_include&lt;/q&gt; folder, and  this JS file was included in &lt;q&gt;head.html&lt;/q&gt;.&lt;/p&gt;
-
-&lt;p&gt;In &lt;q&gt;_config.yml&lt;/q&gt; file, I add the Google analytics key.&lt;/p&gt;
-
-&lt;p&gt;To fork the version with google analytics, please try this command:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git clone --branch gh-pages https://github.com/yulijia/freshman21.git&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;attention-only-gh-pages-branch-has-google-analytics-and-this-article&quot;&gt;Attention: Only gh-pages branch has google analytics and this article.&lt;/h3&gt;
-</description>
-        <pubDate>Sun, 08 Feb 2015 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2015/02/08/a-small-change.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2015/02/08/a-small-change.html</guid>
-        
-        <category>features</category>
-        
-        <category>google analytics</category>
-        
-        
-        <category>articles</category>
-        
-      </item>
-    
-      <item>
-        <title>How to create post summary</title>
-        <description>&lt;p&gt;We can make a summary of post, and show it in the home page.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-to-only-show-a-part-of-posts&quot;&gt;How to only show a part of posts?&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;Method 1.&lt;/strong&gt; In &lt;a href=&quot;https://github.com/yulijia/freshman21/blob/master/index.html&quot;&gt;index.html&lt;/a&gt; file, set &lt;code&gt; \{\{ post.content | strip_html | truncatewords: 50 \}\}&lt;/code&gt; , produces a more consistent excerpt. It gets the first 50 words and strips any formatting.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;p&gt;This method can automatically create a summary of article. However if the article begin with &lt;q&gt;code&lt;/q&gt; or &lt;q&gt;markdown tags&lt;/q&gt;, you will find the article css style can not shown on the home page.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Method 2.&lt;/strong&gt; In &lt;a href=&quot;https://github.com/yulijia/freshman21/blob/master/index.html&quot;&gt;index.html&lt;/a&gt; file, using &lt;code&gt;\{\{ post.summary \}\}&lt;/code&gt; to insted of &lt;code&gt;\{\{ post.content \}\}&lt;/code&gt;, produces a summary of post. You need add summary in each &lt;q&gt;post&lt;/q&gt; file, &lt;a href=&quot;https://gist.github.com/yulijia/2f865b78a28bfe9e0a81#file-a-article-post-with-summary&quot;&gt;example&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Then you will find all articles summary in the home page.&lt;/p&gt;
-
-&lt;h3 id=&quot;how-to-create-a-read-more-button-for-a-post&quot;&gt;How to create a read more button for a post?&lt;/h3&gt;
-
-&lt;p&gt;Basically, freshman21 doesn’t support “read more” button.&lt;/p&gt;
-
-&lt;p&gt;To create a page link(button) is very easy.&lt;/p&gt;
-
-&lt;p&gt;Just add&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&amp;lt;a&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;\{\{ post.url | prepend: site.baseurl \}\}&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;read more&lt;span class=&quot;nt&quot;&gt;&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;after &lt;code&gt;\{\{post.summary\}\}&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;the-example-of-post-summary-at-gisthttpsgistgithubcomyulijia2f865b78a28bfe9e0a81&quot;&gt;The example of post summary at &lt;a href=&quot;https://gist.github.com/yulijia/2f865b78a28bfe9e0a81&quot;&gt;Gist&lt;/a&gt;.&lt;/h2&gt;
-
-</description>
-        <pubDate>Sun, 18 Jan 2015 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//howto/2015/01/18/how-to-create-post-summary.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//howto/2015/01/18/how-to-create-post-summary.html</guid>
-        
-        <category>summary</category>
-        
-        
-        <category>howto</category>
-        
-      </item>
-    
-      <item>
-        <title>How to set the config.yml file</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;https://github.com/yulijia/freshman21/blob/master/_config.yml&quot;&gt;config.yml file&lt;/a&gt; in the Freshman21 theme includes five parts.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;First part&lt;/strong&gt; is the site info.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Freshman21&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# blog title&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;tagline&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Another Jekyll theme, Freshman twenty-first&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# blog sub-titile&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Lijia YU&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# author name&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;yu@lijiayu.net&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# author email&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Freshman21&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;is&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Jekyll&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;blog&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;theme.&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# You can edit this line in _config.yml. It will appear in your document head meta and in &lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;your feed.xml site description&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;keywords&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Jekyll,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;theme,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Freshman21&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# html meta keywords&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;baseurl&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/freshman21&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# the subpath of your site, e.g. /blog&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;http://yulijia.net/freshman21&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# the base hostname &amp;amp; protocol for your site&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;!-- more --&gt;
-
-&lt;p&gt;&lt;strong&gt;Part 2&lt;/strong&gt;, Personal info and site tools info, twitter, github, aboutme and aboutme_photo only appears on the sidebar aboutme-box, you can &lt;q&gt;Hide&lt;/q&gt; in two ways &lt;sup&gt;&lt;a href=&quot;#[1]&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;twitter_username&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#your twitter handle  &lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;github_username&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;#your github account&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;disqus_shortname&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#disqus shortname&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;favicon&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;     &lt;span class=&quot;s&quot;&gt;&amp;quot;images/favicon.ico&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;aboutme&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Hi, this is Lijia Yu. I made the Freshman21 theme. Please enjoy it.&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# these are shown on aboutme-box(sidebar).&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;aboutme_photo&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;https://i.imgur.com/15BT1.jpg&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# your personal photo.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Part3&lt;/strong&gt;, Site setting:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;ShowContactInfo&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;True&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Personal Info (twitter,github,email) can be seen on aboutme-sidebar, those info only shown where ShowContactInfo == True&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;default_column&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;two&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# blog style: two columns, if default_column != &amp;quot;two&amp;quot;, you will see a one column blog.&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;default_locale&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;en&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# blog sidebar language set, only include: English(en) and Chinese (cn)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Part4&lt;/strong&gt;, Blogroll info, only &lt;em&gt;name&lt;/em&gt; tags can shown on the page.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;Blogroll&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Freshman&lt;/span&gt;
-        &lt;span class=&quot;l-Scalar-Plain&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;http://yulijia.net/freshman&lt;/span&gt;
-        &lt;span class=&quot;l-Scalar-Plain&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Another Jekyll blog theme&lt;/span&gt;
-      &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;author&amp;#39;s website&lt;/span&gt;
-        &lt;span class=&quot;l-Scalar-Plain&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;http://yulijia.net/&lt;/span&gt;
-        &lt;span class=&quot;l-Scalar-Plain&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;Lijia Yu&amp;#39;s website&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Part5&lt;/strong&gt;, Build settings&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;markdown&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;kramdown&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;highlighter&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;pygments&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# highlight&lt;/span&gt;
-&lt;span class=&quot;l-Scalar-Plain&quot;&gt;paginate&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;5&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# how many post can seen in the main page&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;=====&lt;/p&gt;
-
-&lt;ul style=&quot;list-style-type:none;&quot;&gt; 
-&lt;li id=&quot;[1]&quot;&gt; [1], you can set those info at &lt;strong&gt;Part3&lt;/strong&gt; or just delete the &lt;q&gt;aboutme.html&lt;/q&gt; at &lt;q&gt;sidebar.html&lt;/q&gt; in &lt;code&gt;_include&lt;/code&gt; folder. &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;col-sm-2&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;c&quot;&gt;&amp;lt;!--{ % include Aboutme.html % }--&amp;gt;&lt;/span&gt;
-   { % include Copyright_Notice.html % }
-   { % include Recent_Posts.html % }
-   { % include Categories.html % }
-   { % include Tags.html % }
-   { % include Blogroll.html % }
-   { % include Archives.html % }
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Fri, 19 Dec 2014 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/howto/2014/12/19/how-to-set-the-config-file.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/howto/2014/12/19/how-to-set-the-config-file.html</guid>
-        
-        <category>configure</category>
-        
-        
-        <category>articles</category>
-        
-        <category>howto</category>
-        
-      </item>
-    
-      <item>
-        <title>Theme structure</title>
-        <description>&lt;h2 id=&quot;the-structure-of-freshman21-theme&quot;&gt;1.The structure of freshman21 theme&lt;/h2&gt;
-
-&lt;p&gt;You can see the simplest way of adding a page is just to add an HTML ( or markdown ) file in the root directory with a suitable name for the page you want to create. For example, aahome.md is the homepage link, about.md is the about page.&lt;/p&gt;
-
-&lt;p&gt;All sidebar boxes html files are in the &lt;code&gt;_include&lt;/code&gt; directory, their name begin with upper case. You can chose which sidebar boxes appears in the main page on the &lt;q&gt;sidebar.html&lt;/q&gt; in the &lt;code&gt;_includes&lt;/code&gt; directory.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;.
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- a_home.md                 &lt;span class=&quot;c&quot;&gt;# home page link at navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- b_about.md                &lt;span class=&quot;c&quot;&gt;# about link at navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- c_archives.md             &lt;span class=&quot;c&quot;&gt;# archives link at navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _config.yml
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- css
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- main.scss
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- d_categories.md           &lt;span class=&quot;c&quot;&gt;# categories link at navigation bar &lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- e_tags.md                 &lt;span class=&quot;c&quot;&gt;# tags at main navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- feed.xml                  &lt;span class=&quot;c&quot;&gt;# RSS at main navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- f_guestbook.md            &lt;span class=&quot;c&quot;&gt;# guest book like at navigation bar&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- images
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- favicon.ico           &lt;span class=&quot;c&quot;&gt;# here is your website favicon&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _includes
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Aboutme.html          &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Archives.html         &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Blogroll.html         &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Categories.html       &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- comments.html         &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Copyright_Notice.html &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- footer.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- header.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- head.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- page_pagination.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- post_pagination.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- Recent_Posts.html     &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- sidebar.html          &lt;span class=&quot;c&quot;&gt;# you can set you own sidebar content in here&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- Tags.html             &lt;span class=&quot;c&quot;&gt;# right column sidebar content&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- index.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _layouts
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- default.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- page.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- post.html
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- LICENSE
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _posts
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- 2013-10-10-milu.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- 2014-12-13-simple-post.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- 2014-12-18-how-to-install.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- 2014-12-19-freshman21-structure.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- 2014-12-19-how-to-set-the-config-file.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- 2015-03-31-readme.md
-&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- README.md
-&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- _sass
-    &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _base.scss
-    &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _layout.scss
-    &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;-- _syntax-highlighting-native.scss
-    &lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;-- _syntax-highlighting.scss&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;structure-with-named-folders-containing-index-html-files&quot;&gt;2.Structure with Named folders containing index HTML files&lt;/h2&gt;
-
-&lt;p&gt;There is nothing wrong with the above method, however some people like to keep their URLs free from things like filename extensions. To achieve clean URLs for pages using Jekyll, you simply need to create a folder for each top-level page you want, and then place an index.html file in each page’s folder. You can find the more detail at &lt;a href=&quot;http://jekyllrb.com/docs/pages/&quot; title=&quot;Creating pages&quot;&gt;Jekyll documentation&lt;/a&gt;. Here is my own blog structure with page-folders to contain each pages.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;.
-├── _backup
-│   ├── en.tar.gz
-│   └── style.css
-├── categories                              &lt;span class=&quot;c&quot;&gt;# =&amp;gt; http://yulijia.net/en/categories/ &lt;/span&gt;
-│   └── index.md
-├── _config.yml
-├── css
-│   └── main.scss
-├── feed                                    &lt;span class=&quot;c&quot;&gt;# =&amp;gt; http://yulijia.net/en/feed/index.xml&lt;/span&gt;
-│   └── index.xml
-├── guestbook                               &lt;span class=&quot;c&quot;&gt;# =&amp;gt; http://yulijia.net/en/guestbook/&lt;/span&gt;
-│   └── index.md
-├── home.md
-├── _includes
-│   ├── Aboutme.html
-│   ├── Archives.html
-│   ├── Blogroll.html
-│   ├── Categories.html
-│   ├── comments.html
-│   ├── Copyright_Notice.html
-│   ├── footer.html
-│   ├── header.html
-│   ├── head.html
-│   ├── page_pagination.html
-│   ├── post_pagination.html
-│   ├── Recent_Posts.html
-│   ├── sidebar.html
-│   └── Tags.html
-├── index.html
-├── _layouts
-│   ├── default.html
-│   ├── page.html
-│   └── post.html
-├── _posts
-│   ├── 2011-07-22-hello-world.md
-│   ├── 2011-08-06-how-to-calculate-word-frequencies-with-r.md
-│   ├── 2011-08-18-should-draco-be-effective-against-virtually-all-viruses.md
-│   ├── 2011-10-21-why-viruses-produce-long-dsrna-but-not-endogenous-ones.md
-│   ├── 2012-03-22-100-things-bioinformatics-students-should-do-before-graduating.md
-│   ├── 2012-10-08-a-new-site.md
-│   ├── 2012-10-09-github-pages.md
-│   ├── 2012-10-22-a-conference-of-Genomics-and-Epigenomics.md
-│   ├── 2012-10-23-CSHL-Asia-interesting-talks-on-genomics-and-epigenomics.md
-│   └── 2013-01-30-how-to-get-RefSeq-gene-annotations-from-UCSCdatabase.md
-├── README.md
-├── _sass
-│   ├── _base.scss
-│   ├── _layout.scss
-│   └── _syntax-highlighting.scss
-└── tags
-    └── index.md&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;how-to-change-the-highlight-style&quot;&gt;3. How to change the highlight style?&lt;/h2&gt;
-
-&lt;p&gt;This theme’s default highlighter is pygments.&lt;/p&gt;
-
-&lt;p&gt;To change the highlight style, you should install &lt;strong&gt;pygments&lt;/strong&gt;, and generate the css style which you wanted with code&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;pygmentize -S default -f html &amp;gt; freshman/_sass/_syntax-highlighting.scss&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Please make sure, add &lt;code&gt;.highlight {&lt;/code&gt; at the head  and &lt;code&gt;}&lt;/code&gt; at the end of file &lt;q&gt;_syntax-highlighting.scss&lt;/q&gt;.&lt;/p&gt;
-
-&lt;p&gt;See more,&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://pygments.org/languages/&quot;&gt;Pygments Supported languages&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/9652490/do-i-need-to-generate-a-css-file-from-pygments-for-my-jekyll-blog-to-enable-col&quot;&gt;Pygments online deme&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Fri, 19 Dec 2014 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/howto/2014/12/19/freshman21-structure.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/howto/2014/12/19/freshman21-structure.html</guid>
-        
-        <category>structure</category>
-        
-        
-        <category>articles</category>
-        
-        <category>howto</category>
-        
-      </item>
-    
-      <item>
-        <title>How to install this theme</title>
-        <description>&lt;h2 id=&quot;how-to-install-freshman-theme&quot;&gt;How to install Freshman theme?&lt;/h2&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# please make sure you have already installed git tools and ruby tools(gem)&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install sass
-&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gem install jekyll
-&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone https://github.com/yulijia/freshman21.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Then, change the folder name to you own github page name, forexample&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mv freshman thisisyouname.github.io&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Thu, 18 Dec 2014 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2014/12/18/how-to-install.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2014/12/18/how-to-install.html</guid>
-        
-        <category>sample-post</category>
-        
-        
-        <category>articles</category>
-        
-      </item>
-    
-      <item>
-        <title>Sample Post</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#heading&quot; id=&quot;markdown-toc-heading&quot;&gt;Heading&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#body-text&quot; id=&quot;markdown-toc-body-text&quot;&gt;Body text&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#blockquotes&quot; id=&quot;markdown-toc-blockquotes&quot;&gt;Blockquotes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#list-types&quot; id=&quot;markdown-toc-list-types&quot;&gt;List Types&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#ordered-lists&quot; id=&quot;markdown-toc-ordered-lists&quot;&gt;Ordered Lists&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#unordered-lists&quot; id=&quot;markdown-toc-unordered-lists&quot;&gt;Unordered Lists&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#tables&quot; id=&quot;markdown-toc-tables&quot;&gt;Tables&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#code-snippets&quot; id=&quot;markdown-toc-code-snippets&quot;&gt;Code Snippets&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#highlight-with-line-number&quot; id=&quot;markdown-toc-highlight-with-line-number&quot;&gt;highlight with line number.&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#latex&quot; id=&quot;markdown-toc-latex&quot;&gt;&lt;script type=&quot;math/tex&quot;&gt;\LaTeX&lt;/script&gt;&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#q-tag&quot; id=&quot;markdown-toc-q-tag&quot;&gt;&amp;lt;q&amp;gt; tag&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This is a sample post.&lt;/p&gt;
-
-&lt;p&gt;Below is just about everything you’ll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;h2 id=&quot;heading&quot;&gt;Heading&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code&gt;# Heading 1
-
-## Heading 2
-
-### Heading 3
-
-#### Heading 4
+&lt;h3 id=&quot;dct&quot;&gt;DCT算法的实例&lt;/h3&gt;
+&lt;p&gt;       H264视频压缩&lt;/p&gt;
+
+&lt;h3 id=&quot;x4dct&quot;&gt;4x4整数DCT推导过程&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;y_k=C_k\sum_{n=0}^{N-1}x_ncos\frac{(2n+1)k\pi}{2N}&lt;/script&gt;
+
+&lt;p&gt;       将上面的DCT公式转变为矩阵公式，为了说明标准矩阵中整数的变换和反变换，先假设&lt;script type=&quot;math/tex&quot;&gt;$d=\frac{c}{b}&lt;/script&gt;$。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+A=
+\begin{bmatrix}
+ a &amp; a &amp; a &amp; a\\\
+ b &amp; c &amp; -c &amp;-b \\\
+ a &amp; -a &amp; -a &amp; a \\\
+ c &amp; -b &amp; b &amp; -c
+\end{bmatrix}=
+\begin{bmatrix}
+ a &amp;   &amp;   &amp;  \\\
+   &amp; b &amp;   &amp;  \\\
+   &amp;   &amp; a &amp;  \\\
+   &amp;   &amp;   &amp; b
+\end{bmatrix}
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 1 &amp; d &amp; -d &amp; -1 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ d &amp; -1 &amp;  1 &amp; -d
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+A^T=
+\begin{bmatrix}
+ a &amp; b &amp; a &amp; c  \\\
+ a &amp; c &amp; -a &amp; -b \\\
+ a &amp; -c &amp; -a &amp; b \\\
+ a &amp; -b &amp; a &amp; -c
+\end{bmatrix}=
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; d\\\
+ 1 &amp; d &amp; -1 &amp; -1 \\\
+ 1 &amp; -d &amp; -1 &amp; 1 \\\
+ 1 &amp; -1 &amp; 1 &amp; -d
+\end{bmatrix}
+\begin{bmatrix}
+ a &amp;   &amp;   &amp;  \\\
+   &amp; b &amp;   &amp;  \\\
+   &amp;   &amp; a &amp;  \\\
+   &amp;   &amp;   &amp; b
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;pre&gt;&lt;code&gt;这里两个[]之间是矩阵相乘的关系
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&quot;body-text&quot;&gt;Body text&lt;/h2&gt;
+&lt;p&gt;       我们可以把DCT变换写成下式：&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;This is strong&lt;/strong&gt;.&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+Y=AXA^T=
+\begin{bmatrix}
+ a &amp; a &amp; a &amp; a\\\
+ b &amp; c &amp; -c &amp;-b \\\
+ a &amp; -a &amp; -a &amp; a \\\
+ c &amp; -b &amp; b &amp; -c
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ a &amp; b &amp; a &amp; c  \\\
+ a &amp; c &amp; -a &amp; -b \\\
+ a &amp; -c &amp; -a &amp; b \\\
+ a &amp; -b &amp; a &amp; -c
+\end{bmatrix} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;This is figure&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;三个矩阵相乘，就是DCT转换的公式 
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/Mdc4szJl.jpg&quot; alt=&quot;Elaphurus davidianus&quot; title=&quot;Père David&#39;s deer&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;$Y=C_f * X * C_f^t&lt;/script&gt;$&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;This is emphasized&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;       为了保证正交，a,b,c,d取值如下&lt;/p&gt;
 
-&lt;p&gt;53 = 125. Water is H&lt;sub&gt;2&lt;/sub&gt;O.&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;a=\frac{1}{2},b=\sqrt{\frac{1}{2}}cos \left( \frac{\pi}{8} \right),c=\sqrt{\frac{1}{2}}cos \left( frac{3\pi}{8} \right),d=\frac{c}{b}&lt;/script&gt;
 
-&lt;p&gt;The New York Times &lt;cite&gt;(That’s a citation)&lt;/cite&gt;.&lt;/p&gt;
+&lt;p&gt;       DCT变换公式可改为:&lt;/p&gt;
 
-&lt;p&gt;&lt;u&gt;Underline&lt;/u&gt;.&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+Y=
+\begin{bmatrix}
+ a &amp;   &amp;   &amp;  \\\
+   &amp; b &amp;   &amp;  \\\
+   &amp;   &amp; a &amp;  \\\
+   &amp;   &amp;   &amp; b
+\end{bmatrix}
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 1 &amp; d &amp; -d &amp; -1 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ d &amp; -1 &amp;  1 &amp; -d
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; d\\\
+ 1 &amp; d &amp; -1 &amp; -1 \\\
+ 1 &amp; -d &amp; -1 &amp; 1 \\\
+ 1 &amp; -1 &amp; 1 &amp; -d
+\end{bmatrix}
+\begin{bmatrix}
+ a &amp;   &amp;   &amp;  \\\
+   &amp; b &amp;   &amp;  \\\
+   &amp;   &amp; a &amp;  \\\
+   &amp;   &amp;   &amp; b
+\end{bmatrix} %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;&lt;del&gt;HTML and CSS are our tools&lt;/del&gt;.&lt;/p&gt;
+&lt;p&gt;       把两边的对称矩阵移到左边可得：(对角阵移项)&lt;/p&gt;
 
-&lt;h2 id=&quot;blockquotes&quot;&gt;Blockquotes&lt;/h2&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix}
+ a^{-1} &amp;   &amp;   &amp;  \\\
+   &amp; b^{-1} &amp;   &amp;  \\\
+   &amp;   &amp; a^{-1} &amp;  \\\
+   &amp;   &amp;   &amp; b^{-1}
+\end{bmatrix}
+[Y]
+\begin{bmatrix}
+ a^{-1} &amp;   &amp;   &amp;  \\\
+   &amp; b^{-1} &amp;   &amp;  \\\
+   &amp;   &amp; a^{-1} &amp;  \\\
+   &amp;   &amp;   &amp; b^{-1}
+\end{bmatrix}= \\\
+Y\otimes
+\begin{bmatrix}
+ a^{-2} &amp; (ab)^{-1}  &amp; a^{-2}  &amp; (ab)^{-1} \\\
+ (ab)^{-1}  &amp; b^{-2} &amp; (ab)^{-1}  &amp; b^{-2} \\\
+ a^{-2} &amp; (ab)^{-1}  &amp; a^{-2}  &amp; (ab)^{-1} \\\
+ (ab)^{-1}  &amp; b^{-2} &amp; (ab)^{-1}  &amp; b^{-2}
+\end{bmatrix}=
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 1 &amp; d &amp; -d &amp; -1 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ d &amp; -1 &amp;  1 &amp; -d
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; d\\\
+ 1 &amp; d &amp; -1 &amp; -1 \\\
+ 1 &amp; -d &amp; -1 &amp; 1 \\\
+ 1 &amp; -1 &amp; 1 &amp; -d
+\end{bmatrix} %]]&gt;&lt;/script&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;Justification:
-This species is listed as Extinct in the Wild, as all populations are still under captive management. The captive population in China has increased in recent years, and the possibility remains that free-ranging populations can be established some time in the near future. When that happens, its Red List status will need to be reassessed.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;       再移项变形可得：&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;I follow up the quest. Despite of day and night and death and hell.&lt;/p&gt;
-  &lt;center&gt; -- Idylls of the King, Tennyson &lt;/center&gt;
-&lt;/blockquote&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+Y=
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 1 &amp; d &amp; -d &amp; -1 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ d &amp; -1 &amp;  1 &amp; -d
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; d\\\
+ 1 &amp; d &amp; -1 &amp; -1 \\\
+ 1 &amp; -d &amp; -1 &amp; 1 \\\
+ 1 &amp; -1 &amp; 1 &amp; -d
+\end{bmatrix}
+\otimes
+\begin{bmatrix}
+ a^2 &amp; ab  &amp; a^2  &amp; ab \\\
+ ab  &amp; b^2 &amp; ab &amp; b^2 \\\
+ a^2 &amp; ab  &amp; a^2  &amp; ab \\\
+ ab  &amp; b^2 &amp; ab  &amp; b^2
+\end{bmatrix} %]]&gt;&lt;/script&gt;
 
-&lt;h2 id=&quot;list-types&quot;&gt;List Types&lt;/h2&gt;
+&lt;p&gt;       此时，d的值为0.4142。这样的话，还是实数运算。如我们令&lt;script type=&quot;math/tex&quot;&gt;$d=\frac{1}{2}&lt;/script&gt;$,则&lt;script type=&quot;math/tex&quot;&gt;$b=\sqrt{\frac{2}{5}}&lt;/script&gt;$,
+&lt;script type=&quot;math/tex&quot;&gt;$c=\sqrt{\frac{1}{10}}&lt;/script&gt;$,同样，可以保证矩阵的正交，同时，可以把运算变为整数运算。&lt;/p&gt;
 
-&lt;h3 id=&quot;ordered-lists&quot;&gt;Ordered Lists&lt;/h3&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+Y=\left( 
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 1 &amp; \frac{1}{2} &amp; -\frac{1}{2} &amp; -1 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ \frac{1}{2} &amp; -1 &amp; 1 &amp; -\frac{1}{2}
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; \frac{1}{2}\\\
+ 1 &amp; \frac{1}{2} &amp; -1 &amp; -1 \\\
+ 1 &amp; -\frac{1}{2} &amp; -1 &amp; 1 \\\
+ 1 &amp; -1 &amp; 1 &amp; -\frac{1}{2}
+\end{bmatrix}
+\right)
+\otimes
+\begin{bmatrix}
+ a^2 &amp; ab  &amp; a^2  &amp; ab \\\
+ ab  &amp; b^2 &amp; ab &amp; b^2 \\\
+ a^2 &amp; ab  &amp; a^2  &amp; ab \\\
+ ab  &amp; b^2 &amp; ab   &amp; b^2
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;把&lt;script type=&quot;math/tex&quot;&gt;$\frac{1}{2}&lt;/script&gt;$提到矩阵之外，并与右边的矩阵点乘合并，得:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+Y=(C_fXC_f^T)\otimes E_f 
+\\\=
+\left(
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 2 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ 1 &amp; -2 &amp; 2 &amp; -1
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 2 &amp; 1 &amp; 1\\\
+ 1 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 2 \\\
+ 1 &amp; -2 &amp; 1 &amp; -1
+\end{bmatrix}
+\right)
+\otimes
+\begin{bmatrix}
+ a^2 &amp; \frac{ab}{2}  &amp; a^2  &amp; \frac{ab}{2} \\\
+ \frac{ab}{2}  &amp; \frac{b^2}{4} &amp; \frac{ab}{2} &amp; \frac{b^2}{4}\\\
+ a^2 &amp; \frac{ab}{2}  &amp; a^2  &amp; \frac{ab}{2} \\\
+ \frac{ab}{2}  &amp; \frac{b^2}{4} &amp; \frac{ab}{2}   &amp; \frac{b^2}{4}
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;       其中，&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+C_f=
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 2 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ 1 &amp; -2 &amp; 2 &amp; -1
+\end{bmatrix},
+E_f=
+\begin{bmatrix}
+ a^2 &amp; \frac{ab}{2}  &amp; a^2  &amp; \frac{ab}{2} \\\
+ \frac{ab}{2}  &amp; \frac{b^2}{4} &amp; \frac{ab}{2} &amp; \frac{b^2}{4}\\\
+ a^2 &amp; \frac{ab}{2}  &amp; a^2  &amp; \frac{ab}{2} \\\
+ \frac{ab}{2}  &amp; \frac{b^2}{4} &amp; \frac{ab}{2}   &amp; \frac{b^2}{4}
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;       在H264编码的JM编码器中，变换只包括：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 2 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ 1 &amp; -2 &amp; 2 &amp; -1
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 2 &amp; 1 &amp; 1\\\
+ 1 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 2 \\\
+ 1 &amp; -2 &amp; 1 &amp; -1
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;       后面的点乘实际上是在量化过程中进行，因为后面的点乘还有实数运算，实数运算将不可避免地产生精度误差,而且运算量巨大。而量化本身就会丢失一些信号，因些，这些实数运算放在量化过程中将大大的降低变换的运算率同时又不明显影响精度？[博主sno的解释: 之所有把后面的Ef和这里分割开，是因为在转换和量化这一步，不可避免的会遇到乘法操作，这里说的只用加减和移位操作，是在这三个矩阵乘法大数据量运算之间只使用加减和移位，可以把64次的乘法运算转为只有两次的乘法运算，极大的减少消耗，在量化的时候，再对每个W[i][j]分别进行乘法操作。]&lt;/p&gt;
+
+&lt;p&gt;       然而，4X4的矩阵运算如果按常规算法的话仍要进行64次乘法运算和48次加法，这将耗费较多的时间，于是在H.264中，有一种改进的算法（蝶形算法）可以减少运算的次数。这种矩阵运算算法构造非常巧妙，利用构造的矩阵的整数性质和对称性，可完全将乘法运算转化为加法运算。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.blog.163.com/photo/-IW9juRdL0FtEDdpN6KBXQ==/1183883752046274032.jpg&quot; alt=&quot;蝶形运算示意图&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;变换过程在JM编码器中的实现&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//  Horizontal transform水平变换，其实就是左乘Cf,
+&lt;/code&gt;&lt;/pre&gt;
+
+  	for (j=0; j &amp;lt; BLOCK_SIZE &amp;amp;&amp;amp; !lossless_qpprime; j++)
+
+  	{
+
+&lt;pre&gt;&lt;code&gt;        for (i=0; i &amp;lt; 2; i++)
+
+{
+
+  i1=3-i;
+
+  m5[i]=img-&amp;gt;m7[i][j]+img-&amp;gt;m7[i1][j];
+
+  m5[i1]=img-&amp;gt;m7[i][j]-img-&amp;gt;m7[i1][j];
+
+}
+
+img-&amp;gt;m7[0][j]=(m5[0]+m5[1]);
+
+img-&amp;gt;m7[2][j]=(m5[0]-m5[1]);
+
+img-&amp;gt;m7[1][j]=m5[3]*2+m5[2];
+
+img-&amp;gt;m7[3][j]=m5[3]-m5[2]*2;
+&lt;/code&gt;&lt;/pre&gt;
+
+  	}
+
+  	//  Vertical transform垂直变换，其实就是右乘CfT
+
+  	for (i=0; i &amp;lt; BLOCK_SIZE &amp;amp;&amp;amp; !lossless_qpprime; i++)
+
+  	{
+
+&lt;pre&gt;&lt;code&gt;        for (j=0; j &amp;lt; 2; j++)
+
+{
+
+  j1=3-j;
+
+  m5[j]=img-&amp;gt;m7[i][j]+img-&amp;gt;m7[i][j1];
+
+  m5[j1]=img-&amp;gt;m7[i][j]-img-&amp;gt;m7[i][j1];
+
+}
+
+img-&amp;gt;m7[i][0]=(m5[0]+m5[1]);
+
+img-&amp;gt;m7[i][2]=(m5[0]-m5[1]);
+
+img-&amp;gt;m7[i][1]=m5[3]*2+m5[2];
+
+img-&amp;gt;m7[i][3]=m5[3]-m5[2]*2;
+&lt;/code&gt;&lt;/pre&gt;
+
+  	}
+
+&lt;h3 id=&quot;section-1&quot;&gt;分析该蝶形算法&lt;/h3&gt;
+
+&lt;p&gt;       上面的JM代码就是计算下面三个4x4矩阵的过程。&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{bmatrix}
+ 1 &amp; 1 &amp; 1 &amp; 1\\\
+ 2 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 1 \\\
+ 1 &amp; -2 &amp; 2 &amp; -1
+\end{bmatrix}
+[X]
+\begin{bmatrix}
+ 1 &amp; 2 &amp; 1 &amp; 1\\\
+ 1 &amp; 1 &amp; -1 &amp; -2 \\\
+ 1 &amp; -1 &amp; -1 &amp; 2 \\\
+ 1 &amp; -2 &amp; 1 &amp; -1
+\end{bmatrix} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;       分析一下前两个矩阵的乘法，只分析他们结果矩阵的第一行。有什么办法可以减少运算量呢？首先采用传统方法计算，得到结果：&lt;/p&gt;
+
+&lt;p&gt;X[0] = x[00]+x[10]+x[20]+x[30]&lt;/p&gt;
+
+&lt;p&gt;X[1] = 2 * x[00]+x[10]-x[20]-2 * x[30]&lt;/p&gt;
+
+&lt;p&gt;X[2]= x[00]-x[10]-x[20]+x[30]&lt;/p&gt;
+
+&lt;p&gt;X[3] = x[00]-2x[10]+2x[20]-x[30]&lt;/p&gt;
+
+&lt;p&gt;       计算代价是16次乘法12次加法，考虑到矩阵的1的乘法可以省略，去除8个乘1，还需要8次乘法和12次加法。那么我们再仔细思考他们的相关性，从一般算法意义上来说，可以用空间代价换时间代价，比如设置中间变量来减少计算次数。用不同的颜色把需要重复运算的部分标上，作为中间变量。&lt;/p&gt;
+
+&lt;p&gt;X[0] = &lt;font color=&quot;green&quot;&gt;x[00]&lt;/font&gt;+&lt;font color=&quot;blue&quot;&gt;x[10]&lt;/font&gt;+&lt;font color=&quot;blue&quot;&gt;x[20]&lt;/font&gt;+&lt;font color=&quot;green&quot;&gt;x[30]&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;X[1] = &lt;font color=&quot;purple&quot;&gt;2 * x[00]&lt;/font&gt;+x[10]-x[20]-2 * &lt;font color=&quot;purple&quot;&gt;2 * x[30]&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;X[2]= &lt;font color=&quot;green&quot;&gt;x[00]&lt;/font&gt;-&amp;lt;/font&amp;gt;+&lt;font color=&quot;blue&quot;&gt;x[10]&lt;/font&gt;-&lt;font color=&quot;blue&quot;&gt;x[20]&lt;/font&gt;+&lt;font color=&quot;green&quot;&gt;x[30]&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;X[3] = &lt;font color=&quot;purple&quot;&gt;x[00]&lt;/font&gt;-2x[10]+2x[20]-&lt;font color=&quot;purple&quot;&gt;x[30]&lt;/font&gt;&lt;/p&gt;
+
+&lt;p&gt;那么提取出来的中间变量将是：&lt;/p&gt;
+
+&lt;font color=&quot;green&quot;&gt;x[00]+x[30]&lt;/font&gt;
+
+&lt;font color=&quot;purple&quot;&gt;x[00]-x[30]&lt;/font&gt;
+
+&lt;font color=&quot;blue&quot;&gt;x[10]+x[20]&lt;/font&gt;
+
+&lt;p&gt;x[10]-x[20]&lt;/p&gt;
+
+&lt;p&gt;       存储了这四个中间变量，我们对比看看蝶形图，和图中第一层的算式相符合。用这些中间变量来组合，就可以把最终的X[0]..X[3], 计算出来。这样，就把运算量降低到2个乘法和8个加法，剩余的运算就是叠代这个算法。&lt;/p&gt;
+
+&lt;p&gt;       所以，可以得出以下结论：&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Item one
-    &lt;ol&gt;
-      &lt;li&gt;sub item one&lt;/li&gt;
-      &lt;li&gt;sub item two&lt;/li&gt;
-      &lt;li&gt;sub item three&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Item two&lt;/li&gt;
+  &lt;li&gt;这个蝶形图和一般意义的FFT或FDCT蝶形图不同，是对H.264在整数DCT基础上的具体算法优化，只对于以上Cf矩阵。&lt;/li&gt;
+  &lt;li&gt;计算过程是把上面的三个4x4矩阵乘法分成两两矩阵相乘。再把残差矩阵和后来的中间结果Cf x X一行行分别输入蝶形图进行一维整数DCT计算。&lt;/li&gt;
+  &lt;li&gt;蝶形图优化思想就是提取矩阵的相关部分，定义中间变量，减少运算次数。［sno博主添加：这里很重要，之所以使用蝶形算法，就是统计一下多次运行的规律，不重复计算相关的量。］&lt;/li&gt;
+  &lt;li&gt;sno: 矩阵相乘 A*B   就是把A矩阵当前元素所在的这一行乘以B矩阵当前元素所在的这一列。代码实现如下&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&quot;unordered-lists&quot;&gt;Unordered Lists&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;
+	int  matrix_multiply(int a[4][4],int b[4][4],int c[4][4])
+	{
+		int
+    	int i,j,k;
+    	for(i=0;i&amp;lt;4;i++)
+            for(j=0;j&amp;lt;4;j++)
+            {
+            	c[i][j]=0;
+                for(k=0;k&amp;lt;4;k++)
+                	c[i][j]+=a[i][k]*b[k][j];  ///c[i][j]=a的i这一行*b的j这一列的总和 ,这里是累计和                          
+            }
+        return 0;        
+	} 
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;Item one&lt;/li&gt;
-  &lt;li&gt;Item two&lt;/li&gt;
-  &lt;li&gt;Item three&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;tables&quot;&gt;Tables&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Header1&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Header2&lt;/th&gt;
-      &lt;th style=&quot;text-align: right&quot;&gt;Header3&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell2&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell4&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell5&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell6&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;cell7&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;cell8&lt;/td&gt;
-      &lt;td style=&quot;text-align: right&quot;&gt;cell9&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Kingdom&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Phylum&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Class&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Order&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;Family&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;ANIMALIA&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;CHORDATA&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;MAMMALIA&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;CETARTIODACTYLA&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;CERVIDAE&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;code-snippets&quot;&gt;Code Snippets&lt;/h2&gt;
-
-&lt;p&gt;Syntax highlighting via Pygments&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-240px&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;highlight-with-line-number&quot;&gt;highlight with line number.&lt;/h4&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt;   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;latex&quot;&gt;&lt;script type=&quot;math/tex&quot;&gt;\LaTeX&lt;/script&gt;&lt;/h2&gt;
-
-&lt;p&gt;you can use latex with &lt;q&gt;double $$ &lt;/q&gt;&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e^{i\pi}+1=0&lt;/script&gt;
-
-&lt;h2 id=&quot;q-tag&quot;&gt;&amp;lt;q&amp;gt; tag&lt;/h2&gt;
-
-&lt;p&gt;here is a &amp;lt;q&amp;gt; q tag &amp;lt;/q&amp;gt;&lt;/p&gt;
-
-&lt;p&gt;here is a &lt;q&gt; q tag &lt;/q&gt;&lt;/p&gt;
 </description>
-        <pubDate>Sat, 13 Dec 2014 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2014/12/13/simple-post.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2014/12/13/simple-post.html</guid>
+        <pubDate>Thu, 07 May 2015 00:00:00 +0800</pubDate>
+        <link>http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html</link>
+        <guid isPermaLink="true">http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html</guid>
         
-        <category>sample-post</category>
+        <category>数字图像处理</category>
+        
+        <category>离散余弦变换</category>
+        
+        <category>蝶形运算</category>
         
         
-        <category>articles</category>
+        <category>数字图像处理</category>
         
       </item>
     
       <item>
-        <title>I am a reindeer</title>
-        <description>&lt;p&gt;&lt;strong&gt;Santa Claus’s reindeer&lt;/strong&gt; form an imaginary team of &lt;q&gt;flying reindeer&lt;/q&gt; traditionally held to pull the sleigh of Santa Claus &lt;del&gt;and help him deliver Christmas gifts&lt;/del&gt;. 
-&lt;cite&gt;I fired Santa this year, I didn’t need to deliver gifts on the night before Christmas!&lt;/cite&gt; 
-&lt;code&gt;Oh yeah... oh yeah... oh yeah, my lovely Christmas Eve  `_&amp;gt;` &lt;/code&gt;
-The commonly cited names of the reindeer are Dasher, Dancer, Prancer, Vixen, Comet, Cupid, Donner, and Blitzen. 
-They are based on those used in the 1823 poem “A Visit from St. Nicholas” (commonly called “The Night Before Christmas”), which is arguably the basis of reindeer’s popularity as Christmas symbols, and in which Donner and Blitzen were originally called Dunder and Blixem respectively&lt;/p&gt;
+        <title>数字图像处理-傅里叶变换,离散余弦变换</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css&quot; /&gt;
 
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+hljs.tabReplace = &#39; &#39;;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;
+
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;MathJax.Hub.Config({tex2jax:{inlineMath:[[&#39;$$$&#39;,&#39;$$$&#39;]]}});&lt;/script&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;1.傅里叶变换&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;1.1. 一维离散傅里叶变换&lt;/h3&gt;
+&lt;p&gt;       定义:设&lt;script type=&quot;math/tex&quot;&gt;${ f(n)|n=0,..,N-1}&lt;/script&gt;$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;F(u)=\frac{1}{N}\sum_{k=0}^{N-1}f(k)e^{-j2\pi\frac{uk}{N}},u=0,1,\dots,N-1&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(k)=\sum_{u=0}^{N-1}F(u)e^{j2\pi\frac{uk}{N}},k=0,1,\dots,N-1&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+缩写 W= e^{\frac{-j2\pi}{N}}
+\begin{matrix}
+W^0 = 1 &amp; W^1=\frac{1-j}{\sqrt{2}} \\\
+W^2 = -j &amp; W^3=\frac{-1-j}{\sqrt{2}} \\\
+W^4 = -1 &amp; W^5=\frac{-1+j}{\sqrt{2}} \\\
+W^6 = j &amp; W^7=\frac{1+j}{\sqrt{2}}
+\end{matrix} %]]&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;1.2. 二维离散傅里叶变换&lt;/h3&gt;
+&lt;p&gt;       定义:设&lt;script type=&quot;math/tex&quot;&gt;${f(x,y)|x=0,..,N-1, y=0,..,M-1}&lt;/script&gt;$为二维图像信号 其离散傅立叶变换及其逆变换分别为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;F(u,v)=\frac{1}{\sqrt{MN}}\sum_{x=0}^{N-1}\sum\_{y=0}^{M-1}f(x,y)e^{-j2\pi(\frac{ux}{N}+\frac{vy}{M})},u=0,1,\dots,N-1,v=0,1,\dots,M-1&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x,y)=\frac{1}{\sqrt{MN}}\sum_{u=0}^{N-1}\sum\_{v=0}^{M-1}F(u,v)e^{j2\pi(\frac{ux}{N}+\frac{vy}{M})},u=0,1,\dots,N-1,v=0,1,\dots,M-1&lt;/script&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;1.2. 快速傅里叶变换&lt;/h3&gt;
+&lt;p&gt;       设&lt;script type=&quot;math/tex&quot;&gt;$N=2^L&lt;/script&gt;$(&lt;script type=&quot;math/tex&quot;&gt;$L&lt;/script&gt;$为正整数)。下面按照&lt;script type=&quot;math/tex&quot;&gt;$n&lt;/script&gt;$为奇数和偶数将序列&lt;script type=&quot;math/tex&quot;&gt;${f(n)}&lt;/script&gt;$进行划分，记为
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+\begin{cases}
+g(n) &amp;= f(2n) \\\
+h(n) &amp;= f(2n+1)
+\end{cases}
+\left ( n=0,1,2,\dots,\frac{N}{2}-1 \right ) %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;则离散傅里叶变换可以改写成下面的形式&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align}
+F(m) &amp;= \sum_{n=0}^{N-1}f(n)W_N^mn \\\
+&amp;= \sum\_{n=0}^{\frac{N}{2}-1}f(2n)W_N^{m(2n)} + \sum\_{n=0}^{\frac{N}{2}-1}f(2n+1)W_N^{m(2n+1)}\\\
+&amp;= \sum\_{n=0}^{\frac{N}{2}-1}f(2n)W\_{\frac{N}{2}}^{mn} + \sum\_{n=0}^{\frac{N}{2}-1}f(2n+1)W\_{\frac{N}{2}}^{mn}W\_N^m\\\
+&amp;= \sum\_{n=0}^{\frac{N}{2}-1}g(n)W\_{\frac{N}{2}}^{mn} + W\_N^m\sum\_{n=0}^{\frac{N}{2}-1}h(n)W\_{\frac{N}{2}}^{mn}\\\
+&amp;= G(m) + W\_N^mH(m)
+\end{align} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;式中，&lt;script type=&quot;math/tex&quot;&gt;$G(m)&lt;/script&gt;$和&lt;script type=&quot;math/tex&quot;&gt;$H(m)&lt;/script&gt;$分别是&lt;script type=&quot;math/tex&quot;&gt;$g(n)&lt;/script&gt;$和&lt;script type=&quot;math/tex&quot;&gt;$h(n)&lt;/script&gt;$的离散傅里叶变换。一个长度为&lt;script type=&quot;math/tex&quot;&gt;$N&lt;/script&gt;$的DFT可以转化为两个长度为&lt;script type=&quot;math/tex&quot;&gt;$\frac{N}{2}&lt;/script&gt;$的DFT。二维FFT可以由两次一维FFT得到。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;1.3.关键算法&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;private void setData1(Complex[] data, int power)
+{
+    this.power = power;
+
+    //角度
+    double angle;
+
+    //计算FFT1变换的点数
+    count = 1 &amp;lt;&amp;lt; power;
+
+    //分配空间
+    wc = new Complex[count / 2];
+    x = new Complex[count];
+    x1 = new Complex[count];
+    x2 = new Complex[count];
+    fd1 = new Complex[count];
+
+    //初始化
+    for (i = 0; i &amp;lt; count / 2; i++)
+        wc[i] = new Complex();
+
+    for (i = 0; i &amp;lt; count; i++)
+    {
+        x[i] = new Complex();
+        x1[i] = new Complex();
+        x2[i] = new Complex();
+        fd1[i] = new Complex();
+    }
+
+    //计算加权系数
+    for (i = 0; i &amp;lt; count / 2; i++)
+    {
+        angle = -i * Math.PI * 2 / count;
+        wc[i].re = Math.cos(angle);
+        wc[i].im = Math.sin(angle);
+    }
+
+    //将实域点写入x1
+    for (i = 0; i &amp;lt; count; i++)
+        x1[i] = data[i];
+} 其中，$$$2^{power}=iw或ih$$$，与进行傅里叶变换是行或列有关，Complex表示复数。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-5&quot;&gt;2.离散余弦变换&lt;/h2&gt;
+
+&lt;h3 id=&quot;dft&quot;&gt;2.1.DFT存在的问题&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;DFT的参数都是复数,在数据的描述上相当于 实数的两倍。&lt;/li&gt;
+  &lt;li&gt;为此,我们希望有一种能够达到相同功能但数 据量又不大的变换。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dct-ii&quot;&gt;2.2.DCT-II公式&lt;/h3&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_k = \sum_{n=0}^{N-1}x_ncos \left[ \frac{\pi}{N}\left( n+\frac{1}{2} \right) \right]&lt;/script&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;2.3.一维离散余弦变换&lt;/h3&gt;
+&lt;p&gt;       一维&lt;script type=&quot;math/tex&quot;&gt;$N&lt;/script&gt;$点离散余弦变换(DCT)可以表示为:
+&lt;script type=&quot;math/tex&quot;&gt;y_k=C_k\sum_{n=0}^{N-1}x_ncos\frac{(2n+1)k\pi}{2N}&lt;/script&gt;
+其中，&lt;script type=&quot;math/tex&quot;&gt;$x_n&lt;/script&gt;$是输入时域序列中的第&lt;script type=&quot;math/tex&quot;&gt;$n&lt;/script&gt;$项，&lt;script type=&quot;math/tex&quot;&gt;$y_k&lt;/script&gt;$是输出频域序列中的第&lt;script type=&quot;math/tex&quot;&gt;$k&lt;/script&gt;$项，系数&lt;script type=&quot;math/tex&quot;&gt;$C_k&lt;/script&gt;$定义如下:
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+C_k=
+\begin{cases}
+   \sqrt{\frac{1}{N}} &amp;\mbox{ $k=0$ }\\\
+   \sqrt{\frac{2}{N}} &amp;\mbox{ $k=1,2,\dots,N-1$ }
+   \end{cases} %]]&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;       一维&lt;script type=&quot;math/tex&quot;&gt;$N&lt;/script&gt;$点离散余弦逆变换(IDCT)可以表示为:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;x_n=\sum\_{k=0}^{N-1}C_ky_kcos\frac{(2n+1)k\pi}{2N}&lt;/script&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;2.4.二维离散余弦变换&lt;/h3&gt;
+&lt;p&gt;       二维图像&lt;script type=&quot;math/tex&quot;&gt;$N\times N&lt;/script&gt;$图像块的DCT可以理解为对图像块的每一列进行一维DCT，然后对进行变换的块每列再做一维DCT。表达式如下所示：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Y_{mn}=C_mC_n\sum\_{i=0}^{N-1}\sum\_{j=0}^{N-1}X\_{ij}cos\frac{(2j+1)n\pi}{2N}cos\frac{(2i+1)m\pi}{2N}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{ij}=\sum\_{i=0}^{N-1}\sum\_{j=0}^{N-1}C_mC_nY\_{mn}cos\frac{(2j+1)n\pi}{2N}cos\frac{(2i+1)m\pi}{2N}&lt;/script&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;2.5.关键算法&lt;/h3&gt;
+&lt;p&gt;       求变换矩阵&lt;script type=&quot;math/tex&quot;&gt;$A&lt;/script&gt;$&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void coeff(double[][] dct_coef, int n)
+	{
+    double sqrt_1 = 1.0 / Math.sqrt(2.0);
+
+    for (int i = 0; i &amp;lt; n; i++)
+        dct_coef[0][i] = sqrt_1;
+
+    //初始化DCT系数
+    for (int i = 1; i &amp;lt; n; i++)
+        for (int j = 0; j &amp;lt; n; j++)
+            dct_coef[i][j] = Math.cos(i * Math.PI * (j + 0.5) /((double)n));
+	}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;       DCT正变换&lt;script type=&quot;math/tex&quot;&gt;$Y=AXA^T&lt;/script&gt;$&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public void dct(double[][] a, double[][] b, double[][] c, int n)
+{
+    double x;
+    double[][] af = new double[n][n];
+	for (int i = 0; i &amp;lt; n; i++)
+    {
+        for (int j = 0; j &amp;lt; n; j++)
+        {
+            x = 0.0;
+            for (int k = 0; k &amp;lt; n; k++)
+                x += a[i][k] * b[k][j];
+            af[i][j] = x;
+        }
+    }
+    for (int i = 0; i &amp;lt; n; i++)
+    {
+        for (int j = 0; j &amp;lt; n; j++)
+        {
+            x = 0.0;
+            for (int k = 0; k &amp;lt; n; k++)
+                x += c[i][k] * af[k][j];
+            a[i][j] = 2.0 * x / ((double)n);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中，&lt;script type=&quot;math/tex&quot;&gt;$a,b,c&lt;/script&gt;$矩阵分别为被变换的矩阵&lt;script type=&quot;math/tex&quot;&gt;$X&lt;/script&gt;$,变换矩阵的转置&lt;script type=&quot;math/tex&quot;&gt;$A^T&lt;/script&gt;$,变换矩阵&lt;script type=&quot;math/tex&quot;&gt;$A&lt;/script&gt;$&lt;/p&gt;
 </description>
-        <pubDate>Wed, 25 Dec 2013 00:00:00 +0800</pubDate>
-        <link>http://thisisagoodname.github.io//articles/2013/12/25/I-am-a-reindeer.html</link>
-        <guid isPermaLink="true">http://thisisagoodname.github.io//articles/2013/12/25/I-am-a-reindeer.html</guid>
+        <pubDate>Tue, 05 May 2015 00:00:00 +0800</pubDate>
+        <link>http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html</link>
+        <guid isPermaLink="true">http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html</guid>
         
-        <category>reindeer</category>
+        <category>数字图像处理</category>
         
-        <category>sample-post</category>
+        <category>傅里叶变换</category>
+        
+        <category>离散余弦变换</category>
         
         
-        <category>articles</category>
+        <category>数字图像处理</category>
+        
+      </item>
+    
+      <item>
+        <title>数字图像处理-直方图计算和灰度线性变换</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css&quot; /&gt;
+
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+hljs.tabReplace = &#39; &#39;;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;
+
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;MathJax.Hub.Config({tex2jax:{inlineMath:[[&#39;$$$&#39;,&#39;$$$&#39;]]}});&lt;/script&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;1.图像的读取和显示&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;1.1图像的读取&lt;/h3&gt;
+&lt;p&gt;        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。&lt;br /&gt;
+        关键代码如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public Image openImage(String is, MediaTracker tracker )
+{
+	Image im = null;
+	//用MediaTracker跟踪图像加载
+	im = Toolkit.getDefaultToolkit().getImage(is);
+	tracker.addImage(im,0);
+
+	//等待图像完成加载
+	try	{ tracker.waitForID(0);	}
+	catch(InterruptedException e){ e.printStackTrace();}
+	return im;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;1.2图像的显示&lt;/h3&gt;
+&lt;p&gt;        代码实现如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//显示两幅图与第2幅图像标题
+//im   -- 输入图
+//istr -- 输入图标题
+//om   -- 输出图
+//ostr -- 输出图标题
+ 
+public void draw(Graphics g, Image im, String istr, Image om, String ostr)
+{
+    g.clearRect(0, 0, 530, 350);
+    g.drawImage(im, 5,   50, null);
+    g.drawImage(om, 270, 50, null);
+    g.drawString(istr, 120, 320);
+    g.drawString(ostr, 380, 320);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-3&quot;&gt;2.直方图的计算&lt;/h2&gt;
+&lt;p&gt;        直方图的计算分别用&lt;script type=&quot;math/tex&quot;&gt;$w&lt;/script&gt;$和&lt;script type=&quot;math/tex&quot;&gt;$h&lt;/script&gt;$表示图像的宽度和高度。设灰度值&lt;script type=&quot;math/tex&quot;&gt;$ r_i&lt;/script&gt;$出现的频率为&lt;script type=&quot;math/tex&quot;&gt;$ n_i&lt;/script&gt;$，则&lt;strong&gt;直方图&lt;script type=&quot;math/tex&quot;&gt;$ H&lt;/script&gt;$&lt;/strong&gt;可用下式计算：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;H(r_i)=\frac{n_i}{w\times h}&lt;/script&gt;
+
+&lt;p&gt;        代码实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public int[] getHist(int[] pix, int iw, int ih)
+{
+	int[] hist = new int[256];
+    for(int i = 0; i &amp;lt; iw*ih; i++)
+    {
+        int grey = pix[i]&amp;amp;0xff;
+        hist[grey]++;
+    }
+    return hist;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;3.灰度的线性变换&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;3.1彩色图像转变为灰度图像&lt;/h3&gt;
+&lt;p&gt;        彩色图像转换为灰度图像的函数表达式如下：
+&lt;script type=&quot;math/tex&quot;&gt;I=F(i,j)=\left \lfloor \frac{1}{3}(f_R(i,j)+f_G(i,j)+f_B(i,j)) \right \rfloor (i=0,1,···,M-1;j=0,1,···,N-1)&lt;/script&gt;
+式中，记号&lt;script type=&quot;math/tex&quot;&gt;$\left \lfloor x \right \rfloor&lt;/script&gt;$表示不超过x的最大整数。利用上式求出&lt;script type=&quot;math/tex&quot;&gt;$I&lt;/script&gt;$值后，给输出图像的R、G、B分量都赋值&lt;script type=&quot;math/tex&quot;&gt;$I&lt;/script&gt;$，就能转变成灰度图像。&lt;br /&gt;
+        代码实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//转变为灰度图像
+public int[] toGray(int[] pix, int iw, int ih)
+{
+    ColorModel cm = ColorModel.getRGBdefault();
+    int r, g, b, gray;
+
+    for(int i = 0; i &amp;lt; iw*ih; i++)
+    {
+        r = cm.getRed(pix[i]);
+        g = cm.getGreen(pix[i]);
+        b = cm.getBlue(pix[i]);
+        gray =(int)((r + g + b) / 3);
+        pix[i] = 255 &amp;lt;&amp;lt; 24|gray &amp;lt;&amp;lt; 16|gray &amp;lt;&amp;lt; 8|gray;
+    }
+    return pix;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;3.2图像的灰度线性变换&lt;/h3&gt;
+&lt;p&gt;        记&lt;script type=&quot;math/tex&quot;&gt;$p&lt;/script&gt;$为变换的斜率，&lt;script type=&quot;math/tex&quot;&gt;$q&lt;/script&gt;$为截距，则灰度线性变换的数学公式如下：
+&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+F(i,j)=
+   \begin{cases}
+   0 &amp;\mbox{ $f&#39;(i,j)&lt;0$ }\\\
+   f&#39;(i,j) &amp;\mbox{ $0 \leq f&#39;(i,j) \leq 255$ }\\\
+   255 &amp;\mbox{$f&#39;(i,j)&gt;255$ }
+   \end{cases} %]]&gt;&lt;/script&gt;
+&lt;script type=&quot;math/tex&quot;&gt;f&#39;(i,j)=\left \lfloor p·f(i,j)+q \right \rfloor (i=0,1,···,M-1;j=0,1,···,N-1)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;        代码实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//线性变换
+public int[] linetrans(int[] pix, int iw, int ih,float p, int q)
+{
+	ColorModel cm = ColorModel.getRGBdefault();
+    int r, g, b;
+	
+	for(int i = 0; i &amp;lt; iw*ih; i++)
+    {
+        r = cm.getRed(pix[i]);
+        g = cm.getGreen(pix[i]);
+        b = cm.getBlue(pix[i]);
+
+        //增加图像亮度
+        r  = (int)(p * r + q);
+        g  = (int)(p * g + q);
+        b  = (int)(p * b + q);
+
+        if(r &amp;gt;= 255)   r = 255;
+        if(g &amp;gt;= 255)   g = 255;
+        if(b &amp;gt;= 255)   b = 255;
+
+        pix[i] = 255 &amp;lt;&amp;lt; 24|r &amp;lt;&amp;lt; 16|g &amp;lt;&amp;lt; 8|b;
+    }
+    return pix;
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Tue, 05 May 2015 00:00:00 +0800</pubDate>
+        <link>http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html</link>
+        <guid isPermaLink="true">http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html</guid>
+        
+        <category>数字图像处理</category>
+        
+        <category>图像直方图计算</category>
+        
+        <category>图像灰度拉伸</category>
+        
+        
+        <category>数字图像处理</category>
         
       </item>
     

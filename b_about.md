@@ -6,23 +6,20 @@ permalink: /about/
 ---
 
 
-### Freshman21 is a Jekyll theme.
+### 菊长是个快乐的青年.
 
-A tribute to Twenty Twelve and Twenty eleven.
+&#160; &#160; &#160; &#160; 一个喜欢花里胡哨的东西的小青年.
 
-I like wordpress's theme Twenty Twelve and Twenty eleven very much. 
-So I called my Jekyll theme Freshman21 (Freshman <q>twenty-first</q> , it means twenty-first century, not twenty-one), this theme is based on my former theme [Freshman](https://github.com/yulijia/freshman/).
-
-Freshman21 have two main page format, one is [single column](http://yulijia.net/en/  "see demo"), the other is two columns. For more details, please see the articles on the site.
-
-<cite>Proudly enjoy using Freshman21 theme.</cite> <code>;)</code>
-
-<img title="麋鹿" src="https://i.imgur.com/Mdc4szJl.jpg" alt="麋鹿" width="580" height="668" />
-
-#### Hi, the picture you have seen in the sample-page is a Père David's deer photoed by my friend at Beijing Milu Park, China.
+&#160; &#160; &#160; &#160; 个人喜欢一些漂亮的东西，所以研究过些UI/UE设计相关的东西，对html5，bootstrap3有一定的了解，对于主流切图工具Photoshop，illustrate，skecth也有一定了解
+个人也喜欢一些游戏开发相关的东西，对unity3D引擎比较熟悉，会粗略使用一些3D建模工具，也了解过些webGL和chader相关的东西，简单的说就是一个彻头彻尾的视觉党。
 
 
-Milu(麋鹿) is the chinese name of Père David's deer.
 
-All photos on this website are copyrighted material and all rights are reserved.
+<img title="菊花" src="/images/chrysanthemum.jpg" alt="菊花"  />
+
+#### 图片来源于网络，版权非我所有.
+
+
+&#160; &#160; &#160; &#160; 菊花田，当然要有菊花才能完整.
+
 

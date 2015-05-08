@@ -7,24 +7,24 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width initial-scale=1">
 
-<meta property="og:title" content="About">
-<title>About</title>
-<meta property="og:description" content="菊长就是我，我就是菊长.">
-<meta property="og:url" content="http://thisisagoodname.github.io//about/">
+<meta property="og:title" content="数字图像处理-直方图计算和灰度线性变换">
+<title>数字图像处理-直方图计算和灰度线性变换</title>
+<meta property="og:description" content="1.图像的读取和显示1.1图像的读取        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。        关键代码如下:public Image openImage(String is, MediaTracker tracker ){	Image im = null...">
+<meta property="og:url" content="http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html">
 <meta property="og:site_name" content="菊长的菊花田">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@还没有">
 <meta name="twitter:creator" content="@还没有">
-<meta name="twitter:title" content="About">
-<meta name="twitter:description" content="菊长就是我，我就是菊长.">
-<meta name="twitter:url" content="http://thisisagoodname.github.io//about/">
+<meta name="twitter:title" content="数字图像处理-直方图计算和灰度线性变换">
+<meta name="twitter:description" content="1.图像的读取和显示1.1图像的读取        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。        关键代码如下:public Image openImage(String is, MediaTracker tracker ){	Image im = null...">
+<meta name="twitter:url" content="http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html">
 
 <meta name="keywords" content="Unity3D, MMD, 前端技术">
 
 <link rel="icon" href="/images/chrysanthemum.ico">
 <link rel="stylesheet" href="/css/main.css">
-<link rel="canonical" href="http://thisisagoodname.github.io//about/">
+<link rel="canonical" href="http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html">
 <link rel="alternate" type="application/atom+xml" title="菊长的菊花田" href="http://thisisagoodname.github.io//feed.xml" />
 
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -128,31 +128,186 @@ for (var b = blocklink.length; b--;) {
     
 
   <div class="page-content col-sm-8">
-    <div class="post">
+    <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">About</h1>
+    <h1 itemprop="name" class="post-title">数字图像处理-直方图计算和灰度线性变换</h1>
+    <meta itemprop="keywords" content="数字图像处理,图像直方图计算,图像灰度拉伸" />
+    <p class="post-meta">
+    目录:
+    
+    <a href="/categories/#数字图像处理">数字图像处理</a>&nbsp;
+     
+    
+    | 标签:
+    
+    <a href="/tags/#数字图像处理" title="数字图像处理">数字图像处理 </a>, 
+    
+    <a href="/tags/#图像直方图计算" title="图像直方图计算">图像直方图计算 </a>, 
+    
+    <a href="/tags/#图像灰度拉伸" title="图像灰度拉伸">图像灰度拉伸 </a>
+    
+    
+    <time itemprop="datePublished" datetime="2015-05-05">
+    | 发表时间: May 5, 2015
+    </time>
+    </p>
   </header>
 
-  <article class="post-content about"> 
-    <h3 id="section">菊长是个快乐的青年.</h3>
+  <article class="post-content" itemprop="articleBody">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
 
-<p>        一个喜欢花里胡哨的东西的小青年.</p>
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
 
-<p>        个人喜欢一些漂亮的东西，所以研究过些UI/UE设计相关的东西，对html5，bootstrap3有一定的了解，对于主流切图工具Photoshop，illustrate，skecth也有一定了解
-个人也喜欢一些游戏开发相关的东西，对unity3D引擎比较熟悉，会粗略使用一些3D建模工具，也了解过些webGL和chader相关的东西，简单的说就是一个彻头彻尾的视觉党。</p>
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
 
-<p><img title="菊花" src="/images/chrysanthemum.jpg" alt="菊花" /></p>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<h4 id="section-1">图片来源于网络，版权非我所有.</h4>
+<h2 id="section">1.图像的读取和显示</h2>
 
-<p>        菊花田，当然要有菊花才能完整.</p>
+<h3 id="section-1">1.1图像的读取</h3>
+<p>        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。<br />
+        关键代码如下:</p>
 
+<pre><code>public Image openImage(String is, MediaTracker tracker )
+{
+	Image im = null;
+	//用MediaTracker跟踪图像加载
+	im = Toolkit.getDefaultToolkit().getImage(is);
+	tracker.addImage(im,0);
+
+	//等待图像完成加载
+	try	{ tracker.waitForID(0);	}
+	catch(InterruptedException e){ e.printStackTrace();}
+	return im;
+}
+</code></pre>
+
+<h3 id="section-2">1.2图像的显示</h3>
+<p>        代码实现如下:</p>
+
+<pre><code>//显示两幅图与第2幅图像标题
+//im   -- 输入图
+//istr -- 输入图标题
+//om   -- 输出图
+//ostr -- 输出图标题
+ 
+public void draw(Graphics g, Image im, String istr, Image om, String ostr)
+{
+    g.clearRect(0, 0, 530, 350);
+    g.drawImage(im, 5,   50, null);
+    g.drawImage(om, 270, 50, null);
+    g.drawString(istr, 120, 320);
+    g.drawString(ostr, 380, 320);
+}
+</code></pre>
+
+<h2 id="section-3">2.直方图的计算</h2>
+<p>        直方图的计算分别用<script type="math/tex">$w</script>$和<script type="math/tex">$h</script>$表示图像的宽度和高度。设灰度值<script type="math/tex">$ r_i</script>$出现的频率为<script type="math/tex">$ n_i</script>$，则<strong>直方图<script type="math/tex">$ H</script>$</strong>可用下式计算：</p>
+
+<script type="math/tex; mode=display">H(r_i)=\frac{n_i}{w\times h}</script>
+
+<p>        代码实现：</p>
+
+<pre><code>public int[] getHist(int[] pix, int iw, int ih)
+{
+	int[] hist = new int[256];
+    for(int i = 0; i &lt; iw*ih; i++)
+    {
+        int grey = pix[i]&amp;0xff;
+        hist[grey]++;
+    }
+    return hist;
+}
+</code></pre>
+
+<h2 id="section-4">3.灰度的线性变换</h2>
+
+<h3 id="section-5">3.1彩色图像转变为灰度图像</h3>
+<p>        彩色图像转换为灰度图像的函数表达式如下：
+<script type="math/tex">I=F(i,j)=\left \lfloor \frac{1}{3}(f_R(i,j)+f_G(i,j)+f_B(i,j)) \right \rfloor (i=0,1,···,M-1;j=0,1,···,N-1)</script>
+式中，记号<script type="math/tex">$\left \lfloor x \right \rfloor</script>$表示不超过x的最大整数。利用上式求出<script type="math/tex">$I</script>$值后，给输出图像的R、G、B分量都赋值<script type="math/tex">$I</script>$，就能转变成灰度图像。<br />
+        代码实现：</p>
+
+<pre><code>//转变为灰度图像
+public int[] toGray(int[] pix, int iw, int ih)
+{
+    ColorModel cm = ColorModel.getRGBdefault();
+    int r, g, b, gray;
+
+    for(int i = 0; i &lt; iw*ih; i++)
+    {
+        r = cm.getRed(pix[i]);
+        g = cm.getGreen(pix[i]);
+        b = cm.getBlue(pix[i]);
+        gray =(int)((r + g + b) / 3);
+        pix[i] = 255 &lt;&lt; 24|gray &lt;&lt; 16|gray &lt;&lt; 8|gray;
+    }
+    return pix;
+}
+</code></pre>
+
+<h3 id="section-6">3.2图像的灰度线性变换</h3>
+<p>        记<script type="math/tex">$p</script>$为变换的斜率，<script type="math/tex">$q</script>$为截距，则灰度线性变换的数学公式如下：
+<script type="math/tex">% <![CDATA[
+F(i,j)=
+   \begin{cases}
+   0 &\mbox{ $f'(i,j)<0$ }\\\
+   f'(i,j) &\mbox{ $0 \leq f'(i,j) \leq 255$ }\\\
+   255 &\mbox{$f'(i,j)>255$ }
+   \end{cases} %]]></script>
+<script type="math/tex">f'(i,j)=\left \lfloor p·f(i,j)+q \right \rfloor (i=0,1,···,M-1;j=0,1,···,N-1)</script></p>
+
+<p>        代码实现：</p>
+
+<pre><code>//线性变换
+public int[] linetrans(int[] pix, int iw, int ih,float p, int q)
+{
+	ColorModel cm = ColorModel.getRGBdefault();
+    int r, g, b;
+	
+	for(int i = 0; i &lt; iw*ih; i++)
+    {
+        r = cm.getRed(pix[i]);
+        g = cm.getGreen(pix[i]);
+        b = cm.getBlue(pix[i]);
+
+        //增加图像亮度
+        r  = (int)(p * r + q);
+        g  = (int)(p * g + q);
+        b  = (int)(p * b + q);
+
+        if(r &gt;= 255)   r = 255;
+        if(g &gt;= 255)   g = 255;
+        if(b &gt;= 255)   b = 255;
+
+        pix[i] = 255 &lt;&lt; 24|r &lt;&lt; 16|g &lt;&lt; 8|b;
+    }
+    return pix;
+}
+</code></pre>
 
   </article>
+  <hr />
+</div>
 
-  
-  <div id="disqus_thread"></div>
+
+<section class="pager">
+  <ul>
+    
+    <li class="disabled"><a>&larr; 前一页</a></li>
+    
+    
+    <li class="next"><a href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html" title="数字图像处理-傅里叶变换,离散余弦变换">后一页 &rarr;</a></li>
+    
+  </ul>
+</section>
+
+<div id="disqus_thread"></div>
 
 <script type="text/javascript">
 
@@ -169,9 +324,7 @@ var disqus_shortname ='攻伤菊菊长';
 
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
-  
 
-</div> 
 
     <section class="pager">
   
