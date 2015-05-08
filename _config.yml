@@ -10,13 +10,13 @@ url: "http://thisisagoodname.github.io/" # the base hostname & protocol for your
 locale: zh_CN
 
 ### Personal info and site tools info:
-twitter_username: yulijia
+twitter_username: 还没有
 github_username:  THISISAGOODNAME
-disqus_shortname: freshman21
-favicon:     "/images/favicon.ico"
-aboutme: Hi, this is Lijia Yu. I made the Freshman21 theme. Please enjoy it. # these are shown on aboutme-sidebar.
-aboutme_photo: https://i.imgur.com/Mdc4szJl.jpg# your photo.
-google_analytics_key: UA-57979084-1 # put YOUR key here to enable tracking! (blank to disable)
+disqus_shortname: 攻伤菊菊长
+favicon:     "/images/chrysanthemum.ico"
+aboutme: 我就是菊长，喜欢U3D，MMD前端等一切花里胡哨的技术. # these are shown on aboutme-sidebar.
+aboutme_photo: /images/chrysanthemum.jpg# your photo.
+google_analytics_key: UA-62751145-1 # put YOUR key here to enable tracking! (blank to disable)
 
 
 ### Site setting:
@@ -56,12 +56,7 @@ locales:
 ### your Blogroll info, only name can shown on the page.
 
 Blogroll:
-      - name: Freshman
-        href: http://yulijia.net/freshman
-        title: Another Jekyll blog theme
-      - name: author's website
-        href: http://yulijia.net/
-        title: Lijia Yu's website
+      
 
 
 ### Build settings
