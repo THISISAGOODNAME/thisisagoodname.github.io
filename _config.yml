@@ -1,17 +1,17 @@
 ### Site info:
-title: Freshman21
-tagline: Another Jekyll theme, Freshman twenty-first
-author: Lijia Yu
-email: yu@lijiayu.net
-description: "Freshman21 is a Jekyll blog theme." # You can edit this line in _config.yml. It will appear in your document head meta and in your feed.xml site description
-keywords: "Jekyll, theme, Freshman21"
-baseurl: "/freshman21" # the subpath of your site, e.g. /blog/
-url: "http://yulijia.net/freshman21" # the base hostname & protocol for your site
-locale: en_US
+title: 菊长的菊花田
+tagline: Qinghuai,Jiecao,Neihan,Xiaxian,we got them all!
+author: 彦君 杨
+email: yangyj19931231@gmail.com
+description: "菊长就是我，我就是菊长." # You can edit this line in _config.yml. It will appear in your document head meta and in your feed.xml site description
+keywords: "Unity3D, MMD, 前端技术"
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://thisisagoodname.github.io/" # the base hostname & protocol for your site
+locale: zh_CN
 
 ### Personal info and site tools info:
 twitter_username: yulijia
-github_username:  yulijia
+github_username:  THISISAGOODNAME
 disqus_shortname: freshman21
 favicon:     "/images/favicon.ico"
 aboutme: Hi, this is Lijia Yu. I made the Freshman21 theme. Please enjoy it. # these are shown on aboutme-sidebar.
@@ -22,7 +22,7 @@ google_analytics_key: UA-57979084-1 # put YOUR key here to enable tracking! (bla
 ### Site setting:
 ShowContactInfo: "True" # Personal Info (twitter,github,email) can be seen on aboutme-sidebar, those info only shown where ShowContactInfo == True
 default_column: "two" # blog style: two columns, if default_column != "two", you will see a one column blog.
-default_locale: "en" # blog sidebar language set, only include: English(en) and Chinese (cn)
+default_locale: "cn" # blog sidebar language set, only include: English(en) and Chinese (cn)
 
 locales:
     en:
