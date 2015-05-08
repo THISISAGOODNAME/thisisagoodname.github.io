@@ -34,7 +34,7 @@ layout: default
       {{ post.excerpt }}
       <p style="text-align: right"><a href="{{ post.url | prepend: site.baseurl }}">Read more</a></p>
       {% else %}
-      {{ post.content }}
+      <P>{{ post.content | strip_html | truncatewords:50 }}</P>
       {% endif %}
     </article>
     <hr />
