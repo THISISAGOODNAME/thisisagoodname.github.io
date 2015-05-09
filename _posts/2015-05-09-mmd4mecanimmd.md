@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "MMD4Mecanim系统研究"
-description: "PMX模型导入U3D使用,并引入VMD动作和使用Mecanim动画系统控制"
+title: "MMD4Mecanim系统研究(一)"
+description: "PMX模型导入U3D使用,并引入VMD动作(多图)"
 category: Unity3D
 tags: [Unity3D,MMD4Mecanim]
 ---
@@ -11,3 +11,57 @@ hljs.tabReplace = ' ';
 hljs.initHighlightingOnLoad();
 </script>
 <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+##1.PMX导入U3D引擎,并导入VMD动画
+
+###1.1导入MMD4Mecanim插件
+
+&#160; &#160; &#160; &#160;MMD4Mecanim是一个免费插件，[官网](http://stereoarts.jp/)，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。
+
+![导入MMD4Mecanim插件](/images/MMD4Mecanim/QQ20150509-1@2x.png)
+
+&#160; &#160; &#160; &#160;进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。
+
+###1.2导入模型文件
+
+
+&#160; &#160; &#160; &#160;把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。
+
+![导入后状态](/images/MMD4Mecanim/QQ20150509-2@2x.png)
+
+&#160; &#160; &#160; &#160;MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)
+
+![模型声明1](/images/MMD4Mecanim/QQ20150509-3@2x.png)
+
+&#160; &#160; &#160; &#160;点击同意后，进入如下所示界面。
+
+![模型声明2](/images/MMD4Mecanim/QQ20150509-4@2x.png)
+
+###1.3添加VMD动作
+
+&#160; &#160; &#160; &#160;跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)
+
+![VMD文件导入](/images/MMD4Mecanim/QQ20150509-5@2x.png)
+
+&#160; &#160; &#160; &#160;把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。
+
+![VMD文件导入2](/images/MMD4Mecanim/QQ20150509-6@2x.png)
+
+&#160; &#160; &#160; &#160;然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。
+
+&#160; &#160; &#160; &#160;成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。
+
+![导入成功演示](/images/MMD4Mecanim/QQ20150509-7@2x.png)
+
+&#160; &#160; &#160; &#160;将生成的FBX拖入到场景中，可以看到模型和贴图都加载的非常好，材质丢失现象也没有发生。
+
+![拖入场景演示](/images/MMD4Mecanim/QQ20150509-8@2x.png)
+
+&#160; &#160; &#160; &#160;然后把FBX中的动画拖拽到模型上，生成Animation Controller，并添加到模型上。
+
+![FBX添加动画](/images/MMD4Mecanim/QQ20150509-8@2x.png)
+
+&#160; &#160; &#160; &#160;再点击运行，即可看到效果.
+
+![最终动态效果](/images/MMD4Mecanim/MMD4Mecanim-VMD.gif)

@@ -135,6 +135,39 @@ for (var b = blocklink.length; b--;) {
 
     <header class="post-header">
       <h1 itemprop="name" class="post-title">
+        <a itemprop="url" class="post-link" href="/unity3d/2015/05/09/mmd4mecanimmd.html">MMD4Mecanim系统研究(一)</a>
+      </h1>
+      <meta itemprop="keywords" content="Unity3D,MMD4Mecanim" />
+      <p class="post-meta">
+      目录:
+      
+      <a href="/categories/#unity3d">unity3d</a>&nbsp;
+      
+      
+      | 标签:
+      
+      <a href="/tags/#Unity3D" title="Unity3D">Unity3D </a>, 
+      
+      <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim">MMD4Mecanim </a>
+      
+      
+      <time itemprop="datePublished" datetime="2015-05-09">
+        | 发表时间: May 9, 2015
+      </time>
+      </p>
+    </header>
+
+    <article class="post-content" itemprop="articleBody">
+      
+      <P>1.PMX导入U3D引擎,并导入VMD动画 1.1导入MMD4Mecanim插件        MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。        进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。 1.2导入模型文件        把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。        MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)        点击同意后，进入如下所示界面。 1.3添加VMD动作        跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)        把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。        然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。        成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。    ...</P>
+      
+    </article>
+    <hr />
+
+    
+
+    <header class="post-header">
+      <h1 itemprop="name" class="post-title">
         <a itemprop="url" class="post-link" href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html">数字图像处理-离散余弦变换的蝶形运算</a>
       </h1>
       <meta itemprop="keywords" content="数字图像处理,离散余弦变换,蝶形运算" />
@@ -302,6 +335,10 @@ for (var b = blocklink.length; b--;) {
   <h4>近期文章</h4>
   
   <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)" rel="bookmark">MMD4Mecanim系统研究(一)</a>
+  </li>
+  
+  <li>
   <a href="//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html" title="数字图像处理-离散余弦变换的蝶形运算" rel="bookmark">数字图像处理-离散余弦变换的蝶形运算</a>
   </li>
   
@@ -321,6 +358,8 @@ for (var b = blocklink.length; b--;) {
   
   <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
   
+  <li><a href="/categories/#unity3d" title="unity3d" rel="1">unity3d (1)</a></li>
+  
 </div>
 
 
@@ -338,6 +377,10 @@ for (var b = blocklink.length; b--;) {
     <a href="/tags/#离散余弦变换" title="离散余弦变换" rel="2">离散余弦变换</a> &nbsp;
   
     <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
+  
+    <a href="/tags/#Unity3D" title="Unity3D" rel="1">Unity3D</a> &nbsp;
+  
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="1">MMD4Mecanim</a> &nbsp;
   
 </div>
 
@@ -357,6 +400,9 @@ for (var b = blocklink.length; b--;) {
   
   
   <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
   
   
   
