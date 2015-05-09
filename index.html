@@ -32,9 +32,10 @@ layout: default
     <article class="post-content" itemprop="articleBody">
       {% if post.content contains site.excerpt_separator %}
       {{ post.excerpt }}
+      <!-- {{ post.content | strip_html | truncatewords: 50 }} -->
       <p style="text-align: right"><a href="{{ post.url | prepend: site.baseurl }}">Read more</a></p>
       {% else %}
-      <P>{{ post.content | strip_html | truncatewords:50 }}</P>
+      {{ post.content }}
       {% endif %}
     </article>
     <hr />

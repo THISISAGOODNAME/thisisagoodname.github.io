@@ -5,8 +5,8 @@
     <description>菊长就是我，我就是菊长.</description>
     <link>http://thisisagoodname.github.io//</link>
     <atom:link href="http://thisisagoodname.github.io//zfeed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 May 2015 13:13:38 +0800</pubDate>
-    <lastBuildDate>Sat, 09 May 2015 13:13:38 +0800</lastBuildDate>
+    <pubDate>Sat, 09 May 2015 13:39:04 +0800</pubDate>
+    <lastBuildDate>Sat, 09 May 2015 13:39:04 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -28,6 +28,8 @@ hljs.initHighlightingOnLoad();
 &lt;h3 id=&quot;mmd4mecanim&quot;&gt;1.1导入MMD4Mecanim插件&lt;/h3&gt;
 
 &lt;p&gt;       MMD4Mecanim是一个免费插件，&lt;a href=&quot;http://stereoarts.jp/&quot;&gt;官网&lt;/a&gt;，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。&lt;/p&gt;
+
+&lt;!-- more --&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim/QQ20150509-1@2x.png&quot; alt=&quot;导入MMD4Mecanim插件&quot; /&gt;&lt;/p&gt;
 
@@ -109,6 +111,8 @@ hljs.initHighlightingOnLoad();
 &lt;h3 id=&quot;section&quot;&gt;为什么要进行变换&lt;/h3&gt;
 
 &lt;p&gt;       空间图像数据通常是很难压缩的：相邻的采样点具有很强的相关性（相互关联的），而且能量一般平均分布在一幅图像中，从而要想丢掉某些数据和降低数据精度而不明显影响图像质量，就要选择合适的变换，方法，使图像易于被压缩。适合压缩的变换方法要有这样几个性质：&lt;/p&gt;
+
+&lt;!-- more --&gt;
 
 &lt;ul&gt;
   &lt;li&gt;1.可以聚集图像的能量（将能量集中到少数有意义的数值上）；如下图：&lt;/li&gt;
@@ -562,6 +566,8 @@ hljs.initHighlightingOnLoad();
 &lt;h3 id=&quot;section-1&quot;&gt;1.1. 一维离散傅里叶变换&lt;/h3&gt;
 &lt;p&gt;       定义:设&lt;script type=&quot;math/tex&quot;&gt;${ f(n)|n=0,..,N-1}&lt;/script&gt;$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:&lt;/p&gt;
 
+&lt;!-- more --&gt;
+
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;F(u)=\frac{1}{N}\sum_{k=0}^{N-1}f(k)e^{-j2\pi\frac{uk}{N}},u=0,1,\dots,N-1&lt;/script&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;f(k)=\sum_{u=0}^{N-1}F(u)e^{j2\pi\frac{uk}{N}},k=0,1,\dots,N-1&lt;/script&gt;
@@ -764,6 +770,8 @@ hljs.initHighlightingOnLoad();
 &lt;h3 id=&quot;section-1&quot;&gt;1.1图像的读取&lt;/h3&gt;
 &lt;p&gt;        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。&lt;br /&gt;
         关键代码如下:&lt;/p&gt;
+
+&lt;!-- more --&gt;
 
 &lt;pre&gt;&lt;code&gt;public Image openImage(String is, MediaTracker tracker )
 {

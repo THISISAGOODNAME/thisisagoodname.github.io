@@ -159,7 +159,27 @@ for (var b = blocklink.length; b--;) {
 
     <article class="post-content" itemprop="articleBody">
       
-      <P>1.PMX导入U3D引擎,并导入VMD动画 1.1导入MMD4Mecanim插件        MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。        进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。 1.2导入模型文件        把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。        MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)        点击同意后，进入如下所示界面。 1.3添加VMD动作        跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)        把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。        然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。        成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。    ...</P>
+      <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+<script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
+
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<h2 id="pmxu3dvmd">1.PMX导入U3D引擎,并导入VMD动画</h2>
+
+<h3 id="mmd4mecanim">1.1导入MMD4Mecanim插件</h3>
+
+<p>       MMD4Mecanim是一个免费插件，<a href="http://stereoarts.jp/">官网</a>，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。</p>
+
+
+      <!-- 1.PMX导入U3D引擎,并导入VMD动画 1.1导入MMD4Mecanim插件        MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。        进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。 1.2导入模型文件        把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。        MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)        点击同意后，进入如下所示界面。 1.3添加VMD动作        跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)        把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。        然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。        成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。    ... -->
+      <p style="text-align: right"><a href="/unity3d/2015/05/09/mmd4mecanimmd.html">Read more</a></p>
       
     </article>
     <hr />
@@ -194,7 +214,29 @@ for (var b = blocklink.length; b--;) {
 
     <article class="post-content" itemprop="articleBody">
       
-      <P>转自http://blog.csdn.net/sno_guo/article/details/8039659,并自己做了一些内容上的删减。 为什么要进行变换        空间图像数据通常是很难压缩的：相邻的采样点具有很强的相关性（相互关联的），而且能量一般平均分布在一幅图像中，从而要想丢掉某些数据和降低数据精度而不明显影响图像质量，就要选择合适的变换，方法，使图像易于被压缩。适合压缩的变换方法要有这样几个性质： 1.可以聚集图像的能量（将能量集中到少数有意义的数值上）；如下图： 2.可以除去数据之间的相关性（以使丢掉不重要的数据对图像的质量影响很少）。 3.变换方法应该适合用软硬件实现。 DCT算法的实例        H264视频压缩 4x4整数DCT推导过程        将上面的DCT公式转变为矩阵公式，为了说明标准矩阵中整数的变换和反变换，先假设$。 这里两个[]之间是矩阵相乘的关系        我们可以把DCT变换写成下式： 三个矩阵相乘，就是DCT转换的公式 $        为了保证正交，a,b,c,d取值如下        DCT变换公式可改为:        把两边的对称矩阵移到左边可得：(对角阵移项)        再移项变形可得：        此时，d的值为0.4142。这样的话，还是实数运算。如我们令$,则$, $,同样，可以保证矩阵的正交，同时，可以把运算变为整数运算。 把$提到矩阵之外，并与右边的矩阵点乘合并，得:    ...</P>
+      <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
+
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+
+<script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
+
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<p>转自<a href="http://blog.csdn.net/sno_guo/article/details/8039659">http://blog.csdn.net/sno_guo/article/details/8039659</a>,并自己做了一些内容上的删减。</p>
+
+<h3 id="section">为什么要进行变换</h3>
+
+<p>       空间图像数据通常是很难压缩的：相邻的采样点具有很强的相关性（相互关联的），而且能量一般平均分布在一幅图像中，从而要想丢掉某些数据和降低数据精度而不明显影响图像质量，就要选择合适的变换，方法，使图像易于被压缩。适合压缩的变换方法要有这样几个性质：</p>
+
+
+      <!-- 转自http://blog.csdn.net/sno_guo/article/details/8039659,并自己做了一些内容上的删减。 为什么要进行变换        空间图像数据通常是很难压缩的：相邻的采样点具有很强的相关性（相互关联的），而且能量一般平均分布在一幅图像中，从而要想丢掉某些数据和降低数据精度而不明显影响图像质量，就要选择合适的变换，方法，使图像易于被压缩。适合压缩的变换方法要有这样几个性质： 1.可以聚集图像的能量（将能量集中到少数有意义的数值上）；如下图： 2.可以除去数据之间的相关性（以使丢掉不重要的数据对图像的质量影响很少）。 3.变换方法应该适合用软硬件实现。 DCT算法的实例        H264视频压缩 4x4整数DCT推导过程        将上面的DCT公式转变为矩阵公式，为了说明标准矩阵中整数的变换和反变换，先假设$。 这里两个[]之间是矩阵相乘的关系        我们可以把DCT变换写成下式： 三个矩阵相乘，就是DCT转换的公式 $        为了保证正交，a,b,c,d取值如下        DCT变换公式可改为:        把两边的对称矩阵移到左边可得：(对角阵移项)        再移项变形可得：        此时，d的值为0.4142。这样的话，还是实数运算。如我们令$,则$, $,同样，可以保证矩阵的正交，同时，可以把运算变为整数运算。 把$提到矩阵之外，并与右边的矩阵点乘合并，得:    ... -->
+      <p style="text-align: right"><a href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html">Read more</a></p>
       
     </article>
     <hr />
@@ -229,7 +271,26 @@ for (var b = blocklink.length; b--;) {
 
     <article class="post-content" itemprop="articleBody">
       
-      <P>1.傅里叶变换 1.1. 一维离散傅里叶变换        定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为: 1.2. 二维离散傅里叶变换        定义:设$为二维图像信号 其离散傅立叶变换及其逆变换分别为: 1.2. 快速傅里叶变换        设$($为正整数)。下面按照$为奇数和偶数将序列$进行划分，记为 则离散傅里叶变换可以改写成下面的形式 式中，$和$分别是$和$的离散傅里叶变换。一个长度为$的DFT可以转化为两个长度为$的DFT。二维FFT可以由两次一维FFT得到。 1.3.关键算法 private void setData1(Complex[] data, int power) { this.power = power; //角度 double angle; //计算FFT1变换的点数 count = 1 &lt;&lt; power; //分配空间 wc = new Complex[count / 2]; x...</P>
+      <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
+
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<h2 id="section">1.傅里叶变换</h2>
+
+<h3 id="section-1">1.1. 一维离散傅里叶变换</h3>
+<p>       定义:设<script type="math/tex">${ f(n)|n=0,..,N-1}</script>$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:</p>
+
+
+      <!-- 1.傅里叶变换 1.1. 一维离散傅里叶变换        定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为: 1.2. 二维离散傅里叶变换        定义:设$为二维图像信号 其离散傅立叶变换及其逆变换分别为: 1.2. 快速傅里叶变换        设$($为正整数)。下面按照$为奇数和偶数将序列$进行划分，记为 则离散傅里叶变换可以改写成下面的形式 式中，$和$分别是$和$的离散傅里叶变换。一个长度为$的DFT可以转化为两个长度为$的DFT。二维FFT可以由两次一维FFT得到。 1.3.关键算法 private void setData1(Complex[] data, int power) { this.power = power; //角度 double angle; //计算FFT1变换的点数 count = 1 &lt;&lt; power; //分配空间 wc = new Complex[count / 2]; x... -->
+      <p style="text-align: right"><a href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html">Read more</a></p>
       
     </article>
     <hr />
@@ -264,7 +325,27 @@ for (var b = blocklink.length; b--;) {
 
     <article class="post-content" itemprop="articleBody">
       
-      <P>1.图像的读取和显示 1.1图像的读取         重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。         关键代码如下: public Image openImage(String is, MediaTracker tracker ) { Image im = null; //用MediaTracker跟踪图像加载 im = Toolkit.getDefaultToolkit().getImage(is); tracker.addImage(im,0); //等待图像完成加载 try { tracker.waitForID(0); } catch(InterruptedException e){ e.printStackTrace();} return im; } 1.2图像的显示         代码实现如下: //显示两幅图与第2幅图像标题 //im -- 输入图...</P>
+      <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
+
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<h2 id="section">1.图像的读取和显示</h2>
+
+<h3 id="section-1">1.1图像的读取</h3>
+<p>        重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。<br />
+        关键代码如下:</p>
+
+
+      <!-- 1.图像的读取和显示 1.1图像的读取         重点是使用awt的Image类,java本身支持jepg,gif和png三种图像格式。         关键代码如下: public Image openImage(String is, MediaTracker tracker ) { Image im = null; //用MediaTracker跟踪图像加载 im = Toolkit.getDefaultToolkit().getImage(is); tracker.addImage(im,0); //等待图像完成加载 try { tracker.waitForID(0); } catch(InterruptedException e){ e.printStackTrace();} return im; } 1.2图像的显示         代码实现如下: //显示两幅图与第2幅图像标题 //im -- 输入图... -->
+      <p style="text-align: right"><a href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html">Read more</a></p>
       
     </article>
     <hr />

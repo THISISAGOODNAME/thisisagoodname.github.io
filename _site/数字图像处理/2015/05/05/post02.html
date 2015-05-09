@@ -9,7 +9,7 @@
 
 <meta property="og:title" content="数字图像处理-傅里叶变换,离散余弦变换">
 <title>数字图像处理-傅里叶变换,离散余弦变换</title>
-<meta property="og:description" content="1.傅里叶变换1.1. 一维离散傅里叶变换       定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:1.2. 二维离散傅里叶变换       定义:设$为二维图像信号 其离散傅立叶变换及其逆变换分别为:1.2. 快速傅里叶变换       设$($为正整数)。下面按照$为奇数和偶数将序列$...">
+<meta property="og:description" content="1.傅里叶变换1.1. 一维离散傅里叶变换       定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:">
 <meta property="og:url" content="http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html">
 <meta property="og:site_name" content="菊长的菊花田">
 <meta property="og:locale" content="zh_CN">
@@ -17,7 +17,7 @@
 <meta name="twitter:site" content="@还没有">
 <meta name="twitter:creator" content="@还没有">
 <meta name="twitter:title" content="数字图像处理-傅里叶变换,离散余弦变换">
-<meta name="twitter:description" content="1.傅里叶变换1.1. 一维离散傅里叶变换       定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:1.2. 二维离散傅里叶变换       定义:设$为二维图像信号 其离散傅立叶变换及其逆变换分别为:1.2. 快速傅里叶变换       设$($为正整数)。下面按照$为奇数和偶数将序列$...">
+<meta name="twitter:description" content="1.傅里叶变换1.1. 一维离散傅里叶变换       定义:设$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:">
 <meta name="twitter:url" content="http://thisisagoodname.github.io//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html">
 
 <meta name="keywords" content="Unity3D, MMD, 前端技术">
@@ -171,6 +171,8 @@ hljs.initHighlightingOnLoad();
 
 <h3 id="section-1">1.1. 一维离散傅里叶变换</h3>
 <p>       定义:设<script type="math/tex">${ f(n)|n=0,..,N-1}</script>$为一维信号的N个采样值,其离散傅立叶变换及其逆变换分别为:</p>
+
+<!-- more -->
 
 <script type="math/tex; mode=display">F(u)=\frac{1}{N}\sum_{k=0}^{N-1}f(k)e^{-j2\pi\frac{uk}{N}},u=0,1,\dots,N-1</script>
 
