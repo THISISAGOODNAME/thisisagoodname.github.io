@@ -75,3 +75,5 @@ hljs.initHighlightingOnLoad();
 &#160; &#160; &#160; &#160;运行效果如下：
 
 ![gameDemo2](/images/MMD4Mecanim2/MMD4MecanimGameDemo2.gif)
+
+PS:最后说一下，如果之前记得打开了子弹物理引擎，那头发和衣服能看到很好的柔体运动效果，打开方法见我前一篇MMD4Mecanim的文章。
