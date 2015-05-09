@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "MMD4Mecanim系统研究(二)"
+title: "MMD4Mecanim系统研究(三)"
 description: "将PMX2FBX生成的fbx文件导入maya中"
 category:Unity3D 
 tags: [Unity3D,MMD4Mecanim,maya]
