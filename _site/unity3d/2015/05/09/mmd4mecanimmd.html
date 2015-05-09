@@ -9,7 +9,7 @@
 
 <meta property="og:title" content="MMD4Mecanim系统研究(一)">
 <title>MMD4Mecanim系统研究(一)</title>
-<meta property="og:description" content="1.PMX导入U3D引擎,并导入VMD动画1.1导入MMD4Mecanim插件       MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经...">
+<meta property="og:description" content="PMX导入U3D引擎,并导入VMD动画1.导入MMD4Mecanim插件       MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取...">
 <meta property="og:url" content="http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd.html">
 <meta property="og:site_name" content="菊长的菊花田">
 <meta property="og:locale" content="zh_CN">
@@ -17,7 +17,7 @@
 <meta name="twitter:site" content="@还没有">
 <meta name="twitter:creator" content="@还没有">
 <meta name="twitter:title" content="MMD4Mecanim系统研究(一)">
-<meta name="twitter:description" content="1.PMX导入U3D引擎,并导入VMD动画1.1导入MMD4Mecanim插件       MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经...">
+<meta name="twitter:description" content="PMX导入U3D引擎,并导入VMD动画1.导入MMD4Mecanim插件       MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取...">
 <meta name="twitter:url" content="http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd.html">
 
 <meta name="keywords" content="Unity3D, MMD, 前端技术">
@@ -165,9 +165,9 @@ hljs.initHighlightingOnLoad();
 <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
 <script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<h2 id="pmxu3dvmd">1.PMX导入U3D引擎,并导入VMD动画</h2>
+<h2 id="pmxu3dvmd">PMX导入U3D引擎,并导入VMD动画</h2>
 
-<h3 id="mmd4mecanim">1.1导入MMD4Mecanim插件</h3>
+<h3 id="mmd4mecanim">1.导入MMD4Mecanim插件</h3>
 
 <p>       MMD4Mecanim是一个免费插件，<a href="http://stereoarts.jp/">官网</a>，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。</p>
 
@@ -177,7 +177,7 @@ hljs.initHighlightingOnLoad();
 
 <p>       进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。</p>
 
-<h3 id="section">1.2导入模型文件</h3>
+<h3 id="section">2.导入模型文件</h3>
 
 <p>       把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。</p>
 
@@ -191,7 +191,7 @@ hljs.initHighlightingOnLoad();
 
 <p><img src="/images/MMD4Mecanim/QQ20150509-4@2x.png" alt="模型声明2" /></p>
 
-<h3 id="vmd">1.3添加VMD动作</h3>
+<h3 id="vmd">3.添加VMD动作</h3>
 
 <p>       跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)</p>
 
@@ -230,7 +230,7 @@ hljs.initHighlightingOnLoad();
     <li class="previous"><a href="/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html" title="数字图像处理-离散余弦变换的蝶形运算">&larr; 前一页</a></li>
     
     
-    <li class="disabled"><a>后一页 &rarr;</a>
+    <li class="next"><a href="/unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)">后一页 &rarr;</a></li>
     
   </ul>
 </section>
@@ -315,6 +315,10 @@ var disqus_shortname ='freshman21';
   <h4>近期文章</h4>
   
   <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)" rel="bookmark">MMD4Mecanim系统研究(二)</a>
+  </li>
+  
+  <li>
   <a href="//unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)" rel="bookmark">MMD4Mecanim系统研究(一)</a>
   </li>
   
@@ -338,7 +342,7 @@ var disqus_shortname ='freshman21';
   
   <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
   
-  <li><a href="/categories/#unity3d" title="unity3d" rel="1">unity3d (1)</a></li>
+  <li><a href="/categories/#unity3d" title="unity3d" rel="2">unity3d (2)</a></li>
   
 </div>
 
@@ -358,9 +362,9 @@ var disqus_shortname ='freshman21';
   
     <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
   
-    <a href="/tags/#Unity3D" title="Unity3D" rel="1">Unity3D</a> &nbsp;
+    <a href="/tags/#Unity3D" title="Unity3D" rel="2">Unity3D</a> &nbsp;
   
-    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="1">MMD4Mecanim</a> &nbsp;
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="2">MMD4Mecanim</a> &nbsp;
   
 </div>
 
@@ -380,6 +384,9 @@ var disqus_shortname ='freshman21';
   
   
   <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
   
   
   

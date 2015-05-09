@@ -13,9 +13,9 @@ hljs.initHighlightingOnLoad();
 <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
-##1.PMX导入U3D引擎,并导入VMD动画
+##PMX导入U3D引擎,并导入VMD动画
 
-###1.1导入MMD4Mecanim插件
+###1.导入MMD4Mecanim插件
 
 &#160; &#160; &#160; &#160;MMD4Mecanim是一个免费插件，[官网](http://stereoarts.jp/)，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。
 
@@ -25,7 +25,7 @@ hljs.initHighlightingOnLoad();
 
 &#160; &#160; &#160; &#160;进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。
 
-###1.2导入模型文件
+###2.导入模型文件
 
 
 &#160; &#160; &#160; &#160;把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。
@@ -40,7 +40,7 @@ hljs.initHighlightingOnLoad();
 
 ![模型声明2](/images/MMD4Mecanim/QQ20150509-4@2x.png)
 
-###1.3添加VMD动作
+###3.添加VMD动作
 
 &#160; &#160; &#160; &#160;跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)
 

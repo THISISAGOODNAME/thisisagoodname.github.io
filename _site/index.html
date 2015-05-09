@@ -135,6 +135,77 @@ for (var b = blocklink.length; b--;) {
 
     <header class="post-header">
       <h1 itemprop="name" class="post-title">
+        <a itemprop="url" class="post-link" href="/unity3d/2015/05/09/mmd4mecanimmd2.html">MMD4Mecanim系统研究(二)</a>
+      </h1>
+      <meta itemprop="keywords" content="Unity3D,MMD4Mecanim" />
+      <p class="post-meta">
+      目录:
+      
+      <a href="/categories/#unity3d">unity3d</a>&nbsp;
+      
+      
+      | 标签:
+      
+      <a href="/tags/#Unity3D" title="Unity3D">Unity3D </a>, 
+      
+      <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim">MMD4Mecanim </a>
+      
+      
+      <time itemprop="datePublished" datetime="2015-05-09">
+        | 发表时间: May 9, 2015
+      </time>
+      </p>
+    </header>
+
+    <article class="post-content" itemprop="articleBody">
+      
+      <link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css" />
+<script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script>
+<script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
+
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
+<script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<h2 id="pmxu3dmecanim">PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏</h2>
+
+<h3 id="mmd4mecanim">1.导入MMD4Mecanim插件，并导入模型</h3>
+
+<p>       导入模型的方法我在我的<a href="./mmd4mecanimmd.html">另一篇文章</a>中已经详细的记录过了在此不再赘描述。</p>
+
+
+      <!-- 
+
+
+
+
+
+
+
+
+PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏
+
+1.导入MMD4Mecanim插件，并导入模型
+
+       导入模型的方法我在我的另一篇文章中已经详细的记录过了在此不再赘描述。
+
+
+
+2.导入
+ -->
+      <p style="text-align: right"><a href="/unity3d/2015/05/09/mmd4mecanimmd2.html">Read more</a></p>
+      
+    </article>
+    <hr />
+
+    
+
+    <header class="post-header">
+      <h1 itemprop="name" class="post-title">
         <a itemprop="url" class="post-link" href="/unity3d/2015/05/09/mmd4mecanimmd.html">MMD4Mecanim系统研究(一)</a>
       </h1>
       <meta itemprop="keywords" content="Unity3D,MMD4Mecanim" />
@@ -171,14 +242,14 @@ hljs.initHighlightingOnLoad();
 <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script>
 <script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
-<h2 id="pmxu3dvmd">1.PMX导入U3D引擎,并导入VMD动画</h2>
+<h2 id="pmxu3dvmd">PMX导入U3D引擎,并导入VMD动画</h2>
 
-<h3 id="mmd4mecanim">1.1导入MMD4Mecanim插件</h3>
+<h3 id="mmd4mecanim">1.导入MMD4Mecanim插件</h3>
 
 <p>       MMD4Mecanim是一个免费插件，<a href="http://stereoarts.jp/">官网</a>，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。</p>
 
 
-      <!-- 1.PMX导入U3D引擎,并导入VMD动画 1.1导入MMD4Mecanim插件        MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。        进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。 1.2导入模型文件        把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。        MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)        点击同意后，进入如下所示界面。 1.3添加VMD动作        跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)        把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。        然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。        成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。    ... -->
+      <!-- PMX导入U3D引擎,并导入VMD动画 1.导入MMD4Mecanim插件        MMD4Mecanim是一个免费插件，官网，MMD4Mecanim的开发，截止本文写作，已经更新到MMD4Mecanim_Beta_20150508版本，本文也是以该版本进行演示。(而且截止到本文写作时，PMX2FBX已经有提取出来作为U3D独立插件的版本，我将会在日后写篇文章写依靠该插件将PMX文件和贴图都完整导入maya软件，并输出减面和贴图整合的FBX文件的文章。)MMD4Mecanim插件官方并没有指定需要的U3D版本，但使用了dll插件功能(以DLL插件的形式提供bullet物理引擎)，这个过去只有unity pro版才有，为了安全，我使用Unity3D 5.0.0f4 pro版做演示。        进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。 2.导入模型文件        把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。        MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)        点击同意后，进入如下所示界面。 3.添加VMD动作        跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)        把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。        然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。        成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。    ... -->
       <p style="text-align: right"><a href="/unity3d/2015/05/09/mmd4mecanimmd.html">Read more</a></p>
       
     </article>
@@ -416,6 +487,10 @@ hljs.initHighlightingOnLoad();
   <h4>近期文章</h4>
   
   <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)" rel="bookmark">MMD4Mecanim系统研究(二)</a>
+  </li>
+  
+  <li>
   <a href="//unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)" rel="bookmark">MMD4Mecanim系统研究(一)</a>
   </li>
   
@@ -439,7 +514,7 @@ hljs.initHighlightingOnLoad();
   
   <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
   
-  <li><a href="/categories/#unity3d" title="unity3d" rel="1">unity3d (1)</a></li>
+  <li><a href="/categories/#unity3d" title="unity3d" rel="2">unity3d (2)</a></li>
   
 </div>
 
@@ -459,9 +534,9 @@ hljs.initHighlightingOnLoad();
   
     <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
   
-    <a href="/tags/#Unity3D" title="Unity3D" rel="1">Unity3D</a> &nbsp;
+    <a href="/tags/#Unity3D" title="Unity3D" rel="2">Unity3D</a> &nbsp;
   
-    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="1">MMD4Mecanim</a> &nbsp;
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="2">MMD4Mecanim</a> &nbsp;
   
 </div>
 
@@ -481,6 +556,9 @@ hljs.initHighlightingOnLoad();
   
   
   <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
   
   
   
