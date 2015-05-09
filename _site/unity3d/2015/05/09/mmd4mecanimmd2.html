@@ -117,6 +117,8 @@ for (var b = blocklink.length; b--;) {
         
         
         
+        
+        
       </div>
     </nav>
 
@@ -173,7 +175,60 @@ hljs.initHighlightingOnLoad();
 
 <!-- more -->
 
-<h3 id="section">2.导入</h3>
+<h3 id="characters">2.导入Characters包</h3>
+
+<p>       具体操作为Assets-&gt;Import Package-&gt;Characters(Unity3D5.0不提供standard Assets，需要手动安装；Unity3D4.0和5.0standard Assets不同，U3D4.0是character controller)</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-1@2x.png" alt="导入characters" /></p>
+
+<p>       点击Import之后，project窗口下自动生成了Standard Assets文件夹，并引入了Characters，CrossPlatform和Utility三个插件，这也是U3D5包管理的一个进步，在引入包的时候可以一定程度的分析依赖。</p>
+
+<h3 id="mmdrighumanoid">3.(关键)把导入的MMD模型的RIG属性改为Humanoid</h3>
+
+<p>       Mecanim动画系统对于人形动画提供了近乎于变态的强大支持，但使用人形动画的前提，就是模型的RIG必须调整为Humanoid(人形),在模型的inspector面板可以找到。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-2@2x.png" alt="RIG调整为Humanoid" /></p>
+
+<p>       有时从原有谷歌转换为Humanoid骨骼并不完全成功，需要主动点击RIG面板下的…Configure…按钮，手动指定一下关节，之后点击Done确定，如下图所示.</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-3@2x.png" alt="手动指定关节" /></p>
+
+<h3 id="section">4.为转换好的模型添加动画控制器</h3>
+
+<p>       动画状态机可以自己写，时间所限，使用官方样例中的状态机，在project中的路径是Standard Assets/Characters/ThirdPersonCharacter/Animator/ThirdPersonAnimatorController，拖到模型的inspector面板，Animator的Controller下。如下图。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-4@2x.png" alt="添加动画控制器" /></p>
+
+<h3 id="section-1">5.为模型添加自三人称控制脚本</h3>
+
+<p>       先在Hierarchy面板下选中模型，然后按Component-&gt;Scripts-&gt;UnityStandardAssets.Characters.ThirdPerson-&gt;Third Person User Control,会自动把Third Person Character和 Third Person User Control Control两个脚本附加到模型上。如下图所示。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-5@2x.png" alt="脚本附加到模型" /></p>
+
+<p>       然后编辑模型的Capusule Collider(胶囊体碰撞机
+),最理想的状态是刚好把人物包住，胶囊体的中心也和人物模型正中心在一起。按Edit Collider可以进入手动修改模式，再按一次退出。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-6@2x.png" alt="修改碰撞机" /></p>
+
+<p>       之后点击运行按钮，就可以看到很随意的站姿势了，恭喜，已经修改成功，按WSAD或者上下左右就可以控制人物移动了。记得一定要修改碰撞机(Collider)，不修改碰撞机的话，会产生模型悬空在场景之上的现象。中心选取不正确,或者碰撞机的底部和地面穿插，移动的时候会经常”蹲起”,也需要仔细修改一下。如果碰撞机总和地面穿插，可以考虑把模型沿Y周提升少许。</p>
+
+<p><img src="/images/MMD4Mecanim2/MMD4MecanimGameDemo1.gif" alt="gameDemo1" /></p>
+
+<h3 id="section-2">6.为模型添加摄像机追踪</h3>
+
+<p>       在Utility下找到SmoothFollow脚本，拖到Main Camera上。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-7@2x.png" alt="SmoothFollow脚本" /></p>
+
+<p>       再把模型拖到脚本的Target上。记得修改Distance，Height和Rotation Damping三项，我的值是3、5、1，不配置Rotation Damping的话，摄像机不会旋转，效果并不好。</p>
+
+<p><img src="/images/MMD4Mecanim2/QQ20150509-8@2x.png" alt="模型拖到脚本的Target上" /></p>
+
+<p>       运行效果如下：</p>
+
+<p><img src="/images/MMD4Mecanim2/MMD4MecanimGameDemo2.gif" alt="gameDemo2" /></p>
+
+<p>PS:最后说一下，如果之前记得打开了子弹物理引擎，那头发和衣服能看到很好的柔体运动效果，打开方法见我前一篇MMD4Mecanim的文章。</p>
 
   </article>
   <hr />
@@ -186,7 +241,7 @@ hljs.initHighlightingOnLoad();
     <li class="previous"><a href="/unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)">&larr; 前一页</a></li>
     
     
-    <li class="disabled"><a>后一页 &rarr;</a>
+    <li class="next"><a href="/unity3d/2015/05/10/mmd4mecanimmd3.html" title="MMD4Mecanim系统研究(三)">后一页 &rarr;</a></li>
     
   </ul>
 </section>
@@ -271,6 +326,10 @@ var disqus_shortname ='freshman21';
   <h4>近期文章</h4>
   
   <li>
+  <a href="//unity3d/2015/05/10/mmd4mecanimmd3.html" title="MMD4Mecanim系统研究(三)" rel="bookmark">MMD4Mecanim系统研究(三)</a>
+  </li>
+  
+  <li>
   <a href="//unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)" rel="bookmark">MMD4Mecanim系统研究(二)</a>
   </li>
   
@@ -286,10 +345,6 @@ var disqus_shortname ='freshman21';
   <a href="//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html" title="数字图像处理-傅里叶变换,离散余弦变换" rel="bookmark">数字图像处理-傅里叶变换,离散余弦变换</a>
   </li>
   
-  <li>
-  <a href="//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post01.html" title="数字图像处理-直方图计算和灰度线性变换" rel="bookmark">数字图像处理-直方图计算和灰度线性变换</a>
-  </li>
-  
 </div>
 
 
@@ -298,7 +353,7 @@ var disqus_shortname ='freshman21';
   
   <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
   
-  <li><a href="/categories/#unity3d" title="unity3d" rel="2">unity3d (2)</a></li>
+  <li><a href="/categories/#unity3d" title="unity3d" rel="3">unity3d (3)</a></li>
   
 </div>
 
@@ -318,9 +373,11 @@ var disqus_shortname ='freshman21';
   
     <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
   
-    <a href="/tags/#Unity3D" title="Unity3D" rel="2">Unity3D</a> &nbsp;
+    <a href="/tags/#Unity3D" title="Unity3D" rel="3">Unity3D</a> &nbsp;
   
-    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="2">MMD4Mecanim</a> &nbsp;
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="3">MMD4Mecanim</a> &nbsp;
+  
+    <a href="/tags/#maya" title="maya" rel="1">maya</a> &nbsp;
   
 </div>
 
@@ -340,6 +397,9 @@ var disqus_shortname ='freshman21';
   
   
   <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
   
   
   

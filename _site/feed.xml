@@ -5,9 +5,321 @@
     <description>菊长就是我，我就是菊长.</description>
     <link>http://thisisagoodname.github.io//</link>
     <atom:link href="http://thisisagoodname.github.io//zfeed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 May 2015 21:24:39 +0800</pubDate>
-    <lastBuildDate>Sat, 09 May 2015 21:24:39 +0800</lastBuildDate>
+    <pubDate>Sun, 10 May 2015 00:53:23 +0800</pubDate>
+    <lastBuildDate>Sun, 10 May 2015 00:53:23 +0800</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>MMD4Mecanim系统研究(三)</title>
+        <description>&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css&quot; /&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+hljs.tabReplace = &#39; &#39;;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;
+
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;MathJax.Hub.Config({tex2jax:{inlineMath:[[&#39;$$$&#39;,&#39;$$$&#39;]]}});&lt;/script&gt;
+&lt;script src=&quot;http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;pmxu3dpmx2fbxpmxmaya&quot;&gt;PMX模型导入U3D使用,并使用PMX2FBX,对PMX模型完成转换，再导入到maya中,形成另外的工作流&lt;/h2&gt;
+
+&lt;p&gt;       玩过unity和MMD的应该都知道MMD4Mecanim这个东东吧，几乎可以完美把PMX/PMD模型转成fbx导入unity。但是这个fbx不带贴图的，unity是通过对于的xml读取贴图，所以导入maya是一片灰色。
+       网上能够较好应付PMD/PMX模型的也只有blender和C4D了，但blender操作和主流三维软件还是有些区别，而C4D的MMD tools总是丢材质球，简直蛋疼。
+       转换之后，可以获得带贴图的FBX文件，再次导出的话，模型也&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h3 id=&quot;mmd4mecanim&quot;&gt;1.导入MMD4Mecanim插件，并导入模型&lt;/h3&gt;
+
+&lt;p&gt;       导入模型的方法我在我的&lt;a href=&quot;./mmd4mecanimmd.html&quot;&gt;另一篇文章&lt;/a&gt;中已经详细的记录过了在此不再赘描述。&lt;/p&gt;
+
+&lt;h3 id=&quot;mayammd4mecanimimport&quot;&gt;2.使用Maya的MMD4MecanimImport插件&lt;/h3&gt;
+
+&lt;p&gt;       MMD4MecanimImport是博客园上一位叫做&lt;a href=&quot;http://home.cnblogs.com/u/marisa/&quot;&gt;高町☆魔理沙&lt;/a&gt;的大神制作的，&lt;a href=&quot;http://www.cnblogs.com/marisa/p/4131746.html&quot;&gt;原文链接&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;mayammd4mecanimfbx&quot;&gt;3.maya导入MMD4Mecanim生成的FBX&lt;/h3&gt;
+
+&lt;p&gt;       安装完成MMD4MecanimImport插件之后，用该插件导入MMD4Mecanim转换的FBX模型。我用的是mac版的maya2014，MMD4Mecanim版本不能太新(15年4月版本以前的，估计是新版本修改的xml文件的一些细节，以后有机会研究maya脚本的话我会修改一下脚本文件)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim3/QQ20150510-1@2x.png&quot; alt=&quot;导入到maya&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       导入完成，用着色模式查看一下(如果机子配置较低可以考虑用局部渲染看一下效果),然后选择导入的模型，再导出成fbx。保存，看到生成的fbx文件只有几M，相比过去的模型，连模型加贴图有几十M，小了很多。&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;4.之后就可以用自己熟悉的工作流了&lt;/h3&gt;
+
+&lt;p&gt;       我将模型导入到keyshot5中渲染一下&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim3/QQ20150510-2@2x.png&quot; alt=&quot;导入到keyshot5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;更多高级玩法可以去看魔理沙大神的博文原文&lt;/p&gt;
+
+&lt;p&gt;PS:MMD4MecanimImport.py源代码如下，我做了微小的修改，使之在mac系统上使用稍微方便一些。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+import pymel.util.path as pmp
+import maya.cmds as cmds
+import maya.mel as mel
+import maya.OpenMayaUI as OpenMayaUI
+import shiboken
+import os
+import shutil
+from PySide import QtGui, QtCore
+from xml.dom.minidom import parse
+
+class FBXExplorerQtWindow(QtGui.QMainWindow):
+	def __init__(self,parent=None):
+		super(FBXExplorerQtWindow,self).__init__(parent)
+		self.setWindowTitle(&#39;MMD4Mecanim Import v0.1&#39;)
+		self.resize( 800, 800 )
+		
+		widget = QtGui.QWidget()
+		self.setCentralWidget(widget)
+		
+		mainLayout = QtGui.QVBoxLayout()
+		widget.setLayout(mainLayout)
+		
+		self.line = QtGui.QLineEdit(self)
+		self.fileBrowserWidget = QtGui.QWidget(self)
+		self.dirModel = QtGui.QFileSystemModel()
+		self.dirModel.setRootPath(&quot;~/Documents/&quot;)
+		
+		nameFilters = [&quot;*.fbx&quot;]
+		self.dirModel.setNameFilters(nameFilters)
+		self.dirModel.setNameFilterDisables(False)
+		
+		self.folderView = QtGui.QTreeView(parent=self)
+		self.folderView.setModel(self.dirModel)
+		self.folderView.clicked[QtCore.QModelIndex].connect(self.clicked) 
+		self.folderView.doubleClicked[QtCore.QModelIndex].connect(self.doubleClicked) 
+		
+		self.folderView.setColumnWidth(0,250)
+		
+		mainLayout.addWidget(self.line,1,0)
+		mainLayout.addWidget(self.folderView)
+
+	def clicked(self,index):
+		index = self.folderView.currentIndex()
+		dirPath = pmp(self.dirModel.filePath(index))
+		self.line.setText(dirPath.normpath())
+
+	def doubleClicked(self,index):
+		index = self.folderView.currentIndex()
+		path = pmp(self.dirModel.filePath(index))
+		self.openFile(path)
+
+	def openFile(self,filePath):
+		types = {&quot;.fbx&quot;:&quot;FBX&quot;}
+		if filePath.ext.lower() not in types.keys():
+			return
+		fileType = types[filePath.ext.lower()]
+		if fileType == &quot;FBX&quot;:
+			nPos = filePath.rfind(&#39;/&#39;)
+			dirPath = filePath[0:nPos+1]
+			fileName = filePath[nPos+1:filePath.rfind(&#39;.&#39;)]
+			fbxFileName = filePath[nPos+1:len(filePath)]
+			xmlFileName = fileName + &#39;.xml&#39;
+			xmlFilePath = dirPath + xmlFileName
+			newDirPath = self.copyFileForMaya(fileName, filePath, xmlFilePath, dirPath)
+			
+			if os.path.exists(newDirPath):
+				newFbxFilePath = newDirPath + fbxFileName
+				newXmlFilePath = newDirPath + xmlFileName
+				self.processRename(newFbxFilePath, newXmlFilePath)
+				self.importFBXFile(newFbxFilePath)
+				self.importTexture(newXmlFilePath, newDirPath)
+				shutil.rmtree(newDirPath,True)
+			return
+
+	def copyFileForMaya(self, fbxFileName, fbxFilePath, xmlFilePath, dirPath):
+		newDirName = &#39;.temp_&#39; + fbxFileName
+		newDirPath = os.path.join(dirPath, newDirName)
+		if not os.path.isdir(newDirPath):
+			os.makedirs(newDirPath)
+		
+		newDirPath += &#39;/&#39;	
+		if not os.path.exists(newDirPath):
+			print newDirPath + &#39; does not exist!&#39;
+			return &#39;&#39;
+		
+		shutil.copy(fbxFilePath, newDirPath)
+		shutil.copy(xmlFilePath, newDirPath)
+		return newDirPath
+
+	def modify(self, filePath, sourceStr, targetStr):
+		print &#39;modify &#39; + filePath + &#39; from &#39; + sourceStr + &#39; to &#39; + targetStr
+		inputFile = open(filePath)
+		lines = inputFile.readlines()
+		inputFile.close()
+
+		outputFile = open(filePath, &#39;w&#39;)
+		for line in lines:
+			if not line:
+				break
+			if sourceStr in line and not targetStr in line:
+				nPos = line.find(sourceStr)
+				temp1 = line[0:nPos]
+				temp2 = line[nPos+len(sourceStr):len(line)]
+				temp = temp1 + targetStr + temp2
+				outputFile.write(temp)
+			else:
+				outputFile.write(line)
+
+		outputFile.close()
+
+	def formatName(self, name):
+		newName = &#39;&#39;
+		if &#39;.&#39; in name:
+			nPos = name.find(&#39;.&#39;)
+			newName = &#39;mat_&#39; + name[0:nPos]
+		else:
+			newName = &#39;mat_&#39; + name
+		return newName
+		
+	def modifyMaterialName(self, fbxFilePath):
+		inputFbxFile = open(fbxFilePath)
+		inputFbxLines = inputFbxFile.readlines()
+		inputFbxFile.close()
+		outputFbxFile = open(fbxFilePath, &#39;w&#39;)
+		tag1 = &#39;Material::&#39;
+		tag2 = &#39;;Material::&#39;
+		for line in inputFbxLines:
+			if not line:
+				break
+			if tag2 in line:
+				nPos1 = line.find(tag2)
+				temp1 = line[0:nPos1]
+				temp2 = line[nPos1+len(tag2):len(line)]
+				nPos2 = temp2.find(&#39;, Model::&#39;)
+				temp3 = temp2[nPos2:len(temp2)]
+				materialName = self.formatName(temp2[0:nPos2])
+				temp = temp1 + tag2 + materialName + temp3
+				outputFbxFile.write(temp)
+			elif tag1 in line:
+				nPos1 = line.find(tag1)
+				temp1 = line[0:nPos1]
+				temp2 = line[nPos1+len(tag1):len(line)]
+				nPos2 = temp2.find(&#39;&quot;&#39;)
+				temp3 = temp2[nPos2:len(temp2)]
+				materialName = self.formatName(temp2[0:nPos2])
+				temp = temp1 + tag1 + materialName + temp3
+				outputFbxFile.write(temp)
+			else:
+				outputFbxFile.write(line)
+		outputFbxFile.close()
+		
+	def processRename(self, fbxFilePath, xmlFilePath):
+		self.modifyMaterialName(fbxFilePath)
+		self.modify(xmlFilePath, &#39;&lt;materialname&gt;&#39;, &#39;&lt;materialname&gt;mat_&#39;)
+		self.modify(xmlFilePath, &#39;&lt;filename&gt;&#39;, &#39;&lt;filename&gt;../&#39;)
+		print &#39;Material rename completed!&#39;
+
+	def importFBXFile(self, filePath):
+		nPos = filePath.rfind(&#39;/&#39;)
+		fileName = filePath[nPos+1:filePath.rfind(&#39;.&#39;)]
+		importedFile = cmds.file(filePath, i=True, type=&#39;FBX&#39;, ignoreVersion=True, ra=True, rdn=True, mergeNamespacesOnClash=False, namespace=fileName)
+		print importedFile + &#39; import completed!&#39;
+	
+	def importTexture(self, filePath, dirPath):
+		dom = parse(filePath)
+		
+		texFileNames = dom.getElementsByTagName(&quot;fileName&quot;)
+		textures = []
+		for i, texFileName in enumerate(texFileNames) :
+			textures.append(dirPath.encode(&#39;shift-jis&#39;) + texFileName.childNodes[0].data.encode(&#39;shift-jis&#39;))
+			if cmds.objExists(&#39;file&#39; + str(i+1)) :
+				continue
+			else:
+				fileNode = cmds.shadingNode(&#39;file&#39;, asTexture=True)
+				cmds.setAttr(fileNode + &#39;.fileTextureName&#39;, textures[i], type=&quot;string&quot;)
+		print textures
+		
+		materialNames = dom.getElementsByTagName(&quot;materialName&quot;)	
+		materialID = []
+		for i, materialName in enumerate(materialNames) :
+			materialID.append(materialName.childNodes[0].data)
+		print materialID
+		
+		textureIDs = dom.getElementsByTagName(&quot;textureID&quot;)
+		materialTexID = []
+		for i, textureID in enumerate(textureIDs) :
+			materialTexID.append(textureID.childNodes[0].data)
+		print materialTexID
+		
+		for i, iMatID in enumerate(materialID) :
+			iTexID = int(materialTexID[int(i)])+1
+			if(iTexID &amp;lt;= 0):
+				continue
+			try:
+				cmds.connectAttr(&#39;file%s.outColor&#39; %iTexID, &#39;%s.color&#39; %iMatID)
+				print iMatID
+			except:
+				continue
+
+def show_explorer(*args):
+	ptr = OpenMayaUI.MQtUtil.mainWindow()
+	widget = shiboken.wrapInstance(long(ptr),QtGui.QWidget)
+	explorerWin = FBXExplorerQtWindow(widget)
+	explorerWin.show()
+
+def show_help(*args):
+	cmds.confirmDialog(title = &quot;Help&quot;, message = &quot;\
+Steps to import:\n\
+1. Convert PMD/PMX file to FBX file in unity by using MMD4Mecanim.\n\
+2. Click &#39;MMD4Mecanim Import&#39; to browse the FBX file of step1, double click to import.\n\
+3. In MotionBuilder, click &#39;File/open&#39; to import the FBX file of step1 with default configuration (recommend to uncheck the material).\n\
+4. In MotionBuilder, select the skeleton (or all the model) you imported at step3, click &#39;File/Send to Maya/Update Current Scene&#39;.\n\
+\n\
+Attention:\n\
+1. The file name of fbx file and texture files should not be japanese or chinese.\n\
+2. You can only import one model at a time, please save your model as the standard fbx file, then create a new scene to import another one.\n\
+\n\
+Enjoy! &amp;gt;_&amp;lt; \n\
+\n\
+Author: Takamachi Marisa\n\
+Contact: http://weibo.com/u/2832212042&quot;,\
+	icon = &quot;information&quot;)
+
+def customMayaMenu():
+	gMainWindow = mel.eval(&#39;$temp1=$gMainWindow&#39;)
+	menus = cmds.window(gMainWindow, q = True, menuArray = True)
+	found = False
+	
+	for menu in menus:
+		label = cmds.menu(menu, q = True, label = True)
+		if label == &quot;MMD4Mecanim Import&quot;:
+			found = True
+	
+	if found == False:
+		customMenu = cmds.menu(parent=gMainWindow, label = &#39;MMD4Mecanim Import&#39;)
+		cmds.menuItem(parent = customMenu, label = &quot;Import MMD4Mecanim FBX&quot;, c = show_explorer)
+		cmds.menuItem(parent = customMenu, label = &quot;Help&quot;, c = show_help)
+
+# Initialize the plug-in
+def initializePlugin(plugin):
+	customMayaMenu()
+
+# Uninitialize the plug-in
+def uninitializePlugin(plugin):
+	pass
+
+&lt;/filename&gt;&lt;/filename&gt;&lt;/materialname&gt;&lt;/materialname&gt;&lt;/code&gt;&lt;/pre&gt;
+</description>
+        <pubDate>Sun, 10 May 2015 00:00:00 +0800</pubDate>
+        <link>http://thisisagoodname.github.io//unity3d/2015/05/10/mmd4mecanimmd3.html</link>
+        <guid isPermaLink="true">http://thisisagoodname.github.io//unity3d/2015/05/10/mmd4mecanimmd3.html</guid>
+        
+        <category>Unity3D</category>
+        
+        <category>MMD4Mecanim</category>
+        
+        <category>maya</category>
+        
+        
+        <category>unity3d</category>
+        
+      </item>
     
       <item>
         <title>MMD4Mecanim系统研究(二)</title>
@@ -31,7 +343,60 @@ hljs.initHighlightingOnLoad();
 
 &lt;!-- more --&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;2.导入&lt;/h3&gt;
+&lt;h3 id=&quot;characters&quot;&gt;2.导入Characters包&lt;/h3&gt;
+
+&lt;p&gt;       具体操作为Assets-&amp;gt;Import Package-&amp;gt;Characters(Unity3D5.0不提供standard Assets，需要手动安装；Unity3D4.0和5.0standard Assets不同，U3D4.0是character controller)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-1@2x.png&quot; alt=&quot;导入characters&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       点击Import之后，project窗口下自动生成了Standard Assets文件夹，并引入了Characters，CrossPlatform和Utility三个插件，这也是U3D5包管理的一个进步，在引入包的时候可以一定程度的分析依赖。&lt;/p&gt;
+
+&lt;h3 id=&quot;mmdrighumanoid&quot;&gt;3.(关键)把导入的MMD模型的RIG属性改为Humanoid&lt;/h3&gt;
+
+&lt;p&gt;       Mecanim动画系统对于人形动画提供了近乎于变态的强大支持，但使用人形动画的前提，就是模型的RIG必须调整为Humanoid(人形),在模型的inspector面板可以找到。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-2@2x.png&quot; alt=&quot;RIG调整为Humanoid&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       有时从原有谷歌转换为Humanoid骨骼并不完全成功，需要主动点击RIG面板下的…Configure…按钮，手动指定一下关节，之后点击Done确定，如下图所示.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-3@2x.png&quot; alt=&quot;手动指定关节&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;4.为转换好的模型添加动画控制器&lt;/h3&gt;
+
+&lt;p&gt;       动画状态机可以自己写，时间所限，使用官方样例中的状态机，在project中的路径是Standard Assets/Characters/ThirdPersonCharacter/Animator/ThirdPersonAnimatorController，拖到模型的inspector面板，Animator的Controller下。如下图。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-4@2x.png&quot; alt=&quot;添加动画控制器&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;5.为模型添加自三人称控制脚本&lt;/h3&gt;
+
+&lt;p&gt;       先在Hierarchy面板下选中模型，然后按Component-&amp;gt;Scripts-&amp;gt;UnityStandardAssets.Characters.ThirdPerson-&amp;gt;Third Person User Control,会自动把Third Person Character和 Third Person User Control Control两个脚本附加到模型上。如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-5@2x.png&quot; alt=&quot;脚本附加到模型&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       然后编辑模型的Capusule Collider(胶囊体碰撞机
+),最理想的状态是刚好把人物包住，胶囊体的中心也和人物模型正中心在一起。按Edit Collider可以进入手动修改模式，再按一次退出。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-6@2x.png&quot; alt=&quot;修改碰撞机&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       之后点击运行按钮，就可以看到很随意的站姿势了，恭喜，已经修改成功，按WSAD或者上下左右就可以控制人物移动了。记得一定要修改碰撞机(Collider)，不修改碰撞机的话，会产生模型悬空在场景之上的现象。中心选取不正确,或者碰撞机的底部和地面穿插，移动的时候会经常”蹲起”,也需要仔细修改一下。如果碰撞机总和地面穿插，可以考虑把模型沿Y周提升少许。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/MMD4MecanimGameDemo1.gif&quot; alt=&quot;gameDemo1&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;6.为模型添加摄像机追踪&lt;/h3&gt;
+
+&lt;p&gt;       在Utility下找到SmoothFollow脚本，拖到Main Camera上。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-7@2x.png&quot; alt=&quot;SmoothFollow脚本&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       再把模型拖到脚本的Target上。记得修改Distance，Height和Rotation Damping三项，我的值是3、5、1，不配置Rotation Damping的话，摄像机不会旋转，效果并不好。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/QQ20150509-8@2x.png&quot; alt=&quot;模型拖到脚本的Target上&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;       运行效果如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/MMD4Mecanim2/MMD4MecanimGameDemo2.gif&quot; alt=&quot;gameDemo2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;PS:最后说一下，如果之前记得打开了子弹物理引擎，那头发和衣服能看到很好的柔体运动效果，打开方法见我前一篇MMD4Mecanim的文章。&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 May 2015 00:00:00 +0800</pubDate>
         <link>http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd2.html</link>
