@@ -26,7 +26,7 @@ tags: [Unity3D,MMD4Mecanim,maya]
 
 &#160; &#160; &#160; &#160;安装完成MMD4MecanimImport插件之后，用该插件导入MMD4Mecanim转换的FBX模型。我用的是mac版的maya2014，MMD4Mecanim版本不能太新(15年4月版本以前的，估计是新版本修改的xml文件的一些细节，以后有机会研究maya脚本的话我会修改一下脚本文件)
 
-![导入到maya](/images/MMD4Mecanim3/QQ20150510-1@2x.png)
+![导入到maya](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101241316013571876338_001.jpg)
 
 
 &#160; &#160; &#160; &#160;导入完成，用着色模式查看一下(如果机子配置较低可以考虑用局部渲染看一下效果),然后选择导入的模型，再导出成fbx。保存，看到生成的fbx文件只有几M，相比过去的模型，连模型加贴图有几十M，小了很多。
@@ -35,7 +35,7 @@ tags: [Unity3D,MMD4Mecanim,maya]
 
 &#160; &#160; &#160; &#160;我将模型导入到keyshot5中渲染一下
 
-![导入到keyshot5](/images/MMD4Mecanim3/QQ20150510-2@2x.png)
+![导入到keyshot5](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101241316013571876338_000.jpg)
 
 更多高级玩法可以去看魔理沙大神的博文原文
 

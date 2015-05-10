@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width initial-scale=1">
+
+<meta property="og:title" content="MMD4Mecanim系统研究(二)">
+<title>MMD4Mecanim系统研究(二)</title>
+<meta property="og:description" content="PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏1.导入MMD4Mecanim插件，并导入模型       导入模型的方法我在我的另一篇文章中已经详细的记录过了在此不再赘描述。">
+<meta property="og:url" content="http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd2.html">
+<meta property="og:site_name" content="菊长的菊花田">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@还没有">
+<meta name="twitter:creator" content="@还没有">
+<meta name="twitter:title" content="MMD4Mecanim系统研究(二)">
+<meta name="twitter:description" content="PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏1.导入MMD4Mecanim插件，并导入模型       导入模型的方法我在我的另一篇文章中已经详细的记录过了在此不再赘描述。">
+<meta name="twitter:url" content="http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd2.html">
+
+<meta name="keywords" content="Unity3D, MMD, 前端技术">
+
+<link rel="icon" href="/images/chrysanthemum.ico">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="canonical" href="http://thisisagoodname.github.io//unity3d/2015/05/09/mmd4mecanimmd2.html">
+<link rel="alternate" type="application/atom+xml" title="菊长的菊花田" href="http://thisisagoodname.github.io//feed.xml" />
+
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css"><script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script><script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<script language="Javascript" type="text/javascript">
+function search_google()
+{
+  var query = document.getElementById("google-search").value;
+  window.open("http://google.com/search?q=" + query
+      + "%20site:" + "http://thisisagoodname.github.io/");
+}
+</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62751145-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+<script type='text/javascript'>
+var blocklink = ['http://humanorightswatch.org','http://o-o-6-o-o.com','http://darodar.com','http://blackhatworth.com','http://hulfingtonpost.com','http://bestwebsitesawards.com','http://darodar.com','http://buttons-for-website.com','http://ilovevitaly.co','http://semalt.com','http://priceg.com','http://simple-share-buttons.com','http://googlsucks.com','http://4webmasters.org','http://aliexpress.com','http://addons.mozilla.org/en-US/firefox/addon/ilovevitaly/','http://free-share-buttons.com','http://buttons-for-your-website.com','http://theguardlan.com','http://buy-cheap-online.info','http://best-seo-offer.com'];
+for (var b = blocklink.length; b--;) {
+  if (document.referrer.match(blocklink[b]))
+    window.location = "http://www.google.com";
+}
+</script>
+
+
+
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <h1 class="site-title"><a href="/">菊长的菊花田</a></h1>
+    <h3 class="site-meta">Qinghuai,Jiecao,Neihan,Xiaxian,we got them all!</h3>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+        
+        
+        
+        
+        
+        
+        <a class="page-link" href="/">Home</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/about/">About</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/archives/">Archives</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/categories/">Categories</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/tags/">Tags</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/guestbook/">Guestbook</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/feed.xml">Subscribe</a>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <a class="page-link" href="/2015/05/index.html">Monthly archive for 2015/5</a>
+        
+        
+        
+        
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    
+
+  <div class="page-content col-sm-8">
+    <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 itemprop="name" class="post-title">MMD4Mecanim系统研究(二)</h1>
+    <meta itemprop="keywords" content="Unity3D,MMD4Mecanim" />
+    <p class="post-meta">
+    目录:
+    
+    <a href="/categories/#unity3d">unity3d</a>&nbsp;
+     
+    
+    | 标签:
+    
+    <a href="/tags/#Unity3D" title="Unity3D">Unity3D </a>, 
+    
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim">MMD4Mecanim </a>
+    
+    
+    <time itemprop="datePublished" datetime="2015-05-09">
+    | 发表时间: May 9, 2015
+    </time>
+    </p>
+  </header>
+
+  <article class="post-content" itemprop="articleBody">
+    <h2 id="pmxu3dmecanim">PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏</h2>
+
+<h3 id="mmd4mecanim">1.导入MMD4Mecanim插件，并导入模型</h3>
+
+<p>       导入模型的方法我在我的<a href="./mmd4mecanimmd.html">另一篇文章</a>中已经详细的记录过了在此不再赘描述。</p>
+
+<!-- more -->
+
+<h3 id="characters">2.导入Characters包</h3>
+
+<p>       具体操作为Assets-&gt;Import Package-&gt;Characters(Unity3D5.0不提供standard Assets，需要手动安装；Unity3D4.0和5.0standard Assets不同，U3D4.0是character controller)</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_009.jpg" alt="导入characters" /></p>
+
+<p>       点击Import之后，project窗口下自动生成了Standard Assets文件夹，并引入了Characters，CrossPlatform和Utility三个插件，这也是U3D5包管理的一个进步，在引入包的时候可以一定程度的分析依赖。</p>
+
+<h3 id="mmdrighumanoid">3.(关键)把导入的MMD模型的RIG属性改为Humanoid</h3>
+
+<p>       Mecanim动画系统对于人形动画提供了近乎于变态的强大支持，但使用人形动画的前提，就是模型的RIG必须调整为Humanoid(人形),在模型的inspector面板可以找到。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_008.jpg" alt="RIG调整为Humanoid" /></p>
+
+<p>       有时从原有谷歌转换为Humanoid骨骼并不完全成功，需要主动点击RIG面板下的…Configure…按钮，手动指定一下关节，之后点击Done确定，如下图所示.</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_007.jpg" alt="手动指定关节" /></p>
+
+<h3 id="section">4.为转换好的模型添加动画控制器</h3>
+
+<p>       动画状态机可以自己写，时间所限，使用官方样例中的状态机，在project中的路径是Standard Assets/Characters/ThirdPersonCharacter/Animator/ThirdPersonAnimatorController，拖到模型的inspector面板，Animator的Controller下。如下图。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_006.jpg" alt="添加动画控制器" /></p>
+
+<h3 id="section-1">5.为模型添加自三人称控制脚本</h3>
+
+<p>       先在Hierarchy面板下选中模型，然后按Component-&gt;Scripts-&gt;UnityStandardAssets.Characters.ThirdPerson-&gt;Third Person User Control,会自动把Third Person Character和 Third Person User Control Control两个脚本附加到模型上。如下图所示。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_005.jpg" alt="脚本附加到模型" /></p>
+
+<p>       然后编辑模型的Capusule Collider(胶囊体碰撞机
+),最理想的状态是刚好把人物包住，胶囊体的中心也和人物模型正中心在一起。按Edit Collider可以进入手动修改模式，再按一次退出。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_004.jpg" alt="修改碰撞机" /></p>
+
+<p>       之后点击运行按钮，就可以看到很随意的站姿势了，恭喜，已经修改成功，按WSAD或者上下左右就可以控制人物移动了。记得一定要修改碰撞机(Collider)，不修改碰撞机的话，会产生模型悬空在场景之上的现象。中心选取不正确,或者碰撞机的底部和地面穿插，移动的时候会经常”蹲起”,也需要仔细修改一下。如果碰撞机总和地面穿插，可以考虑把模型沿Y周提升少许。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_003.gif" alt="gameDemo1" /></p>
+
+<h3 id="section-2">6.为模型添加摄像机追踪</h3>
+
+<p>       在Utility下找到SmoothFollow脚本，拖到Main Camera上。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_002.jpg" alt="SmoothFollow脚本" /></p>
+
+<p>       再把模型拖到脚本的Target上。记得修改Distance，Height和Rotation Damping三项，我的值是3、5、1，不配置Rotation Damping的话，摄像机不会旋转，效果并不好。</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_001.jpg" alt="模型拖到脚本的Target上" /></p>
+
+<p>       运行效果如下：</p>
+
+<p><img src="http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101240338727570561174_000.gif" alt="gameDemo2" /></p>
+
+<p>PS:最后说一下，如果之前记得打开了子弹物理引擎，那头发和衣服能看到很好的柔体运动效果，打开方法见我前一篇MMD4Mecanim的文章。</p>
+
+  </article>
+  <hr />
+</div>
+
+
+<section class="pager">
+  <ul>
+    
+    <li class="previous"><a href="/unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)">&larr; 前一页</a></li>
+    
+    
+    <li class="next"><a href="/unity3d/2015/05/10/mmd4mecanimmd3.html" title="MMD4Mecanim系统研究(三)">后一页 &rarr;</a></li>
+    
+  </ul>
+</section>
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+
+  var disqus_developer = 1;
+
+var disqus_shortname ='AICDG';
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+    <section class="pager">
+  
+  
+</section>
+
+
+  </div>
+  <div class="col-sm-2">
+<div class="sidebar-module about">
+  <h4>关于我</h4>
+  <img title="彦君 杨" src="/images/chrysanthemum.jpg# your photo." alt="彦君 杨"/>
+  <span>我就是菊长，喜欢U3D，MMD前端等一切花里胡哨的技术.</span>
+  <br />
+
+  
+
+  You can contact me via: <br />
+
+  
+  <a href="mailto:yangyj19931231@gmail.com" title="mailto: yangyj19931231@gmail.com"><i class="fa fa-envelope-square fa-3x"></i></a>&nbsp;
+  
+  
+  <a href="https://github.com/THISISAGOODNAME" title="GithubID: THISISAGOODNAME"><i class="fa fa-github-square fa-3x"></i></a>&nbsp;
+  
+  
+  <a href="https://twitter.com/还没有" title="TwitterID: 还没有"><i class="fa fa-twitter-square fa-3x"></i></a>
+  
+
+  
+
+</div>
+
+<div class="sidebar-module">
+  <h4>站内搜索</h4>
+  <form onsubmit="search_google()" >
+    <input type="text" id="google-search" placeholder="Google search" />
+    <input type="submit" name="sa" value="Go" />
+  </form>
+</div>
+
+
+<div class="sidebar-module"> <!-- sidebar-module-inset">-->
+  <h4>版权声明</h4>
+
+  
+
+  <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh">
+    <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png">
+  </a>
+  <br />
+  <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh">署名-非商业性使用-相同方式共享</a>
+
+  
+
+</div>
+
+
+<div class="sidebar-module">
+  <h4>近期文章</h4>
+  
+  <li>
+  <a href="//unity3d/2015/05/10/mmd4mecanimmd3.html" title="MMD4Mecanim系统研究(三)" rel="bookmark">MMD4Mecanim系统研究(三)</a>
+  </li>
+  
+  <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)" rel="bookmark">MMD4Mecanim系统研究(二)</a>
+  </li>
+  
+  <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd.html" title="MMD4Mecanim系统研究(一)" rel="bookmark">MMD4Mecanim系统研究(一)</a>
+  </li>
+  
+  <li>
+  <a href="//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/07/h264_dctmd.html" title="数字图像处理-离散余弦变换的蝶形运算" rel="bookmark">数字图像处理-离散余弦变换的蝶形运算</a>
+  </li>
+  
+  <li>
+  <a href="//%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/2015/05/05/post02.html" title="数字图像处理-傅里叶变换,离散余弦变换" rel="bookmark">数字图像处理-傅里叶变换,离散余弦变换</a>
+  </li>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>分类目录</h4>
+  
+  <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
+  
+  <li><a href="/categories/#unity3d" title="unity3d" rel="3">unity3d (3)</a></li>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>标签</h4>
+  
+    <a href="/tags/#数字图像处理" title="数字图像处理" rel="3">数字图像处理</a> &nbsp;
+  
+    <a href="/tags/#图像直方图计算" title="图像直方图计算" rel="1">图像直方图计算</a> &nbsp;
+  
+    <a href="/tags/#图像灰度拉伸" title="图像灰度拉伸" rel="1">图像灰度拉伸</a> &nbsp;
+  
+    <a href="/tags/#傅里叶变换" title="傅里叶变换" rel="1">傅里叶变换</a> &nbsp;
+  
+    <a href="/tags/#离散余弦变换" title="离散余弦变换" rel="2">离散余弦变换</a> &nbsp;
+  
+    <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
+  
+    <a href="/tags/#Unity3D" title="Unity3D" rel="3">Unity3D</a> &nbsp;
+  
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="3">MMD4Mecanim</a> &nbsp;
+  
+    <a href="/tags/#maya" title="maya" rel="1">maya</a> &nbsp;
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>良师益友</h4>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>存档</h4>
+
+  
+  
+  
+  
+  
+  <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+</div>
+
+
+</div>
+
+
+
+  
+
+  <footer class="site-footer">
+
+  <p>Copyright &copy; <a href="/">菊长的菊花田</a></p>
+  <p>Powered by <a href="https://github.com/jekyll/jekyll">Jekyll</a> 
+  on 
+  
+  <a href="https://github.com/">Github</a>
+  
+  | Theme <a href="https://github.com/yulijia/freshman21/">Freshman21</a> Design by <a href="http://yulijia.net">Lijia Yu</a>  
+
+
+  <div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <a title="Back To Top"><img src="/images/topbutton.png"/></a>
+  </div>
+
+  <script src="/js/jquery-1.9.1.min.js"></script>
+  <script src="/js/totop.js"></script>  
+
+
+
+</footer>
+
+
+</div>
+
+</body>
+
+</html>

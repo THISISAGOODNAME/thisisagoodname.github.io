@@ -15,7 +15,7 @@ tags: [Unity3D,MMD4Mecanim]
 
 <!-- more -->
 
-![导入MMD4Mecanim插件](/images/MMD4Mecanim/QQ20150509-1@2x.png)
+![导入MMD4Mecanim插件](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_009.jpg)
 
 &#160; &#160; &#160; &#160;进度条成功读完，no error no warning(U3D5导入15年3月更新更早版本的MMD4Mecanim也许会有问题,用4.6.3的请无视)，project目录下，有了三个文件夹，分别是BulletXNA，MMD4Mecanim，Plugins。
 
@@ -24,40 +24,40 @@ tags: [Unity3D,MMD4Mecanim]
 
 &#160; &#160; &#160; &#160;把自己珍藏的PMX文件整个文件夹拖到project窗口，或者手动复制到项目文件夹的Assets文件夹下。我使用的是百度贴吧iRon0129大神制作的Tda Uniform Haku模型作为演示，如果侵犯了您的权利，也请通知我，我会马上修改。
 
-![导入后状态](/images/MMD4Mecanim/QQ20150509-2@2x.png)
+![导入后状态](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_008.jpg)
 
 &#160; &#160; &#160; &#160;MMD4Mecanim会在每个PMX文件下面生成一个文件。选择这个文件，会看到作者的声明，还有新添加的MMD3Mecanim的道德提示。(绝大多数模型作者都会反对二次配布以及商业用途)
 
-![模型声明1](/images/MMD4Mecanim/QQ20150509-3@2x.png)
+![模型声明1](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_007.jpg)
 
 &#160; &#160; &#160; &#160;点击同意后，进入如下所示界面。
 
-![模型声明2](/images/MMD4Mecanim/QQ20150509-4@2x.png)
+![模型声明2](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_006.jpg)
 
 ###3.添加VMD动作
 
 &#160; &#160; &#160; &#160;跟导入PMX文件相同，把VMD文件拖到project窗口，或者复制到Assets文件夹下，我新建了一个VMD_File文件夹，让整个工程看起来整齐。(每个VMD都是有声明的，不会提示，但需要开发者资深自重，该VMD的作者，如果我侵犯了您的权利，也请通知我)
 
-![VMD文件导入](/images/MMD4Mecanim/QQ20150509-5@2x.png)
+![VMD文件导入](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_005.jpg)
 
 &#160; &#160; &#160; &#160;把VMD文件拖拽到VMD条目下，如果需要添加多个，则需要重复多次。
 
-![VMD文件导入2](/images/MMD4Mecanim/QQ20150509-6@2x.png)
+![VMD文件导入2](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_004.jpg)
 
 &#160; &#160; &#160; &#160;然后点击process即可，需要稍微等一会，这次不会有进度提示了，别误认为死机了或者U3D挂了，是在处理，添加的VMD之后会添加到FBX动画中。
 
 &#160; &#160; &#160; &#160;成功之后，FBX文件出现，几个添加的VMD动画已经添加到FBX中，而且切段已经切好。
 
-![导入成功演示](/images/MMD4Mecanim/QQ20150509-7@2x.png)
+![导入成功演示](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_003.jpg)
 
 &#160; &#160; &#160; &#160;将生成的FBX拖入到场景中，可以看到模型和贴图都加载的非常好，材质丢失现象也没有发生。
 
-![拖入场景演示](/images/MMD4Mecanim/QQ20150509-8@2x.png)
+![拖入场景演示](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_002.jpg)
 
 &#160; &#160; &#160; &#160;然后把FBX中的动画拖拽到模型上，生成Animation Controller，并添加到模型上。
 
-![FBX添加动画](/images/MMD4Mecanim/QQ20150509-8@2x.png)
+![FBX添加动画](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_001.jpg)
 
 &#160; &#160; &#160; &#160;再点击运行，即可看到效果.
 
-![最终动态效果](/images/MMD4Mecanim/MMD4Mecanim-VMD.gif)
+![最终动态效果](http://img17.poco.cn/mypoco/myphoto/20150510/12/178000492201505101239351775135402343_000.gif)
