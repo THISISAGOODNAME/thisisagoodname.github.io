@@ -5,12 +5,6 @@ description: "将PMX2FBX生成的fbx文件导入maya中"
 category: Unity3D 
 tags: [Unity3D,MMD4Mecanim,maya]
 ---
-<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css"><script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script><script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
-<script>
-hljs.tabReplace = ' ';
-hljs.initHighlightingOnLoad();
-</script>
-<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 ##PMX模型导入U3D使用,并使用PMX2FBX,对PMX模型完成转换，再导入到maya中,形成另外的工作流
 

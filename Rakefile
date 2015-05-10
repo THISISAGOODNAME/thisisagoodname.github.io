@@ -70,8 +70,8 @@ task :post do
     post.puts "tags: #{tags}"
     post.puts "---"
     # post.puts "{% include JB/setup %}"
-    post.puts "<link rel=\"stylesheet\" href=\"http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css\"><script src=\"http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js\"></script><script src=\"http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js\"></script>\n<script>\nhljs.tabReplace = ' ';\nhljs.initHighlightingOnLoad();\n</script>\n"
-	  post.puts "<script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src=\"http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n"
+    #post.puts "<link rel=\"stylesheet\" href=\"http://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css\"><script src=\"http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js\"></script><script src=\"http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js\"></script>\n<script>\nhljs.tabReplace = ' ';\nhljs.initHighlightingOnLoad();\n</script>\n"
+	  #post.puts "<script type=\"text/x-mathjax-config\">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src=\"http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n"
     post.puts "<!-- more -->"
   end
 end # task :post
