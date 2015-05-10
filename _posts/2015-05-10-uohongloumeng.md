@@ -2,7 +2,7 @@
 layout: post
 title: "[转载]如何以《红楼梦》为题材制作一款手游"
 description: "【脑洞大开】如何以《红楼梦》为题材制作一款手游"
-category:游戏创意 
+category: 游戏创意 
 tags: [idea]
 ---
 
