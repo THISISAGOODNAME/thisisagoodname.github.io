@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width initial-scale=1">
+
+<meta property="og:title" content="Linux解压压缩和grep总结">
+<title>Linux解压压缩和grep总结</title>
+<meta property="og:description" content="       参考了朋友的两篇博文，分别是Linux 文件解压及压缩命令和Grep">
+<meta property="og:url" content="http://thisisagoodname.github.io//linux/2015/05/11/new-post.html">
+<meta property="og:site_name" content="菊长的菊花田">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@还没有">
+<meta name="twitter:creator" content="@还没有">
+<meta name="twitter:title" content="Linux解压压缩和grep总结">
+<meta name="twitter:description" content="       参考了朋友的两篇博文，分别是Linux 文件解压及压缩命令和Grep">
+<meta name="twitter:url" content="http://thisisagoodname.github.io//linux/2015/05/11/new-post.html">
+
+<meta name="keywords" content="Unity3D, MMD, 前端技术">
+
+<link rel="icon" href="/images/chrysanthemum.ico">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="canonical" href="http://thisisagoodname.github.io//linux/2015/05/11/new-post.html">
+<link rel="alternate" type="application/atom+xml" title="菊长的菊花田" href="http://thisisagoodname.github.io//feed.xml" />
+
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<link rel="stylesheet" href="http://cdn.bootcss.com/highlight.js/8.5/styles/solarized_dark.min.css"><script src="http://cdn.bootcss.com/highlight.js/8.5/highlight.min.js"></script><script src="http://cdn.bootcss.com/highlight.js/8.5/languages/cpp.min.js"></script>
+<script>
+hljs.tabReplace = ' ';
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<script language="Javascript" type="text/javascript">
+function search_google()
+{
+  var query = document.getElementById("google-search").value;
+  window.open("http://google.com/search?q=" + query
+      + "%20site:" + "http://thisisagoodname.github.io/");
+}
+</script>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-62751145-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+<script type='text/javascript'>
+var blocklink = ['http://humanorightswatch.org','http://o-o-6-o-o.com','http://darodar.com','http://blackhatworth.com','http://hulfingtonpost.com','http://bestwebsitesawards.com','http://darodar.com','http://buttons-for-website.com','http://ilovevitaly.co','http://semalt.com','http://priceg.com','http://simple-share-buttons.com','http://googlsucks.com','http://4webmasters.org','http://aliexpress.com','http://addons.mozilla.org/en-US/firefox/addon/ilovevitaly/','http://free-share-buttons.com','http://buttons-for-your-website.com','http://theguardlan.com','http://buy-cheap-online.info','http://best-seo-offer.com'];
+for (var b = blocklink.length; b--;) {
+  if (document.referrer.match(blocklink[b]))
+    window.location = "http://www.google.com";
+}
+</script>
+
+
+
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+  <header class="site-header">
+
+  <div class="wrapper">
+
+    <h1 class="site-title"><a href="/">菊长的菊花田</a></h1>
+    <h3 class="site-meta">Qinghuai,Jiecao,Neihan,Xiaxian,we got them all!</h3>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg viewBox="0 0 18 15">
+          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+        
+        
+        
+        
+        
+        
+        
+        <a class="page-link" href="/">Home</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/about/">About</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/archives/">Archives</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/categories/">Categories</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/tags/">Tags</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/guestbook/">Guestbook</a>
+        
+        
+        
+        
+        
+        <a class="page-link" href="/feed.xml">Subscribe</a>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <a class="page-link" href="/2015/05/index.html">Monthly archive for 2015/5</a>
+        
+        
+        
+        
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    
+
+  <div class="page-content col-sm-8">
+    <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 itemprop="name" class="post-title">Linux解压压缩和grep总结</h1>
+    <meta itemprop="keywords" content="Linux" />
+    <p class="post-meta">
+    目录:
+    
+    <a href="/categories/#linux">linux</a>&nbsp;
+     
+    
+    | 标签:
+    
+    <a href="/tags/#Linux" title="Linux">Linux </a>
+    
+    
+    <time itemprop="datePublished" datetime="2015-05-11">
+    | 发表时间: May 11, 2015
+    </time>
+    </p>
+  </header>
+
+  <article class="post-content" itemprop="articleBody">
+    <p>       参考了朋友的两篇博文，分别是<a href="http://he-tao.github.io/linux/unix/linux_compression_cmd">Linux 文件解压及压缩命令</a>和<a href="http://he-tao.github.io/linux/unix/grep/">Grep</a>
+<!-- more --></p>
+
+<h1 id="linux-">Linux 文件解压及压缩命令</h1>
+
+<p>Linux下，通常需要用tar命令进行解压和压缩操作，针对不同的压缩文件格式，tar命令的参数也不相同。</p>
+
+<h2 id="tar-">tar 命令的常用参数含义:</h2>
+
+<pre><code>
+Main operation mode:
+
+ -A, --catenate, --concatenate   append tar files to an archive
+ -c, --create               create a new archive
+ -d, --diff, --compare      find differences between archive and file system
+     --delete               delete from the archive (not on mag tapes!)
+ -r, --append               append files to the end of an archive
+ -t, --list                 list the contents of an archive
+     --test-label           test the archive volume label and exit
+ -u, --update               only append files newer than copy in archive
+ -x, --extract, --get       extract files from an archive
+</code></pre>
+
+<h2 id="section">常见压缩文件格式解压参数</h2>
+
+<ul>
+  <li>.tar.Z 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar Zxvf FileName.tar.Z
+[压缩]$ tar Zcvf FileName.tar.Z
+</code></pre>
+
+<ul>
+  <li>.zip 格式</li>
+</ul>
+<pre><code>
+[压缩]$ unzip FileName.zip
+[解压]$ zip
+</code></pre>
+
+<ul>
+  <li>.gz 格式</li>
+</ul>
+<pre><code>
+[解压]$ gunzip FileName.gz
+[  或]$ gzip -d FileName.gz
+[压缩]$ gzip FileName
+</code></pre>
+
+<ul>
+  <li>.tar.gz 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar zxvf FileName.tar.gz
+[压缩]$ tar zcvf FileName.tar.gz DirNamee
+</code></pre>
+
+<ul>
+  <li>.bz2 格式</li>
+</ul>
+<pre><code>
+[解压]$ bzip2 -d FileName.bz2
+[  或]$ bunzip2 FileName.bz2
+[压缩]$ bzip2 -z FileName
+</code></pre>
+
+<ul>
+  <li>.tar.bz2 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar jxvf FileName.tar.bz2
+[压缩]$ tar jcvf FileName.tar.bz2 DirName
+</code></pre>
+
+<ul>
+  <li>.bz 格式</li>
+</ul>
+<pre><code>
+[解压]$ bzip2 -d FileName.bz
+[  或]$ bunzip2 FileName.bz
+</code></pre>
+
+<ul>
+  <li>.tar.bz 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar jxvf FileName.tar.bz
+</code></pre>
+
+<ul>
+  <li>.Z 格式</li>
+</ul>
+<pre><code>
+[解压]$ uncompress FileName.Z
+[压缩]$ compress FileName
+</code></pre>
+
+<ul>
+  <li>.tgz 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar zxvf FileName.tgz
+</code></pre>
+
+<ul>
+  <li>.tar.tgz 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar zxvf FileName.tar.tgz
+[压缩]$ tar zcvf FileName.tar.tgz FileName
+</code></pre>
+
+<ul>
+  <li>.zip 格式</li>
+</ul>
+<pre><code>
+[解压]$ unzip FileName.zip
+[压缩]$ zip FileName.zip DirName
+</code></pre>
+
+<ul>
+  <li>.rar 格式</li>
+</ul>
+<pre><code>
+[解压]$ rar e FileDir
+[压缩]$ rar a FileName.rar
+</code></pre>
+
+<ul>
+  <li>.tar.lz 格式</li>
+</ul>
+<pre><code>
+[解压]$ tar xvf filename.tar.lz
+</code></pre>
+
+<ul>
+  <li>.tar.xz 格式</li>
+</ul>
+<pre><code>
+[解压]$ xz -d filename.tar.xz
+[压缩]$ xz -Z FileDir
+</code></pre>
+
+<ul>
+  <li>.lzma格式</li>
+</ul>
+<pre><code>
+[解压]$ lzma -d filename.lzma
+[压缩]$ lzma -k FileDir
+</code></pre>
+
+<ul>
+  <li>.tar 格式</li>
+</ul>
+<pre><code>
+[解包]$ tar xvf FileName.tar
+[打包]$ tar cvf FileName.tar DirName（注：tar是打包，不是压缩！）
+</code></pre>
+
+<ul>
+  <li>.lha格式</li>
+</ul>
+<pre><code>
+[解压]$ lha -e FileName.lha
+[压缩]$ lha -a FileName.lha FileName
+</code></pre>
+
+<h1 id="grep">Grep命令</h1>
+
+<p>指定要搜索的单词</p>
+<pre><code>grep -w "word"</code></pre>
+
+<p>搜索以特定字符串开头的单词</p>
+<pre><code>grep '\&lt;word'</code></pre>
+
+<p>搜索以特定字符串结尾的单词</p>
+<pre><code>grep 'word\&gt;'</code></pre>
+
+<p>搜索以特定字符串开头的行</p>
+<pre><code>grep '^word'</code></pre>
+
+<p>搜索以特定字符串结尾的行</p>
+<pre><code>grep 'word$'</code></pre>
+
+<p>显示上下文</p>
+
+<ul>
+  <li>显示 n 行上文</li>
+</ul>
+<pre><code>grep 'word' -B n</code></pre>
+
+<ul>
+  <li>显示 n 行下文</li>
+</ul>
+<pre><code>grep 'word' -A n</code></pre>
+
+<ul>
+  <li>显示上文和下文各 n 行</li>
+</ul>
+<pre><code>grep 'word' -C n</code></pre>
+
+<p>正则表达式</p>
+
+<ul>
+  <li>-e选项： 将模式串作为正则表达式进行匹配。</li>
+  <li>-G选项： 模式串是基本正则表达式。</li>
+  <li>-E选项： 模式串是扩展正则表达式。</li>
+</ul>
+
+<p>过滤模式串</p>
+<pre><code>grep -v 'word'</code></pre>
+
+<p>查找所有不符合条件的行。</p>
+
+<p>POSIX字符集</p>
+<pre><code>grep '[[:space:]]'</code></pre>
+
+<p>显示出所有有空格的行。</p>
+
+<p>其他POSIX字符集的用法同上例。</p>
+
+<h2 id="section-1">在一个目录下的所有文件中寻找一个字符串</h2>
+
+<p>举例：需要在code目录下寻找main_func符号，只需写成：</p>
+<pre><code>grep 'main_func' code/ -r</code></pre>
+
+<p>即可，为了增强搜索结果的可读性，可以写成这样：</p>
+<pre><code>grep --color -n 'main_func' code/ -r -C 2</code></pre>
+
+<p>其中，–color表示彩色输出，-n表示显示行号，即可以清楚地看见匹配的位置，-C 2表示输出两行上下文，进一步增强搜索结果的可读性。</p>
+
+  </article>
+  <hr />
+</div>
+
+
+<section class="pager">
+  <ul>
+    
+    <li class="previous"><a href="/%E6%B8%B8%E6%88%8F%E5%88%9B%E6%84%8F/2015/05/10/uohongloumeng.html" title="[转载]如何以《红楼梦》为题材制作一款手游">&larr; 前一页</a></li>
+    
+    
+    <li class="disabled"><a>后一页 &rarr;</a>
+    
+  </ul>
+</section>
+
+<div id="disqus_thread"></div>
+
+<script type="text/javascript">
+
+  var disqus_developer = 1;
+
+var disqus_shortname ='AICDG';
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+    <section class="pager">
+  
+  
+</section>
+
+
+  </div>
+  <div class="col-sm-2">
+<div class="sidebar-module about">
+  <h4>关于我</h4>
+  <img title="彦君 杨" src="/images/chrysanthemum.jpg# your photo." alt="彦君 杨"/>
+  <span>我就是菊长，喜欢U3D，MMD前端等一切花里胡哨的技术.</span>
+  <br />
+
+  
+
+  You can contact me via: <br />
+
+  
+  <a href="mailto:yangyj19931231@gmail.com" title="mailto: yangyj19931231@gmail.com"><i class="fa fa-envelope-square fa-3x"></i></a>&nbsp;
+  
+  
+  <a href="https://github.com/THISISAGOODNAME" title="GithubID: THISISAGOODNAME"><i class="fa fa-github-square fa-3x"></i></a>&nbsp;
+  
+  
+  <a href="https://twitter.com/还没有" title="TwitterID: 还没有"><i class="fa fa-twitter-square fa-3x"></i></a>
+  
+
+  
+
+</div>
+
+<div class="sidebar-module">
+  <h4>站内搜索</h4>
+  <form onsubmit="search_google()" >
+    <input type="text" id="google-search" placeholder="Google search" />
+    <input type="submit" name="sa" value="Go" />
+  </form>
+</div>
+
+
+<div class="sidebar-module"> <!-- sidebar-module-inset">-->
+  <h4>版权声明</h4>
+
+  
+
+  <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh">
+    <img src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png">
+  </a>
+  <br />
+  <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh">署名-非商业性使用-相同方式共享</a>
+
+  
+
+</div>
+
+
+<div class="sidebar-module">
+  <h4>近期文章</h4>
+  
+  <li>
+  <a href="//linux/2015/05/11/new-post.html" title="Linux解压压缩和grep总结" rel="bookmark">Linux解压压缩和grep总结</a>
+  </li>
+  
+  <li>
+  <a href="//%E6%B8%B8%E6%88%8F%E5%88%9B%E6%84%8F/2015/05/10/uohongloumeng.html" title="[转载]如何以《红楼梦》为题材制作一款手游" rel="bookmark">[转载]如何以《红楼梦》为题材制作一款手游</a>
+  </li>
+  
+  <li>
+  <a href="//unity3d/2015/05/10/unity3dcolliders.html" title="unity3D导入场景模型，并添加碰撞器(模型不会掉下去)" rel="bookmark">unity3D导入场景模型，并添加碰撞器(模型不会掉下去)</a>
+  </li>
+  
+  <li>
+  <a href="//unity3d/2015/05/10/mmd4mecanimmd3.html" title="MMD4Mecanim系统研究(三)" rel="bookmark">MMD4Mecanim系统研究(三)</a>
+  </li>
+  
+  <li>
+  <a href="//unity3d/2015/05/09/mmd4mecanimmd2.html" title="MMD4Mecanim系统研究(二)" rel="bookmark">MMD4Mecanim系统研究(二)</a>
+  </li>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>分类目录</h4>
+  
+  <li><a href="/categories/#数字图像处理" title="数字图像处理" rel="3">数字图像处理 (3)</a></li>
+  
+  <li><a href="/categories/#unity3d" title="unity3d" rel="4">unity3d (4)</a></li>
+  
+  <li><a href="/categories/#游戏创意" title="游戏创意" rel="1">游戏创意 (1)</a></li>
+  
+  <li><a href="/categories/#linux" title="linux" rel="1">linux (1)</a></li>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>标签</h4>
+  
+    <a href="/tags/#数字图像处理" title="数字图像处理" rel="3">数字图像处理</a> &nbsp;
+  
+    <a href="/tags/#图像直方图计算" title="图像直方图计算" rel="1">图像直方图计算</a> &nbsp;
+  
+    <a href="/tags/#图像灰度拉伸" title="图像灰度拉伸" rel="1">图像灰度拉伸</a> &nbsp;
+  
+    <a href="/tags/#傅里叶变换" title="傅里叶变换" rel="1">傅里叶变换</a> &nbsp;
+  
+    <a href="/tags/#离散余弦变换" title="离散余弦变换" rel="2">离散余弦变换</a> &nbsp;
+  
+    <a href="/tags/#蝶形运算" title="蝶形运算" rel="1">蝶形运算</a> &nbsp;
+  
+    <a href="/tags/#Unity3D" title="Unity3D" rel="4">Unity3D</a> &nbsp;
+  
+    <a href="/tags/#MMD4Mecanim" title="MMD4Mecanim" rel="3">MMD4Mecanim</a> &nbsp;
+  
+    <a href="/tags/#maya" title="maya" rel="1">maya</a> &nbsp;
+  
+    <a href="/tags/#idea" title="idea" rel="1">idea</a> &nbsp;
+  
+    <a href="/tags/#Linux" title="Linux" rel="1">Linux</a> &nbsp;
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>良师益友</h4>
+  
+  <li><a href="http://he-tao.github.io/" title="He-tao's blog theme">he-tao</a></li>
+  
+  <li><a href="http://uiharu.moe/" title="Mictus's website">micstu</a></li>
+  
+</div>
+
+
+<div class="sidebar-module">
+  <h4>存档</h4>
+
+  
+  
+  
+  
+  
+  <li id="2015" > <a href="/archives/#2015">2015</a></li>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+</div>
+
+
+</div>
+
+
+
+  
+
+  <footer class="site-footer">
+
+  <p>Copyright &copy; <a href="/">菊长的菊花田</a></p>
+  <p>Powered by <a href="https://github.com/jekyll/jekyll">Jekyll</a> 
+  on 
+  
+  <a href="https://github.com/">Github</a>
+  
+  | Theme <a href="https://github.com/yulijia/freshman21/">Freshman21</a> Design by <a href="http://yulijia.net">Lijia Yu</a>  
+
+
+  <div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+    <a title="Back To Top"><img src="/images/topbutton.png"/></a>
+  </div>
+
+  <script src="/js/jquery-1.9.1.min.js"></script>
+  <script src="/js/totop.js"></script>  
+
+
+
+</footer>
+
+
+</div>
+
+</body>
+
+</html>

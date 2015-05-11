@@ -6,6 +6,10 @@ category: Unity3D
 tags: [Unity3D,MMD4Mecanim,maya]
 ---
 
+<script src="/js/SyntaxHighlighter/jquery.highlighter.js?v=20091222" type="text/javascript"></script>
+<script src="/js/SyntaxHighlighter/highlighter.js?v=20091222" type="text/javascript"></script>
+
+
 ##PMX模型导入U3D使用,并使用PMX2FBX,对PMX模型完成转换，再导入到maya中,形成另外的工作流
 
 &#160; &#160; &#160; &#160;玩过unity和MMD的应该都知道MMD4Mecanim这个东东吧，几乎可以完美把PMX/PMD模型转成fbx导入unity。但是这个fbx不带贴图的，unity是通过对于的xml读取贴图，所以导入maya是一片灰色。
