@@ -41,6 +41,8 @@ tags: [Unity3D,MMD4Mecanim,maya]
 
 PS:MMD4MecanimImport.py源代码如下，我做了微小的修改，使之在mac系统上使用稍微方便一些。
 
+
+
 <pre><code>
 import pymel.util.path as pmp
 import maya.cmds as cmds
