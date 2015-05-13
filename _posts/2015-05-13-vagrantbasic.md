@@ -154,6 +154,13 @@ if [ "\${recordfail}" = 1 ]; then
   
 &#160; &#160; &#160; &#160;再运行 `$ update-grub` 更新 GRUB，关机后再用 `$ vagrant up` 启动就能正常启动了。
 
+
+###10. 共享一下我自己做的一个vagrant镜像
+
+&#160; &#160; &#160; &#160;系统Ubuntu14.04 64bit，软件只安装了git和zsh(oh-my-zsh,并且启动了git和autojump插件)还有autojump。
+
+链接: [http://pan.baidu.com/s/1dDfHsDN](http://pan.baidu.com/s/1dDfHsDN) 密码: m4vc
+
 -------
 
 &#160; &#160; &#160; &#160;本篇文章所用程序版本 VirtualBox 4.3.18，Vagrant 1.7.2，本文参考了[http://segmentfault.com/a/1190000000264347](http://segmentfault.com/a/1190000000264347)
