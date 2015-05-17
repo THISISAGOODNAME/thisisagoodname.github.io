@@ -5,7 +5,7 @@ author: 彦君 杨
 email: yangyj19931231@gmail.com
 description: "菊长就是我，我就是菊长." # You can edit this line in _config.yml. It will appear in your document head meta and in your feed.xml site description
 keywords: "Unity3D, MMD, 前端技术"
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: "http://aicdg.com" # the subpath of your site, e.g. /blog/
 url: "http://thisisagoodname.github.io" # the base hostname & protocol for your site
 locale: zh_CN
 
