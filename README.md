@@ -40,6 +40,6 @@ $ rake page name="pages/about"
 
 The rake task automatically creates a page file with properly formatted filename and YAML Front Matter as well as includes the Jekyll Bootstrap "setup" file.
 
-祝您身体健康，再见。
+最后祝您身体健康，再见。
 
 
