@@ -27,7 +27,7 @@ void FixedUpdate() {
 		float moveVertical = Input.GetAxis("Vertical");
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		GetComponent<Rigidbody> ().velocity = movement;
+		GetComponent&lt;Rigidbody> ().velocity = movement;
 		}
 	}
 </code></pre>
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 &#160; &#160; &#160; &#160;修改FixedUpdate函数，将刚体的velocity属性设置为：
 
 <pre><code>
-GetComponent<Rigidbody> ().velocity = movement * speed;
+GetComponent&lt;Rigidbody> ().velocity = movement * speed;
 </code></pre>
 
 再运行游戏，可以发现飞船运动明显变快了。
@@ -93,8 +93,8 @@ void FixedUpdate() {
 		float moveVertical = Input.GetAxis("Vertical");
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		//GetComponent<Rigidbody> ().velocity = movement * speed;
-		Rigidbody rb = GetComponent<Rigidbody> ();
+		//GetComponent&lt;Rigidbody> ().velocity = movement * speed;
+		Rigidbody rb = GetComponent&lt;Rigidbody> ();
 		if (rb != null) {
 			rb.velocity = movement * speed;
 			rb.position = new Vector3(
@@ -140,3 +140,87 @@ void FixedUpdate() {
 </code></pre>
 
 运行游戏，左右移动时，飞船出现一定角度的倾斜。
+
+###2.2.实现射击行为
+
+####2.2.1.创建电光子弹
+
+&#160; &#160; &#160; &#160;1. 创建一个空的游戏对象，命名为Bolt，重置Transform组件。为Bolt添加一个Rigidbody组件，并取消勾选Use Gravity。
+
+&#160; &#160; &#160; &#160;2. 新建一个Quad对象，重命名为VFX，将其设置为Bolt的子对象，重置其Transform组件。设置Transform的Rotation属性为(90,0,0),并移除Mesh Collider组件。
+
+&#160; &#160; &#160; &#160;3. 将Project视图Assets/Materials目录下的材质对象fx_bolt_orange拖动到VFX上。
+
+&#160; &#160; &#160; &#160;4. 为Bolt添加一个Capsule Collider(胶囊碰撞体)组件，勾选Is Trigger选项，将其设置为一个触发器。碰撞体要挂在Bolt而不是子对象VFX上，否则可能无法完全销毁Bolt。之后设置Capsule Collider的Direction属性为Z-Axis，并设置Radius为0.04，Height为0.65.
+
+&#160; &#160; &#160; &#160;5. 在Project视图Assets/_Scripts目录下新建一个脚本Mover.cs，如下
+
+<pre><code>
+using UnityEngine;
+using System.Collections;
+
+public class Mover : MonoBehaviour {
+
+	public float speed;
+
+	// Use this for initialization
+	void Start () {
+		GetComponent&lt;Rigidbody>().velocity = transform.forward * speed;
+	}
+
+}
+</code></pre>
+
+&#160; &#160; &#160; &#160;6. 在Project视图的Assets目录下新建一个子目录_Prefabs，用于存储预制体。将对象Bolt从Hierarchy视图拖动到_Prefabs目录下，创建一个新的预制体Bolt。之后可以将Hierarchy视图中的Bolt删除。
+
+&#160; &#160; &#160; &#160;7. 运行游戏，将Bolt预制体拖动到Hierarchy视图中，可以看到一个电光子弹飞速向前运动。
+
+至此，电光子弹预制体基本制作完成，还剩两个问题
+
+1. 电光子弹应该被键盘或者鼠标控制发射
+2. 随着发射的子弹越来越多，不会自动销毁。在真实游戏中，数量巨大的子弹必定会消耗非常多的系统资源，影响游戏性能
+
+#####2.2.2.脚本控制发射子弹
+
+&#160; &#160; &#160; &#160;1. 为Player新建一个空的子对象Shot Spawn，设置其Position的值为(0,0,0.7)，将在此位置发射子弹
+
+&#160; &#160; &#160; &#160;2. 双击脚本PlayerController.cs进行编辑。为了实现Fire1触发后即刻实例化Bolt预制体，需要：
+
+1. 存储传入Bolt变量，作为Instantiate的第一个参数
+2. 存储发射器的位置，作为实例化Bolt的位置
+3. 设置一定的发射频率，只有间隔了一定时间后才继续发射，否则当用户持续按Fire1的时候，会连续的发射子弹。
+
+为PlayerController加入以下变量
+
+<pre><code>
+	public float fireRate = 0.5f;
+	public GameObject shot;
+	public Transform shotSpawn;
+	public float nextFire = 0.0f;
+</code></pre>
+
+1. fireRate表示发射间隔，默认0.5s
+2. shot表示Bolt预设体
+3. shotSpwan是Transform类型，这样拖动GameObject类型变量到Inspector上时，会自动提取对象的Transform属性赋值给变量
+4. nextFire表示下次射击的最早时间
+
+之后修改PlayerController的Update方法：
+
+<pre><code>
+void Update () {
+		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
+			nextFire = Time.time + fireRate;
+			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+		}
+	}
+</code></pre>
+
+&#160; &#160; &#160; &#160;3. 为变量赋值，在Hierarchy中选择Player对象，然后将Project中的Bolt预制体拖动到Inspector视图中对应的Bolt变量上；拖动Hierarchy视图中Player下的Shot Spawn子对象到Inspector上对应的shotSpawn变量上
+
+&#160; &#160; &#160; &#160;4. 运行游戏，方向控制移动，鼠标左键或者左【Ctrl】键发射子弹。
+
+####2.2.3.管理电光子弹的生命周期
+
+&#160; &#160; &#160; &#160;1. 在Hierarchy视图中添加一个Cube对象，命名为Boundary，重置其Transform组件。
+
+&#160; &#160; &#160; &#160;2. 调整Boundary的位置
