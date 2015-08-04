@@ -9,7 +9,7 @@ tags: [Unity3D,C#]
 * Table of Contents
 {:toc}
 
-##Unity脚本事件执行顺序
+#Unity脚本事件执行顺序
 &#160; &#160; &#160; &#160;有C#或java编程经验的人都知道程序的入口点都是名称类似于main的函数，其他代码都以main函数为起点。Unity在Start，Update等事件函数中添加了处理事件过程，程序也按照一定的顺序逻辑执行，虽然看不到Unity的主函数，但了解脚本运行顺序也是十分必要的。
 
 <!-- more -->
