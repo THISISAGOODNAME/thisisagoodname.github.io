@@ -6,6 +6,9 @@ category: Unity3D
 tags: [Unity3D,MMD4Mecanim]
 ---
 
+* Table of Contents
+{:toc}
+
 ##PMX模型导入U3D使用,并使用Mecanim动画系统,做一个小游戏
 
 ###1.导入MMD4Mecanim插件，并导入模型

@@ -6,6 +6,9 @@ category: 开发环境
 tags: [开发环境]
 ---
 
+* Table of Contents
+{:toc}
+
 &#160; &#160; &#160; &#160;Heroku是一个支持多种编程语言的云平台即服务。在2010年被Salesforce.com收购。Heroku作为最开始的云平台之一，从2007年6月起开发，当时它仅支持Ruby，但后来增加了对Java、Node.js、Scala、Clojure、Python以及（未记录在正式文件上）PHP和Perl的支持。基础操作系统是Debian，在最新的堆栈则是基于Debian的Ubuntu。
 
 &#160; &#160; &#160; &#160;本次使用的snova，也是一个j2ee serve(snova也有go和nodejs版，但网上评论一般是java版的好用)。我将要在vagrant中进行配置，vagrant的一些相关内容可以参考[我以前的一篇文章](http://aicdg.com/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/2015/05/13/vagrantbasic.html)

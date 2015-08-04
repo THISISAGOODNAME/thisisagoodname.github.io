@@ -6,6 +6,9 @@ category: 开发环境
 tags: [开发环境]
 ---
 
+* Table of Contents
+{:toc}
+
 &#160; &#160; &#160; &#160;最近想要在heroku上配置一个静态 web 应用，heroku 的开发环境配置需要 ruby，所以把在 vagrant 上配置ruby的过程记录一下，其实和 Ubuntu 下配置差不多，只不过 rvm 的安装稍微有些费劲，因为官网更换了 https ,所以下载的时候需要加上 ssl
 <!-- more -->
 

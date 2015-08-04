@@ -5,6 +5,10 @@ description: "vagrant搭建一个跨平台开发环境，方便web开发"
 category: 开发环境
 tags: [开发环境]
 ---
+
+* Table of Contents
+{:toc}
+
 #用vagrant搭建一个跨平台开发环境
 
 ![vagrant](http://segmentfault.com/img/bVbg05)
