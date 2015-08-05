@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Space Shooter开发全过程记录02"
-description: "Space Shooter开发全过程记录"
+description: "Space Shooter开发全过程记录02"
 category: Unity3D
 tags: [Unity3D,C#]
 ---
