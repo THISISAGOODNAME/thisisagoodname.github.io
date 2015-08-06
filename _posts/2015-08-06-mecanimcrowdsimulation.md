@@ -125,7 +125,7 @@ public class CrowdMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		animator = GetComponent<Animator> ();
+		animator = GetComponent&lt;Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -148,7 +148,7 @@ public class CrowdMovement : MonoBehaviour {
 			}
 		} else {
 			animator.SetFloat ("Speed", 0, SpeedDampTime, Time.deltaTime);
-			if (animator.GetFloat ("Speed") < 0.01f) {
+			if (animator.GetFloat ("Speed") &lt; 0.01f) {
 				TargetPosotion = new Vector3(
 					Random.Range (-AvatarRange, AvatarRange),
 					0,
