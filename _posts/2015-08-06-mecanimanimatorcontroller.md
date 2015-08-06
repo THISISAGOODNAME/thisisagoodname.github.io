@@ -209,6 +209,7 @@ tags: [Unity3D]
 
 ##6.实际运行效果
 
+<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
   $(".btn1").click(function(){
