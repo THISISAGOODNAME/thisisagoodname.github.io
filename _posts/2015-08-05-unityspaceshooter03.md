@@ -3,7 +3,7 @@ layout: post
 title: "Space Shooter开发全过程记录03"
 description: "Space Shooter开发全过程记录03"
 category: Unity3D
-tags: [Unity3D]
+tags: [Unity3D,C#]
 ---
 
 * Table of Contents
