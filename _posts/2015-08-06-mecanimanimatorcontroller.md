@@ -212,6 +212,7 @@ tags: [Unity3D]
 <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	$("iframe").toggle();
   $(".btn1").click(function(){
   $("iframe").toggle();
   });
