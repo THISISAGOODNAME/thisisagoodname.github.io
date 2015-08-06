@@ -218,5 +218,5 @@ $(document).ready(function(){
   });
 });
 </script>
-<iframe style="overflow: hidden;" src="http://acidg.pub/MyMecanim/MyAnimation2/index.html" width="630px" height="420px" scrolling="no"></iframe>
+<iframe style="overflow: hidden;" src="http://acidg.pub/MyMecanim/MyAnimation/MyAnimation.html" width="630px" height="420px" scrolling="no"  frameborder="0"></iframe>
 <button class="btn1">展开</button>
