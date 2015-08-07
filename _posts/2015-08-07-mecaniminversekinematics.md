@@ -172,3 +172,7 @@ public class MyIK : MonoBehaviour {
 * 当玩家激活IK后，各部分IK权重为1.0，各部分运动到目标位置；禁用IK后，各部分IK权重为0，各部分回到初始位置
 
 &#160; &#160; &#160; &#160;运行游戏，在Game窗口中勾选“激活IK”后，在Hierarchy中选择Player对象，移动各个小球的位置，可以看到Game窗口中肢体部位也跟着移动
+
+##视频演示
+
+<iframe src="http://www.tudou.com/programs/view/html5embed.action?type=0&code=6Uwe-WFSczs&lcode=&resourceId=32216118_06_05_99" allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" style="width:480px;height:400px;"></iframe>
