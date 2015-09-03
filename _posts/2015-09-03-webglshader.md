@@ -102,11 +102,11 @@ tags: [html5,canvas,webGL]
 &#160; &#160; &#160; &#160;在WebGL的应用程序要包含顶点着色器和片段着色器，最简单的方法就是直接包含在HTML页面中，这个页面需要被正确的标注出来。与WebGL的着色器相关的两个mime类型，如下表所示。
 
 
-<table>
-	<th>&lt;script>标记类型</th><th>着色器类型</th><tr>
-	<td>x-shader/x-vertex</td><td>顶点着色器</td><tr>
-	<td>x-shader/x-fragment</td><td>片段着色器</td><tr>
-</table>
+| &lt;script>标记类型  | 着色器类型 | 
+|:-----------------:  |:-------:|
+| x-shader/x-vertex   | 顶点着色器   | 
+| x-shader/x-fragment | 片段着色器   | 
+
 
 &#160; &#160; &#160; &#160;对于WebGL程序，下面为主要的HTML页面，包括着色器源文件。他还引用了两个javascript文件，作用如下：
 
