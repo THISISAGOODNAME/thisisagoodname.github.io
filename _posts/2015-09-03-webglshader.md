@@ -269,7 +269,7 @@ function InitShaders(gl, vertexShaderId, fragmentShaderId) {
 
 &#160; &#160; &#160; &#160;第一次需要分配和填充(这两者可以在一个单一的操作里面做)一个类型化数组来存储顶点数据。在此之后，设置VBO即可，和在openGL中是一样的。
 
-###初始化WebGL里的顶点缓冲
+##初始化WebGL里的顶点缓冲
 
 
 {% highlight javascript %}
