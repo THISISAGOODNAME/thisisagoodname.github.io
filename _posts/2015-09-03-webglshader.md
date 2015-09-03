@@ -101,6 +101,7 @@ tags: [html5,canvas,webGL]
 
 &#160; &#160; &#160; &#160;在WebGL的应用程序要包含顶点着色器和片段着色器，最简单的方法就是直接包含在HTML页面中，这个页面需要被正确的标注出来。与WebGL的着色器相关的两个mime类型，如下表所示。
 
+
 <table>
 	<th>&lt;script>标记类型</th><th>着色器类型</th><tr>
 	<td>x-shader/x-vertex</td><td>顶点着色器</td><tr>
@@ -109,8 +110,10 @@ tags: [html5,canvas,webGL]
 
 &#160; &#160; &#160; &#160;对于WebGL程序，下面为主要的HTML页面，包括着色器源文件。他还引用了两个javascript文件，作用如下：
 
+
 * demo.js，其中包括应用程序的JavaScript实现(包括init函数的最终实现)
 * InitShaders.js，一个用来加载着色器的辅助函数，类似于LoadShaders()程序
+
 
 {% highlight html %}
 <!DOCTYPE html>
@@ -179,7 +182,9 @@ tags: [html5,canvas,webGL]
 
 &#160; &#160; &#160; &#160;为了简化编译和链接WebGL的着色器代码，创建了一个InitShaders()程序，但是没有加载glsl文件；着色器定义在了HTML页面源代码中。为了组织好代码，创建InitShaders.js文件。
 
+
 ##WebGL着色器载入器：InitShaders.js
+
 
 {% highlight javascript %}
 //
@@ -247,6 +252,7 @@ function InitShaders(gl, vertexShaderId, fragmentShaderId) {
 
 &#160; &#160; &#160; &#160;WebGL带给JavaScript的一个显著特征就是类型化数组(typed arrays)，它扩展为JavaScript数组概念，并满足OpenGL数据类型风格，几种类型化数组的类型如下表所示。
 
+
 <table>
 	<th>数组类型</th><th>C类型</th><tr>
 	<td>Int8Array</td><td>signed char</td><tr>
@@ -260,9 +266,11 @@ function InitShaders(gl, vertexShaderId, fragmentShaderId) {
 	<td>Float64Array</td><td>double</td><tr>
 </table>
 
+
 &#160; &#160; &#160; &#160;第一次需要分配和填充(这两者可以在一个单一的操作里面做)一个类型化数组来存储顶点数据。在此之后，设置VBO即可，和在openGL中是一样的。
 
 ###初始化WebGL里的顶点缓冲
+
 
 {% highlight javascript %}
 var verticles = {};
@@ -281,16 +289,21 @@ gl.vertexAttribPointer(vPos, 2, gl.FLOAT, false, 0, 0);
 gl.enableVertexAttribArray(vPos);
 {% endhighlight %}
 
+
 ##在WebGL中使用纹理贴图
 
+
 &#160; &#160; &#160; &#160;在webGL中使用纹理和openGL一样，但加载处理要简单得多，因为有HTML的帮助。事实上，从文件加载纹理仅仅需要一行代码即可完成。比如，加载一个名为的单一纹理。
+
 
 {% highlight javascript %}
 var image = new Image();
 image.src = "material.jpg";
 {% endhighlight %}
 
+
 &#160; &#160; &#160; &#160;HTML加载图片虽然简单，然而，他是异步加载的，所以要知道该图像文件何时接受并载入，可以在回调中处理。JavaScript在图像中有一个处理这种情况的方法：`onload()`
+
 
 {% highlight javascript %}
 image.onload = function () {
@@ -299,7 +312,9 @@ image.onload = function () {
 };
 {% endhighlight %}
 
+
 &#160; &#160; &#160; &#160;上面给出的onload函数实在图像被完全加载并且可以被WebGL使用的时候才调用一次。我们可以将所以的纹理初始化代码都封装到一个本地函数configureTexture中。
+
 
 {% highlight javascript %}
 function configureTexture(image) {
@@ -314,11 +329,15 @@ function configureTexture(image) {
 }
 {% endhighlight %}
 
+
 &#160; &#160; &#160; &#160;WebGL扩展的glPixelStore*()用于翻转图像数据，WebGL的宏UNPACK_FLIP_Y_WEBGL是旋转图像数据来匹配WebGL时需要的。
+
 
 > 由于OpenGL ES 2.0版本的原因，WebGL只支持分辨率为2的幂的纹理。
 
+
 ## demo.js的完整源文件
+
 
 {% highlight javascript %}
 //
