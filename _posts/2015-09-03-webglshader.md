@@ -105,7 +105,7 @@ tags: [html5,canvas,webGL]
 <table>
 	<th>&lt;script>标记类型</th><th>着色器类型</th><tr>
 	<td>x-shader/x-vertex</td><td>顶点着色器</td><tr>
-	<td>x-shader/x-fragment</td><td>片段着色器</td>
+	<td>x-shader/x-fragment</td><td>片段着色器</td><tr>
 </table>
 
 &#160; &#160; &#160; &#160;对于WebGL程序，下面为主要的HTML页面，包括着色器源文件。他还引用了两个javascript文件，作用如下：
@@ -113,6 +113,9 @@ tags: [html5,canvas,webGL]
 
 * demo.js，其中包括应用程序的JavaScript实现(包括init函数的最终实现)
 * InitShaders.js，一个用来加载着色器的辅助函数，类似于LoadShaders()程序
+
+
+&#160; &#160; &#160; &#160;html程序源文件
 
 
 {% highlight html %}
