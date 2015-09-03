@@ -256,18 +256,19 @@ function InitShaders(gl, vertexShaderId, fragmentShaderId) {
 &#160; &#160; &#160; &#160;WebGL带给JavaScript的一个显著特征就是类型化数组(typed arrays)，它扩展为JavaScript数组概念，并满足OpenGL数据类型风格，几种类型化数组的类型如下表所示。
 
 
-<table>
-	<th>数组类型</th><th>C类型</th><tr>
-	<td>Int8Array</td><td>signed char</td><tr>
-	<td>Uint8Array</td><td>unsigned char</td><tr>
-	<td>Uint8ClampedArray</td><td>unsigned char</td><tr>
-	<td>Int16Array</td><td>signed short</td><tr>
-	<td>Uint16Array</td><td>unsigned short</td><tr>
-	<td>Int32Array</td><td>signed int</td><tr>
-	<td>Uint32Array</td><td>unsigned int</td><tr>
-	<td>Float32Array</td><td>float</td><tr>
-	<td>Float64Array</td><td>double</td><tr>
-</table>
+
+| 数组类型         |  C类型        |
+|:---------------:|:------------:|
+|Int8Array        |signed char   |
+|Uint8Array       |unsigned char |
+|Uint8ClampedArray|unsigned char |
+|Int16Array       |signed short  |
+|Uint16Array      |unsigned short|
+|Int32Array       |signed int    |
+|Uint32Array      |unsigned int  |
+|Float32Array     |float         |
+|Float64Array     |double        |
+
 
 
 &#160; &#160; &#160; &#160;第一次需要分配和填充(这两者可以在一个单一的操作里面做)一个类型化数组来存储顶点数据。在此之后，设置VBO即可，和在openGL中是一样的。
