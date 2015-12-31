@@ -8,12 +8,13 @@ tags: [html5,c++]
 * Table of Contents
 {:toc}
 
-![emscripten logo](http://kripken.github.io/emscripten-site/_static/Emscripten_logo_full.png)
 
 &#160; &#160; &#160; &#160;Emscripten是一个基于LLVM的项目，可以把C和C++代码编译成高度优化的JavaScript代码(asm.js格式)，可以在web中以近乎原生的速度运行C和C++代码，而且不需要插件。
 
 <!-- more -->
 
+
+![emscripten logo](http://kripken.github.io/emscripten-site/_static/Emscripten_logo_full.png)
 <div style="width:32%; display:inline-block;">
  <div  style="display:inline-block; vertical-align:text-top; margin-left:5px;margin-right:5px;">
   <div  style="font-size:2em; font-style:bold; margin-bottom:10px;">Porting</div>
