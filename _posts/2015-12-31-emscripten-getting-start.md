@@ -76,3 +76,140 @@ source ./emsdk_env.sh
 {% endhighlight %}
 
 > 这步windows用户不需要，windows在执行`activate`命令时已经完成PATH的修改
+
+
+# 4.使用Emscripten
+
+&#160; &#160; &#160; &#160;在终端下输入`emcc -v`，看到当前的Emscripten版本和llvm版本
+
+## 4.1 hello.c
+
+&#160; &#160; &#160; &#160;新建一个hello.c文件，在文件内添加如下内容
+
+{% highlight c %}
+#include<stdio.h>
+
+int main() {
+  printf("hello, world!\n");
+  return 0;
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;然后运行
+{% highlight bash %}
+emcc hello.c
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;当前文件夹下应该生成了**a.out.js**,可以使用[*node.js*](node.js)运行
+
+{% highlight bash %}
+node a.out.js
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;正常的话命令行中显示“hello, world!”
+
+&#160; &#160; &#160; &#160;然后运行
+{% highlight bash %}
+emcc hello.c -o hello_world.html
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;当前文件夹下生成**hello_world.html**和**hello_world.js**两个文件，在浏览器中打开**hello_world.html**，可以看到[类似这样](http://aicdg.com/emscriptenDemos/hello/hello-html.html)的效果
+## 4.2 hello_world_sdl.cpp
+
+&#160; &#160; &#160; &#160;hello_world_sdl.cpp文件，在文件内添加如下内容
+
+{% highlight cpp %}
+#include <stdio.h>
+#include <SDL/SDL.h>
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
+extern "C" int main(int argc, char** argv) {
+  printf("hello, world!\n");
+
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Surface *screen = SDL_SetVideoMode(256, 256, 32, SDL_SWSURFACE);
+
+#ifdef TEST_SDL_LOCK_OPTS
+  EM_ASM("SDL.defaults.copyOnLock = false; SDL.defaults.discardOnLock = true; SDL.defaults.opaqueFrontBuffer = false;");
+#endif
+
+  if (SDL_MUSTLOCK(screen)) SDL_LockSurface(screen);
+  for (int i = 0; i < 256; i++) {
+    for (int j = 0; j < 256; j++) {
+#ifdef TEST_SDL_LOCK_OPTS
+      // Alpha behaves like in the browser, so write proper opaque pixels.
+      int alpha = 255;
+#else
+      // To emulate native behavior with blitting to screen, alpha component is ignored. Test that it is so by outputting
+      // data (and testing that it does get discarded)
+      int alpha = (i+j) % 255;
+#endif
+      *((Uint32*)screen->pixels + i * 256 + j) = SDL_MapRGBA(screen->format, i, j, 255-i, alpha);
+    }
+  }
+  if (SDL_MUSTLOCK(screen)) SDL_UnlockSurface(screen);
+  SDL_Flip(screen); 
+
+  printf("you should see a smoothly-colored square - no sharp lines but the square borders!\n");
+  printf("and here is some text that should be HTML-friendly: amp: |&| double-quote: |\"| quote: |'| less-than, greater-than, html-like tags: |<cheez></cheez>|\nanother line.\n");
+
+  SDL_Quit();
+
+  return 0;
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;然后运行
+{% highlight bash %}
+emcc hello_world_sdl.cpp -o hello_world_sdl.html
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;浏览器中打开**hello\_world\_sdl.html**可以看到[类似这样](http://aicdg.com/emscriptenDemos/hello_world_sdl/hello_world_sdl.html)的页面
+
+## 4.3 hello\_world\_gles.cpp
+
+&#160; &#160; &#160; &#160;新建一个hello_world_gles.cpp，添加[这里](https://github.com/THISISAGOODNAME/emscriptenDemos/blob/gh-pages/hello_world_gles/hello_world_gles.c)的代码
+
+&#160; &#160; &#160; &#160;编译，生成[类似这个](http://aicdg.com/emscriptenDemos/hello_world_gles/hello_world_gles.html)网页
+
+## 4.4 glfw
+
+&#160; &#160; &#160; &#160;新建一个glfw.c，并添加[这里](https://github.com/THISISAGOODNAME/emscriptenDemos/blob/gh-pages/glfw/glfw.c)的代码
+
+&#160; &#160; &#160; &#160;浏览器中打开**glfw.html**可以看到[类似这样](http://aicdg.com/emscriptenDemos/glfw/glfw.html)的页面，移动鼠标或者敲键盘，输入都能被捕捉并在下方的虚拟终端中显示
+
+## 4.5 lua虚拟机
+
+&#160; &#160; &#160; &#160;下载lua源代码，用[这的](https://github.com/THISISAGOODNAME/emscriptenDemos/tree/gh-pages/lua/lua)也可以
+
+&#160; &#160; &#160; &#160;将lua源码所在文件夹的名称改为lua，在这里再新建一个文件夹dist，dist和lua文件夹在同一层。进入lua文件夹，执行下面的命令
+
+{% highlight bash %}
+make emscripten
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;在dist文件夹中会生成**lua.vm.js**
+
+### 4.5.1 在node.js中使用lua.vm.js
+
+&#160; &#160; &#160; &#160;执行
+
+{% highlight bash %}
+$ npm install lua.vm.js
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;然后编写node.js代码
+
+{% highlight javascript %}
+var LuaVM = require('lua.vm.js');
+
+var l = new LuaVM.Lua.State();
+l.execute('print("Hello, world")');
+{% endhighlight %}
+
+### 4.5.2 在网页中使用lua.vm.js
+
+&#160; &#160; &#160; &#160;可以参考[这个](http://aicdg.com/emscriptenDemos/lua/REPL/repl.html)示例
