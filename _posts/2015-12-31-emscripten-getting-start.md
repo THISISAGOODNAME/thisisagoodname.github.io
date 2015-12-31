@@ -58,7 +58,7 @@ tags: [html5,c++]
 1. 下载并解压emsdk_protable并解压到某个文件夹下
 2. 打开终端并进入到emsdk文件夹下，然后执行下列命令
 
-{% highlight shell %}
+{% highlight bash %}
 # 获取最新可用工具链的信息
 ./emsdk update
 
@@ -68,3 +68,11 @@ tags: [html5,c++]
 # 让 "最新的" SDK "激活"
 ./emsdk activate latest
 {% endhighlight %}
+
+3.**Mac和linux需要**，吧emsdk的路径添加到PATH
+{% highlight bash %}
+# 在Linux/Mac OS X上添加emsdk的路径到PATH
+source ./emsdk_env.sh
+{% endhighlight %}
+
+> 这步windows用户不需要，windows在执行`activate`命令时已经完成PATH的修改
