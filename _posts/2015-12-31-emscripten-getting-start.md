@@ -3,7 +3,7 @@ layout: post
 title: "emscripten getting start"
 description: "emscripten getting start"
 category: html5
-tags: [html5,c++]
+tags: [html5,c++,emscripten]
 ---
 * Table of Contents
 {:toc}
