@@ -112,6 +112,7 @@ emcc hello.c -o hello_world.html
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;当前文件夹下生成**hello_world.html**和**hello_world.js**两个文件，在浏览器中打开**hello_world.html**，可以看到[类似这样](http://aicdg.com/emscriptenDemos/hello/hello-html.html)的效果
+
 ## 4.2 hello_world_sdl.cpp
 
 &#160; &#160; &#160; &#160;hello_world_sdl.cpp文件，在文件内添加如下内容
