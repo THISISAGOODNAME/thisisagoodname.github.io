@@ -2,8 +2,8 @@
 layout: post
 title: "makefile简易教程"
 description: "makefile简易教程"
-category: C++
-tags: [C++,自动化工具]
+category: c++
+tags: [c++,自动化工具]
 ---
 * Table of Contents
 {:toc}
