@@ -282,3 +282,188 @@ include foo.make a.mk b.mk c.mk e.mk f.mk
 &#160; &#160; &#160; &#160;1-5步为第一个阶段，6-7为第二个阶段。第一个阶段中，如果定义的变量被使用了，那么，make会把其展开在使用的位置。但make并不会完全马上展开，make使用的是拖延战术，如果变量出现在依赖关系的规则中，那么仅当这条依赖被决定要使用了，变量才会在其内部展开。
 
 &#160; &#160; &#160; &#160;当然，这个工作方式你不一定要清楚，但是知道这个方式你也会对make更为熟悉。有了这个基础，后续部分也就容易看懂了。
+
+# 3 书写规则
+
+&#160; &#160; &#160; &#160;规则包含两个部分，一个是依赖关系，一个是生成目标的方法。
+
+&#160; &#160; &#160; &#160;在Makefile中，规则的顺序是很重要的，因为，Makefile中只应该有一个最终目标，其它的目标都是被这个目标所连带出来的，所以一定要让make知道你的最终目标是什么。一般来说，定义在Makefile中的目标可能会有很多，但是第一条规则中的目标将被确立为最终的目标。如果第一条规则中的目标有很多个，那么，第一个目标会成为最终的目标。make所完成的也就是这个目标。
+
+## 3.1 规则举例
+
+{% highlight makefile %}
+foo.o : foo.c defs.h       # foo模块
+        cc -c -g foo.c
+{% endhighlight %}
+
+看到这个例子，各位应该不是很陌生了，前面也已说过，foo.o是我们的目标，foo.c和defs.h是目标所依赖的源文件，而只有一个命令“cc -c -g foo.c”（以Tab键开头）。这个规则告诉我们两件事：
+
+1. 文件的依赖关系，foo.o依赖于foo.c和defs.h的文件，如果foo.c和defs.h的文件日期要比foo.o文件日期要新，或是foo.o不存在，那么依赖关系发生。
+2. 如果生成（或更新）foo.o文件。也就是那个cc命令，其说明了，如何生成foo.o这个文件。（当然foo.c文件include了defs.h文件）
+
+## 3.2 规则的语法
+
+{% highlight makefile %}
+targets : prerequisites
+	    command
+		 ...
+{% endhighlight %}
+
+
+或是这样：
+
+{% highlight makefile %}
+targets : prerequisites ; command
+		 command
+		 ...
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;targets是文件名，以空格分开，可以使用通配符。一般来说，我们的目标基本上是一个文件，但也有可能是多个文件。
+
+&#160; &#160; &#160; &#160;command是命令行，如果其不与`target:prerequisites`在一行，那么，必须以[Tab键]开头，如果和prerequisites在一行，那么可以用分号做为分隔。（见上）
+
+&#160; &#160; &#160; &#160;prerequisites也就是目标所依赖的文件（或依赖目标）。如果其中的某个文件要比目标文件要新，那么，目标就被认为是“过时的”，被认为是需要重生成的。这个在前面已经讲过了。
+
+&#160; &#160; &#160; &#160;如果命令太长，你可以使用反斜框（‘/’）作为换行符。make对一行上有多少个字符没有限制。规则告诉make两件事，文件的依赖关系和如何成成目标文件。
+
+&#160; &#160; &#160; &#160;一般来说，make会以UNIX的标准Shell，也就是/bin/sh来执行命令。
+
+## 3.3 在规则中使用通配符
+
+&#160; &#160; &#160; &#160;如果我们想定义一系列比较类似的文件，我们很自然地就想起使用通配符。make支持三各通配符：“\*”，“?”和“[...]”。这是和Unix的B-Shell是相同的。
+
+&#160; &#160; &#160; &#160;波浪号（“~”）字符在文件名中也有比较特殊的用途。如果是“~/test”，这就表示当前用户的$HOME目录下的test目录。而“~hchen/test”则表示用户hchen的宿主目录下的test目录。（这些都是Unix下的小知识了，make也支持）而在Windows或是MS-DOS下，用户没有宿主目录，那么波浪号所指的目录则根据环境变量“HOME”而定。
+
+&#160; &#160; &#160; &#160;通配符代替了你一系列的文件，如`*.c`表示所以后缀为c的文件。一个需要我们注意的是，如果我们的文件名中有通配符，如：`\*`，那么可以用转义字符`\`，如`\*`来表示真实的“*”字符，而不是任意长度的字符串。
+
+{% highlight makefile %}
+clean:
+     rm -f *.o
+{% endhighlight %}
+
+> 上面这个例子我不不多说了，选取所以扩展名[.o]的文件并删除，这是操作系统Shell所支持的通配符。这是在命令中的通配符。
+
+{% highlight makefile %}
+print: *.c
+     lpr -p $?
+     touch print
+{% endhighlight %}
+
+> 上面这个例子说明了通配符也可以在我们的规则中，目标print依赖于所有的[.c]文件。其中的`$?`是一个自动化变量，我会在后面讲述。 
+
+{% highlight makefile %}
+objects = *.o
+{% endhighlight %}
+
+> 上面这个例子，表示了，通符同样可以用在变量中。并不是说[\*.o]会展开，不！objects的值就是`*.o`。Makefile中的变量其实就是C/C++中的宏。如果你要让通配符在变量中展开，也就是让objects的值是所有[.o]的文件名的集合，那么，你可以这样：
+
+{% highlight makefile %}
+objects := $(wildcard *.o)
+{% endhighlight %}
+
+> 这种用法由关键字“wildcard”指出，关于Makefile的关键字，我们将在后面讨论
+
+## 3.4 文件搜寻
+
+&#160; &#160; &#160; &#160;在一些大的工程中，有大量的源文件，我们通常的做法是把这许多的源文件分类，并存放在不同的目录中。所以，当make需要去找寻文件的依赖关系时，你可以在文件前加上路径，但最好的方法是把一个路径告诉make，让make在自动去找。
+
+&#160; &#160; &#160; &#160;Makefile文件中的特殊变量“VPATH”就是完成这个功能的，如果没有指明这个变量，make只会在当前的目录中去找寻依赖文件和目标文件。如果定义了这个变量，那么，make就会在当当前目录找不到的情况下，到所指定的目录中去找寻文件了。
+
+{% highlight makefile %}
+VPATH = src:../headers
+{% endhighlight %}
+
+上面的的定义指定两个目录，“src”和“../headers”，make会按照这个顺序进行搜索。目录由“冒号”分隔。（当然，当前目录永远是最高优先搜索的地方）
+
+&#160; &#160; &#160; &#160;另一个设置文件搜索路径的方法是使用make的“vpath”关键字（注意，它是全小写的），这不是变量，这是一个make的关键字，这和上面提到的那个VPATH变量很类似，但是它更为灵活。它可以指定不同的文件在不同的搜索目录中。这是一个很灵活的功能。它的使用方法有三种：
+
+1. `vpath <pattern> <directories>`
+
+    为符合模式<pattern>的文件指定搜索目录&lt;directories>。
+
+2. `vpath <pattern>`
+
+    清除符合模式&lt;pattern>的文件的搜索目录。
+
+3. `vpath`
+
+    清除所有已被设置好了的文件搜索目录。
+    
+vapth使用方法中的&lt;pattern>需要包含“%”字符。“%”的意思是匹配零或若干字符，例如，“%.h”表示所有以“.h”结尾的文件。&lt;pattern>指定了要搜索的文件集，而&lt;directories>则指定了&lt;pattern>的文件集的搜索的目录。例如：
+
+{% highlight makefile %}
+vpath %.h ../headers
+{% endhighlight %}
+
+该语句表示，要求make在“../headers”目录下搜索所有以“.h”结尾的文件。（如果某文件在当前目录没有找到的话）
+
+&#160; &#160; &#160; &#160;我们可以连续地使用vpath语句，以指定不同搜索策略。如果连续的vpath语句中出现了相同的&lt;pattern>，或是被重复了的&lt;pattern>，那么，make会按照vpath语句的先后顺序来执行搜索。如：
+
+{% highlight makefile %}
+vpath %.c foo
+vpath %   blish
+vpath %.c bar
+{% endhighlight %}
+
+其表示“.c”结尾的文件，先在“foo”目录，然后是“blish”，最后是“bar”目录。
+
+{% highlight makefile %}
+vpath %.c foo:bar
+vpath %   blish
+{% endhighlight %}
+
+而上面的语句则表示“.c”结尾的文件，先在“foo”目录，然后是“bar”目录，最后才是“blish”目录。
+
+## 3.5 伪目标
+
+&#160; &#160; &#160; &#160;最早先的一个例子中，我们提到过一个“clean”的目标，这是一个“伪目标”，
+
+{% highlight makefile %}
+clean:
+        rm *.o temp
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;正像我们前面例子中的“clean”一样，即然我们生成了许多文件编译文件，我们也应该提供一个清除它们的“目标”以备完整地重编译而用。 （以`make clean`来使用该目标）
+
+&#160; &#160; &#160; &#160;因为，我们并不生成“clean”这个文件。“伪目标”并不是一个文件，只是一个标签，由于“伪目标”不是文件，所以make无法生成它的依赖关系和决定它是否要执行。我们只有通过显示地指明这个“目标”才能让其生效。当然，“伪目标”的取名不能和文件名重名，不然其就失去了“伪目标”的意义了。
+
+&#160; &#160; &#160; &#160;当然，为了避免和文件重名的这种情况，我们可以使用一个特殊的标记`.PHONY`来显示地指明一个目标是“伪目标”，向make说明，不管是否有这个文件，这个目标就是“伪目标”。
+
+{% highlight makefile %}
+.PHONY : clean
+{% endhighlight %}
+
+只要有这个声明，不管是否有“clean”文件，要运行“clean”这个目标，只有“make clean”这样。于是整个过程可以这样写：
+
+{% highlight makefile %}
+all : prog1 prog2 prog3
+.PHONY : all
+
+prog1 : prog1.o utils.o
+        cc -o prog1 prog1.o utils.o
+
+prog2 : prog2.o
+        cc -o prog2 prog2.o
+
+prog3 : prog3.o sort.o utils.o
+        cc -o prog3 prog3.o sort.o utils.o
+{% endhighlight %}
+
+我们知道，Makefile中的第一个目标会被作为其默认目标。我们声明了一个“all”的伪目标，其依赖于其它三个目标。由于伪目标的特性是，总是被执行的，所以其依赖的那三个目标就总是不如“all”这个目标新。所以，其它三个目标的规则总是会被决议。也就达到了我们一口气生成多个目标的目的。`.PHONY : all`声明了“all”这个目标为“伪目标”。
+
+&#160; &#160; &#160; &#160;随便提一句，从上面的例子我们可以看出，目标也可以成为依赖。所以，伪目标同样也可成为依赖。看下面的例子：
+
+{% highlight makefile %}
+.PHONY: cleanall cleanobj cleandiff
+
+cleanall : cleanobj cleandiff
+        rm program
+
+cleanobj :
+        rm *.o
+
+cleandiff :
+        rm *.diff
+{% endhighlight %}
+
+“cleanobj”和“cleandiff”这两个伪目标有点像“子程序”的意思。我们可以输入`make cleanall`和`make cleanobj`和`make cleandiff`命令来达到清除不同种类文件的目的。
