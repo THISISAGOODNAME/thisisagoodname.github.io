@@ -50,8 +50,8 @@ bar:= $(subst $(space),$(comma),$(foo))
 $(subst <from>,<to>,<text>)
 {% endhighlight %}
 
-**名称**：字符串替换函数——subst。<br>
-**功能**：把字串<text>中的<from>字符串替换成<to>。<br>
+**名称**：字符串替换函数——subst。<br />
+**功能**：把字串&lt;text>中的&lt;from>字符串替换成&lt;to>。<br />
 **返回**：函数返回被替换过后的字符串。
 
 **示例**：
@@ -69,9 +69,9 @@ $(subst ee,EE,feet on the street)
 $(patsubst <pattern>,<replacement>,<text>)
 {% endhighlight %}
 
-**名称**：模式字符串替换函数——patsubst。<br>
-**功能**：查找<text>中的单词（单词以“空格”、“Tab”或“回车”“换行”分隔）是否符合模式<pattern>，如果匹配的话，则以<replacement>替换。这里，<pattern>可以包括通配符“%”，表示任意长度的字串。如果<replacement>中也包含“%”，那么，<replacement>中的这个“%”将是<pattern>中的那个“%”所代表的字串。（可以用“/”来转义，以“/%”来表示真实含义的“%”字符）
-**返回**：函数返回被替换过后的字符串。<br>
+**名称**：模式字符串替换函数——patsubst。<br />
+**功能**：查找&lt;text>中的单词（单词以“空格”、“Tab”或“回车”“换行”分隔）是否符合模式&lt;pattern>，如果匹配的话，则以&lt;replacement>替换。这里，&lt;pattern>可以包括通配符“%”，表示任意长度的字串。如果&lt;replacement>中也包含“%”，那么，&lt;replacement>中的这个“%”将是<pattern>中的那个“%”所代表的字串。（可以用“/”来转义，以“/%”来表示真实含义的“%”字符）<br />
+**返回**：函数返回被替换过后的字符串。
 
 **示例**：
 
@@ -96,6 +96,18 @@ $(patsubst %.c,%.o,x.c.c bar.c)
 
 ---
 
+{% highlight makefile %}
+$(strip <string>)
+{% endhighlight %}
 
+**名称**：去空格函数——strip。<br />
+**功能**：去掉<string>字串中开头和结尾的空字符。<br />
+**返回**：返回被去掉空格的字符串值。<br />
+**示例**：
+        
+	$(strip a b c )
 
+&#160; &#160; &#160; &#160;把字串“a b c ”去到开头和结尾的空格，结果是“a b c”。
+
+---
 
