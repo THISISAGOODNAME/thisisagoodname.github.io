@@ -8,7 +8,7 @@ tags: [C++,自动化工具]
 * Table of Contents
 {:toc}
 
-&#160; &#160; &#160; &#160;make命令执行时，需要一个 Makefile 文件，以告诉make命令需要怎么样的去编译和链接程序。makefile关系到了整个工程的编译规则。一个工程中的源文件不计数，其按<font color=red>类型</font>、<font color=red>功能</font>、<font color=red>模块</font>分别放在若干个目录中，makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，甚至于进行更复杂的功能操作，因为makefile就像一个Shell脚本一样，其中也可以执行操作系统的命令。makefile带来的好处就是——“自动化编译”，一旦写好，只需要一个make命令，整个工程完全自动编译，极大的提高了软件开发的效率。make是一个命令工具，是一个解释makefile中指令的命令工具，一般来说，大多数的IDE都有这个命令，比如：Delphi的make，Visual C++的nmake，Linux下GNU的make。可见，makefile都成为了一种在工程方面的编译方法。
+&#160; &#160; &#160; &#160;make命令执行时，需要一个 Makefile 文件，以告诉make命令需要怎么样的去编译和链接程序。makefile关系到了整个工程的编译规则。一个工程中的源文件不计数，其按<span style="color:red">类型</span>、<span style="color:red">功能</span>、<span style="color:red">模块</span>分别放在若干个目录中，makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，甚至于进行更复杂的功能操作，因为makefile就像一个Shell脚本一样，其中也可以执行操作系统的命令。makefile带来的好处就是——“自动化编译”，一旦写好，只需要一个make命令，整个工程完全自动编译，极大的提高了软件开发的效率。make是一个命令工具，是一个解释makefile中指令的命令工具，一般来说，大多数的IDE都有这个命令，比如：Delphi的make，Visual C++的nmake，Linux下GNU的make。可见，makefile都成为了一种在工程方面的编译方法。
 
 <!-- more -->
 
