@@ -100,3 +100,66 @@ clean :
 &#160; &#160; &#160; &#160;于是在我们编程中，如果这个工程已被编译过了，当我们修改了其中一个源文件，比如file.c，那么根据我们的依赖性，我们的目标file.o会被重编译（也就是在这个依性关系后面所定义的命令），于是file.o的文件也是最新的啦，于是file.o的文件修改时间要比edit要新，所以edit也会被重新链接了（详见edit目标文件后定义的命令）。
 
 &#160; &#160; &#160; &#160;而如果我们改变了“command.h”，那么，kdb.o、command.o和files.o都会被重编译，并且，edit会被重链接。
+
+## 1.4 makefile中使用变量
+
+&#160; &#160; &#160; &#160;在上面的例子中，先让我们看看edit的规则：
+
+{% highlight makefile %}
+edit : main.o kbd.o command.o display.o /
+		insert.o search.o files.o utils.o
+	cc -o edit main.o kbd.o command.o display.o /
+		insert.o search.o files.o utils.o
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;我们可以看到[.o]文件的字符串被重复了两次，如果我们的工程需要加入一个新的[.o]文件，那么我们需要在两个地方加（应该是三个地方，还有一个地方在clean中）。当然，我们的makefile并不复杂，所以在两个地方加也不累，但如果makefile变得复杂，那么我们就有可能会忘掉一个需要加入的地方，而导致编译失败。所以，为了makefile的易维护，在makefile中我们可以使用变量。makefile的变量也就是一个字符串，理解成C语言中的宏可能会更好。
+
+&#160; &#160; &#160; &#160;比如，我们声明一个变量，叫objects, OBJECTS, objs, OBJS, obj, 或是 OBJ，反正不管什么啦，只要能够表示obj文件就行了。我们在makefile一开始就这样定义：
+
+{% highlight makefile %}
+objects = main.o kbd.o command.o display.o /
+              insert.o search.o files.o utils.o
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;于是，我们就可以很方便地在我们的makefile中以`$(objects)`的方式来使用这个变量了，于是我们的改良版makefile就变成下面这个样子：
+
+{% highlight makefile %}
+objects = main.o kbd.o command.o display.o /
+	insert.o search.o files.o utils.o
+
+edit : $(objects)
+	cc -o edit $(objects)
+	
+	...
+{% endhighlight %}
+
+
+&#160; &#160; &#160; &#160;于是如果有新的 .o 文件加入，我们只需简单地修改一下 objects 变量就可以了。
+
+## 1.5 让make自动推导
+
+&#160; &#160; &#160; &#160;GNU的make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。
+
+&#160; &#160; &#160; &#160;只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个whatever.o，那么whatever.c，就会是whatever.o的依赖文件。并且 cc -c whatever.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的是新的makefile又出炉了。
+
+
+    objects = main.o kbd.o command.o display.o /
+              insert.o search.o files.o utils.o
+
+    edit : $(objects)
+            cc -o edit $(objects)
+
+    main.o : defs.h
+    kbd.o : defs.h command.h
+    command.o : defs.h command.h
+    display.o : defs.h buffer.h
+    insert.o : defs.h buffer.h
+    search.o : defs.h buffer.h
+    files.o : defs.h buffer.h command.h
+    utils.o : defs.h
+
+    .PHONY : clean
+    clean :
+            rm edit $(objects)
+
+&#160; &#160; &#160; &#160;这种方法，也就是make的“隐晦规则”。上面文件内容中，“.PHONY”表示，clean是个伪目标文件。
