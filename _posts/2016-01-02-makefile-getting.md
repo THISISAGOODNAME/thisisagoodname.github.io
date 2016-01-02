@@ -143,24 +143,24 @@ edit : $(objects)
 &#160; &#160; &#160; &#160;只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个whatever.o，那么whatever.c，就会是whatever.o的依赖文件。并且 cc -c whatever.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的是新的makefile又出炉了。
 
 {% highlight makefile %}
-    objects = main.o kbd.o command.o display.o /
-              insert.o search.o files.o utils.o
+objects = main.o kbd.o command.o display.o /
+          insert.o search.o files.o utils.o
 
-    edit : $(objects)
-            cc -o edit $(objects)
+edit : $(objects)
+        cc -o edit $(objects)
 
-    main.o : defs.h
-    kbd.o : defs.h command.h
-    command.o : defs.h command.h
-    display.o : defs.h buffer.h
-    insert.o : defs.h buffer.h
-    search.o : defs.h buffer.h
-    files.o : defs.h buffer.h command.h
-    utils.o : defs.h
+main.o : defs.h
+kbd.o : defs.h command.h
+command.o : defs.h command.h
+display.o : defs.h buffer.h
+insert.o : defs.h buffer.h
+search.o : defs.h buffer.h
+files.o : defs.h buffer.h command.h
+utils.o : defs.h
 
-    .PHONY : clean
-    clean :
-            rm edit $(objects)
+.PHONY : clean
+clean :
+        rm edit $(objects)
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;这种方法，也就是make的“隐晦规则”。上面文件内容中，“.PHONY”表示，clean是个伪目标文件。
@@ -170,19 +170,39 @@ edit : $(objects)
 &#160; &#160; &#160; &#160;即然我们的make可以自动推导命令，那么我看到那堆[.o]和[.h]的依赖就有点不爽，那么多的重复的[.h]，能不能把其收拢起来，好吧，没有问题，这个对于make来说很容易，谁叫它提供了自动推导命令和文件的功能呢？来看看最新风格的makefile吧。
 
 {% highlight makefile %}
-    objects = main.o kbd.o command.o display.o /
-              insert.o search.o files.o utils.o
+objects = main.o kbd.o command.o display.o /
+          insert.o search.o files.o utils.o
 
-    edit : $(objects)
-            cc -o edit $(objects)
+edit : $(objects)
+        cc -o edit $(objects)
 
-    $(objects) : defs.h
-    kbd.o command.o files.o : command.h
-    display.o insert.o search.o files.o : buffer.h
+$(objects) : defs.h
+kbd.o command.o files.o : command.h
+display.o insert.o search.o files.o : buffer.h
 
-    .PHONY : clean
-    clean :
-            rm edit $(objects)
+.PHONY : clean
+clean :
+        rm edit $(objects)
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;这种风格，让我们的makefile变得很简单，但我们的文件依赖关系就显得有点凌乱了。鱼和熊掌不可兼得。还看你的喜好了。我是不喜欢这种风格的，一是文件的依赖关系看不清楚，二是如果文件一多，要加入几个新的.o文件，那就理不清楚了。
+
+## 1.7 清空目标文件的规则
+
+每个Makefile中都应该写一个清空目标文件（.o和执行文件）的规则，这不仅便于重编译，也很利于保持文件的清洁。这是一个“修养”（呵呵，还记得我的《编程修养》吗）。一般的风格都是：
+
+{% highlight makefile %}
+clean:
+        rm edit $(objects)
+{% endhighlight %}
+
+更为稳健的做法是：
+
+{% highlight makefile %}
+.PHONY : clean
+clean :
+        -rm edit $(objects)
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;前面说过，.PHONY意思表示clean是一个“伪目标”，。而在rm命令前面加了一个小减号的意思就是，也许某些文件出现问题，但不要管，继续做后面的事。当然，clean的规则不要放在文件的开头，不然，这就会变成make的默认目标，相信谁也不愿意这样。不成文的规矩是——“clean从来都是放在文件的最后”。
+
