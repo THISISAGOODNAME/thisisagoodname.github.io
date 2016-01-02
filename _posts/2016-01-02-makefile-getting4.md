@@ -203,7 +203,7 @@ tags: [c++,自动化工具]
 ---
 
 	“-l <load>”
-	“--load-average[=<load]”
+	“--load-average[=<load>]”
 	“—max-load[=<load>]”
 
 &#160; &#160; &#160; &#160;指定make运行命令的负载。
