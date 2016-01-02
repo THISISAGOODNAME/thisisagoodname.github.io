@@ -271,3 +271,273 @@ override CFLAGS += $(patsubst %,-I%,$(subst :, ,$(VPATH)))
     
 
 &#160; &#160; &#160; &#160;如果我们的“$(VPATH)”值是“src:../headers”，那么“$(patsubst %,-I%,$(subst :, ,$(VPATH)))”将返回“-Isrc -I../headers”，这正是cc或gcc搜索头文件路径的参数。
+
+## 7.3 文件名操作函数
+
+&#160; &#160; &#160; &#160;下面我们要介绍的函数主要是处理文件名的。每个函数的参数字符串都会被当做一个或是一系列的文件名来对待。
+
+{% highlight makefile %}
+$(dir <names...>)
+{% endhighlight %}
+
+**名称**：取目录函数——dir。
+
+**功能**：从文件名序列&lt;names>中取出目录部分。目录部分是指最后一个反斜杠（“/”）之前的部分。如果没有反斜杠，那么返回“./”。
+
+**返回**：返回文件名序列&lt;names>的目录部分。
+
+**示例**： $(dir src/foo.c hacks)返回值是“src/ ./”。
+
+---
+
+{% highlight makefile %}
+$(notdir <names...>)
+{% endhighlight %}
+
+**名称**：取文件函数——notdir。
+
+**功能**：从文件名序列&lt;names>中取出非目录部分。非目录部分是指最后一个反斜杠（“/”）之后的部分。
+
+**返回**：返回文件名序列&lt;names>的非目录部分。
+
+**示例**： $(notdir src/foo.c hacks)返回值是“foo.c hacks”。
+ 
+--- 
+ 
+{% highlight makefile %}
+$(suffix <names...>) 
+{% endhighlight %}
+ 
+**名称**：取后缀函数——suffix。
+
+**功能**：从文件名序列&lt;names>中取出各个文件名的后缀。
+
+**返回**：返回文件名序列&lt;names>的后缀序列，如果文件没有后缀，则返回空字串。
+
+**示例**：$(suffix src/foo.c src-1.0/bar.c hacks)返回值是“.c .c”。
+
+---
+
+{% highlight makefile %}
+$(basename <names...>)
+{% endhighlight %}
+
+**名称**：取前缀函数——basename。
+
+**功能**：从文件名序列&lt;names>中取出各个文件名的前缀部分。
+
+**返回**：返回文件名序列&lt;names>的前缀序列，如果文件没有前缀，则返回空字串。
+
+**示例**：$(basename src/foo.c src-1.0/bar.c hacks)返回值是“src/foo src-1.0/bar hacks”。
+
+---
+
+{% highlight makefile %}
+$(addsuffix <suffix>,<names...>)
+{% endhighlight %}
+
+**名称**：加后缀函数——addsuffix。
+
+**功能**：把后缀&lt;suffix>加到&lt;names>中的每个单词后面。
+
+**返回**：返回加过后缀的文件名序列。
+
+**示例**：$(addsuffix .c,foo bar)返回值是“foo.c bar.c”。
+
+---
+
+{% highlight makefile %}
+$(addprefix <prefix>,<names...>)
+{% endhighlight %}
+
+**名称**：加前缀函数——addprefix。
+
+**功能**：把前缀&lt;prefix>加到&lt;names>中的每个单词前面。
+
+**返回**：返回加过前缀的文件名序列。
+
+**示例**：$(addprefix src/,foo bar)返回值是“src/foo src/bar”。
+
+---
+
+{% highlight makefile %}
+$(join <list1>,<list2>)
+{% endhighlight %}
+
+**名称**：连接函数——join。
+
+**功能**：把&lt;list2>中的单词对应地加到&lt;list1>的单词后面。如果&lt;list1>的单词个数要比&lt;list2>的多，那么，&lt;list1>中的多出来的单词将保持原样。如果&lt;list2>的单词个数要比&lt;list1>多，那么，&lt;list2>多出来的单词将被复制到&lt;list2>中。
+
+**返回**：返回连接过后的字符串。
+
+**示例**：$(join aaa bbb , 111 222 333)返回值是“aaa111 bbb222 333”。
+    
+---
+    
+## 7.4 foreach 函数
+
+&#160; &#160; &#160; &#160;foreach函数和别的函数非常的不一样。因为这个函数是用来做循环用的，Makefile中的foreach函数几乎是仿照于Unix标准Shell（/bin/sh）中的for语句，或是C-Shell（/bin/csh）中的foreach语句而构建的。它的语法是：
+ 
+{% highlight makefile %}
+$(foreach <var>,<list>,<text>)
+{% endhighlight %}
+    
+这个函数的意思是，把参数&lt;list>中的单词逐一取出放到参数&lt;var>所指定的变量中，然后再执行&lt;text>所包含的表达式。每一次&lt;text>会返回一个字符串，循环过程中，&lt;text>的所返回的每个字符串会以空格分隔，最后当整个循环结束时，&lt;text>所返回的每个字符串所组成的整个字符串（以空格分隔）将会是foreach函数的返回值。
+ 
+&#160; &#160; &#160; &#160;所以，&lt;var>最好是一个变量名，&lt;list>可以是一个表达式，而<text>中一般会使用&lt;var>这个参数来依次枚举&lt;list>中的单词。举个例子：
+
+{% highlight makefile %}
+names := a b c d
+files := $(foreach n,$(names),$(n).o)
+{% endhighlight %} 
+    
+上面的例子中，$(name)中的单词会被挨个取出，并存到变量“n”中，“$(n).o”每次根据“$(n)”计算出一个值，这些值以空格分隔，最后作为foreach函数的返回，所以，$(files)的值是“a.o b.o c.o d.o”。
+ 
+> 注意，foreach中的&lt;var>参数是一个临时的局部变量，foreach函数执行完后，参数&lt;var>的变量将不在作用，其作用域只在foreach函数当中。
+
+--- 
+ 
+## 7.5 if 函数
+
+&#160; &#160; &#160; &#160;if函数很像GNU的make所支持的条件语句——ifeq（参见前面所述的章节），if函数的语法是：
+
+{% highlight makefile %}
+$(if <condition>,<then-part>)
+{% endhighlight %}   
+ 
+或是
+
+{% highlight makefile %}
+$(if <condition>,<then-part>,<else-part>)
+{% endhighlight %}  
+    
+&#160; &#160; &#160; &#160;可见，if函数可以包含“else”部分，或是不含。即if函数的参数可以是两个，也可以是三个。&lt;condition>参数是if的表达式，如果其返回的为非空字符串，那么这个表达式就相当于返回真，于是，&lt;then-part>会被计算，否则&lt;else-part>会被计算。
+ 
+&#160; &#160; &#160; &#160;而if函数的返回值是，如果&lt;condition>为真（非空字符串），那个&lt;then-part>会是整个函数的返回值，如果&lt;condition>为假（空字符串），那么&lt;else-part>会是整个函数的返回值，此时如果&lt;else-part>没有被定义，那么，整个函数返回空字串。
+ 
+&#160; &#160; &#160; &#160;所以，&lt;then-part>和&lt;else-part>只会有一个被计算。
+ 
+---
+ 
+## 7.6 call函数
+
+&#160; &#160; &#160; &#160;call函数是唯一一个可以用来创建新的参数化的函数。你可以写一个非常复杂的表达式，这个表达式中，你可以定义许多参数，然后你可以用call函数来向这个表达式传递参数。其语法是：
+
+{% highlight makefile %}
+$(call <expression>,<parm1>,<parm2>,<parm3>...)
+{% endhighlight %}  
+    
+&#160; &#160; &#160; &#160;当make执行这个函数时，&lt;expression>参数中的变量，如$(1)，$(2)，$(3)等，会被参数&lt;parm1>，&lt;parm2>，&lt;parm3>依次取代。而&lt;expression>的返回值就是call函数的返回值。例如：
+
+{% highlight makefile %}
+reverse =  $(1) $(2)
+foo = $(call reverse,a,b)
+{% endhighlight %}    
+
+&#160; &#160; &#160; &#160;那么，foo的值就是“a b”。当然，参数的次序是可以自定义的，不一定是顺序的，如：
+ 
+{% highlight makefile %}
+reverse =  $(2) $(1)
+foo = $(call reverse,a,b)
+{% endhighlight %}      
+
+&#160; &#160; &#160; &#160;此时的foo的值就是“b a”。
+ 
+ 
+## 7.7 origin函数
+
+&#160; &#160; &#160; &#160;origin函数不像其它的函数，他并不操作变量的值，他只是告诉你你的这个变量是哪里来的？其语法是：
+ 
+{% highlight makefile %}
+$(origin <variable>)
+{% endhighlight %}    
+ 
+> 注意，&lt;variable>是变量的名字，不应该是引用。所以你最好不要在&lt;variable>中使用“$”字符。Origin函数会以其返回值来告诉你这个变量的“出生情况”，下面，是origin函数的返回值:
+ 
+**“undefined”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>从来没有定义过，origin函数返回这个值“undefined”。
+ 
+**“default”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>是一个默认的定义，比如“CC”这个变量，这种变量我们将在后面讲述。
+ 
+**“environment”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>是一个环境变量，并且当Makefile被执行时，“-e”参数没有被打开。
+ 
+**“file”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>这个变量被定义在Makefile中。
+ 
+**“command line”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>这个变量是被命令行定义的。
+ 
+**“override”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>是被override指示符重新定义的。
+ 
+**“automatic”**
+
+&#160; &#160; &#160; &#160;如果&lt;variable>是一个命令运行中的自动化变量。关于自动化变量将在后面讲述。
+ 
+这些信息对于我们编写Makefile是非常有用的，例如，假设我们有一个Makefile其包了一个定义文件Make.def，在Make.def中定义了一个变量“bletch”，而我们的环境中也有一个环境变量“bletch”，此时，我们想判断一下，如果变量来源于环境，那么我们就把之重定义了，如果来源于Make.def或是命令行等非环境的，那么我们就不重新定义它。于是，在我们的Makefile中，我们可以这样写：
+
+{% highlight makefile %}
+ifdef bletch
+    ifeq "$(origin bletch)" "environment"
+    	bletch = barf, gag, etc.
+    endif
+endif
+{% endhighlight %}  
+    
+当然，你也许会说，使用override关键字不就可以重新定义环境中的变量了吗？为什么需要使用这样的步骤？是的，我们用override是可以达到这样的效果，可是override过于粗暴，它同时会把从命令行定义的变量也覆盖了，而我们只想重新定义环境传来的，而不想重新定义命令行传来的。
+ 
+---
+ 
+## 7.8 shell函数
+
+&#160; &#160; &#160; &#160;shell函数也不像其它的函数。顾名思义，它的参数应该就是操作系统Shell的命令。它和反引号“`”是相同的功能。这就是说，shell函数把执行操作系统命令后的输出作为函数返回。于是，我们可以用操作系统命令以及字符串处理命令awk，sed等等命令来生成一个变量，如：
+
+{% highlight makefile %}
+contents := $(shell cat foo)
+ 
+files := $(shell echo *.c)
+{% endhighlight %}  
+    
+注意，这个函数会新生成一个Shell程序来执行命令，所以你要注意其运行性能，如果你的Makefile中有一些比较复杂的规则，并大量使用了这个函数，那么对于你的系统性能是有害的。特别是Makefile的隐晦的规则可能会让你的shell函数执行的次数比你想像的多得多。
+
+--- 
+ 
+## 7.9 控制make的函数
+
+&#160; &#160; &#160; &#160;make提供了一些函数来控制make的运行。通常，你需要检测一些运行Makefile时的运行时信息，并且根据这些信息来决定，你是让make继续执行，还是停止。
+ 
+{% highlight makefile %}
+$(error <text ...>)
+{% endhighlight %} 
+ 
+&#160; &#160; &#160; &#160;产生一个致命的错误，&lt;text ...>是错误信息。注意，error函数不会在一被使用就会产生错误信息，所以如果你把其定义在某个变量中，并在后续的脚本中使用这个变量，那么也是可以的。例如：
+ 
+示例一：
+{% highlight makefile %}
+ifdef ERROR_001
+    $(error error is $(ERROR_001))
+endif
+{% endhighlight %}     
+ 
+示例二：
+{% highlight makefile %}
+ERR = $(error found an error!)
+.PHONY: err
+err: ; $(ERR)
+{% endhighlight %}     
+ 
+&#160; &#160; &#160; &#160;示例一会在变量ERROR_001定义了后执行时产生error调用，而示例二则在目录err被执行时才发生error调用。
+ 
+{% highlight makefile %}
+$(warning <text ...>)
+{% endhighlight %}   
+ 
+&#160; &#160; &#160; &#160;这个函数很像error函数，只是它并不会让make退出，只是输出一段警告信息，而make继续执行。
