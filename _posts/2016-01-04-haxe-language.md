@@ -817,3 +817,38 @@ class C {
 }
 
 {% endhighlight %}
+
+## 使用using的Mixin方法注入
+
+> Method injection with "using" mixin
+
+&#160; &#160; &#160; &#160;这里的Mixin和Ruby里面的Mixin意义并不一样, 有些类似Objective-C中的类别, 主要用于打猴子补丁的.
+
+比如常见的字符串扩展, 当标准的字符串不符合我们的需求时我们会怎么做呢? 像C++中, boost库里面就有个string的扩展库boost::string_algo, 你引入了这个库后, 并没有给std::string添加任何方法, 只能从外部用Help类的方法来使用(事实上, 在C++的社区似乎还更偏好这种方法, 不仅仅因为C++没有办法). 在可以打猴子补丁的语言里面, 可以讲Help类的方法直接引入对象本身, 以方便调用, 使得调用更加自然.
+
+比如说, 我特别喜欢Ruby中类似自然语言的循环和块调用方式, 你可以用`5.times { |x| print x }`的方式来实现5次循环. 我想要在Haxe中模拟这种方法的话, 我给整数类型增加一个Help函数, times. 比如下例:
+
+{% highlight haxe %}
+// TimesLoop.hx
+class TimesLoop {
+    public static function times( n : Int, fun : Void -> Void ) : Void {
+        var i = 0;
+        while (i < n) {
+            fun();
+            ++i;
+        }
+    }
+}
+{% endhighlight %}
+
+此时我只能以以下形式调用该函数:
+
+	TimesLoop.times(5, callback( log, "Hello") );
+
+但是, 用了using后(完全不同于C++的using), TimesLoop的第一个参数所在的对象, 就能获得times方法, 此例中是整数能获得times方法, 于是我们就能这样调用:
+
+	5.times( callback( log, "Hello") );
+
+&#160; &#160; &#160; &#160;虽然还没能用上Ruby的Blocks, 但是形式上已经类似了.
+
+&#160; &#160; &#160; &#160;主要注意的是, 实际使用中我发现, 这种Using的用法只能在import一个类后立刻使用, 使得没法在当前文件中定义一个对象, 然后使用using, 这也算是个缺憾.
