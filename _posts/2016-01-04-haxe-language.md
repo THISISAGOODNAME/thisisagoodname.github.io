@@ -724,11 +724,65 @@ public static function HelloWorld() {
 > class haxe.rtti.Meta
 > 
 > Available in flash8, flash, neko, js, php, cpp, cs, java
-> 
-> An api to access classes and enums Metadata at runtime.
->>- static function getFields( t : Dynamic ) : Dynamic>><br><br>
+
+An api to access classes and enums Metadata at runtime.
+- static function getFields( t : Dynamic ) : Dynamic>><br><br>
 >>Returns the metadata that were declared for the given class fields or enum constructors
->>- static function getStatics( t : Dynamic ) : Dynamic>><br><br>
+- static function getStatics( t : Dynamic ) : Dynamic>><br><br>
 >>Returns the metadata that were declared for the given class static fields
->>- static function getType( t : Dynamic ) : Dynamic><br><br>
->>Returns the metadata that were declared for the given type (class or enum)
+- static function getType( t : Dynamic ) : Dynamic><br><br>
+Returns the metadata that were declared for the given type (class or enum)
+
+&#160; &#160; &#160; &#160;要对类使用, 用getType, 对类成员使用, 用getFields, 我们此例中是对静态成员函数使用, 所以用的是getStatics. 使用的方法很简单, 如下:
+
+{% highlight haxe %}
+var need_to_profiles =$type(haxe.rtti.Meta.getStatics(HelloWorld));
+{% endhighlight %}
+	
+&#160; &#160; &#160; &#160;但是上述函数都有个问题, 因为类型都是Dynamic的数组, 所以不能用for-in简单的迭代. 需要用到反射. 基本的代码如下:
+
+{% highlight haxe %}
+var need_to_profiles = haxe.rtti.Meta.getStatics(HelloWorld);
+for ( fun_name in Reflect.fields(need_to_profiles)) {
+    var fun = Reflect.field(need_to_profiles, fun_name);
+    if (Reflect.hasField(fun, "profile") ) {
+        var fun_to_call = Reflect.field(HelloWorld, fun_name);
+        profile(fun_to_call);
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;其中profile函数是一个类似下面的函数:
+
+{% highlight haxe %}
+public static function profile( fun: Void -> Dynamic ) {
+    var time_begin = haxe.Timer.stamp();
+    fun();
+    var time_passed = time_begin - haxe.Timer.stamp();
+    trace(time_passed);
+}
+{% endhighlight %}
+
+作用是针对一个函数进行调用, 然后统计时间, 实际上我们也不需要自己实现这样的函数, Haxe已经实现了, 为Timer.measure函数.
+
+&#160; &#160; &#160; &#160;有了上述代码后, 你可以简单的在一个类里面通过@profile的Metadata来实现对一个静态函数开启和关闭profile.
+
+## 偏函数
+
+> Partial function call with callback
+
+&#160; &#160; &#160; &#160;上面提到过一次了, 怎么又来了? 凑数啊~~
+
+## Getter/Setter
+
+> Getter/Setter and more with [Properties](http://haxe.org/manual/class-field-property.html)
+
+&#160; &#160; &#160; &#160;这本身是个语法糖, 因为没有的语言会比较苦恼, 所以这个语法糖比较甜.
+
+基础语法是`public var x(getter,setter) : Int;` 的形式, 只是Haxe对getter, setter设定的可用修饰符还真的比较多:
+
+- 可以直接指定函数
+- null表示限定对象方法调用
+- default表示和成员变量修饰符的访问权限一样
+- dynamic只有当动态生成代码后才能访问(通过反射)
+- never表示不能访问
