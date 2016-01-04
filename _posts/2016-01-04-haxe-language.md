@@ -490,32 +490,3 @@ var user = {
 };
 {% endhighlight %}
 
-&#160; &#160; &#160; &#160;了解javascript的人, 一眼就能看出, 这就是javascript Object的一种定义方式. 到这还没有什么, 作为静态语言, Haxe还真的给上面这种对象定义了类型, 比如, 上面的point类似就是`{ x : Int, y : Int }`, 而user的类型是`{ name : String, age : Int, pos : Array<{ x : Int, y : Int }> }`, 这是个很神奇的事情. 可以通过刚提到的`$type`来验证.
-
-&#160; &#160; &#160; &#160;既然是类型, 你甚至就可以直接使用, 只是要是多次使用会稍微麻烦一点, 所以Haxe提供了C/C++里面的typedef来简化这种操作. 见下面的代码:
-
-{% highlight haxe %}
-typedef Point = { x : Int, y : Int }
-
-class Path {
-        var start : Point;
-        var target : Point;
-        var current : Point;
-}
-{% endhighlight %}
-
-&#160; &#160; &#160; &#160;这就是Haxe中定义一个对象简便的办法, 假如需要的是一个临时使用的对象, 的确不需要兴师动众的动用class来做了. 特别的, 虽然官方的例子中没有演示, 我上面已经演示了, Haxe的这种结构实际上也是支持函数成员的, 使得它的应用可以更加广泛.
-
-&#160; &#160; &#160; &#160;具体还有些细节, 这里就不一一列举了.
-
-&#160; &#160; &#160; &#160;需要稍微注意一点的是在Haxe中结构是按javascript那么动态实现的, 所以运行效率会低于静态实现的class类型. 但是带来一个好处, 就是Haxe官方所谓的*Structural Subtyping*, 其实又没有subtyping的语法, 只是当一个对象拥有另一个对象的所有成员时, 可以完全当作另一个对象使用, 这个有些类似Duck Typing.
-
-&#160; &#160; &#160; &#160;更进一步的是, 可以不指定函数参数的类型(似乎默认就是Dynamic), 然后自动适配structural.
-
-{% highlight haxe %}
-public static function getLength(pt) {
-    return pt.x + pt.y;
-}
-{% endhighlight %}
-
-&#160; &#160; &#160; &#160;此时就完全可以接受上面typedef的Point类型对象. 更加神奇的是, 假如你真的传入了一个不对的对象, Haxe能在编译期就发现错误... 这简直逆天了. 在具有极为动态特性的时候, 还能有强大的编译期类型检测, 你还能说什么...
