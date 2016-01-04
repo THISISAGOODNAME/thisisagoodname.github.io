@@ -569,3 +569,72 @@ callback就是实现偏函数的函数, 有个遗憾是, 暂时没有(2.09版本
 
 > NOTES:3.x版本已经推出了
 
+## 有限制的多态函数
+
+> Polymorphic Methods (per-method type parameters), with constraints
+
+&#160; &#160; &#160; &#160;恕我愚钝, 官方也没有直接提供例子, 光看文本, 我不知道说的是什么, 函数重载? 函数调用时的多态性?
+
+## 函数的可选参数和默认参数
+
+> [Optional](http://haxe.org/manual/types-function-optional-arguments.html) and constant default value function arguments
+
+&#160; &#160; &#160; &#160;概念上很简单, 就不举例子了, 需要稍微注意一下的是Haxe奇怪的可选参数语法, 是在参数的最前面加?.
+
+## 指定的内联函数和常量的内联
+
+>Explicit [Inline](http://haxe.org/manual/class-field-inline.html) methods and constant inlined variables
+
+&#160; &#160; &#160; &#160;这是纯粹的运行效率考虑了, 用函数的inline来减少函数的调用开销, 通过常量替换实现减少中间变量. 这两个特性可能只有需要编译的语言才能实现了. 用的也是inline关键字, 用法和C++基本一样, 限制也是一样的, 那就是要求在编译器的确能够决定调用的函数内容, 才能形成内联, 比如动态绑定的情况, 就没法实现.
+
+## 可以使用this的匿名函数
+
+> Local function declarations with this capturing
+
+&#160; &#160; &#160; &#160;Haxe中可以用类似javascript的通过变量来定义函数, 毕竟起源于AS啊, 比如:
+
+	var fun = function() { };
+	
+上面的形式可以在一个局部定义, 此时函数像普通变量一样, 只在作用域内有效, 在外部无法访问.
+
+至于with this capturing的意思, 大概是指在这种情况下, 匿名函数还能调用this吧, 比如下面:
+
+{% highlight haxe %}
+class Point {
+    var x_ : Float;
+    var y_ : Float;
+    public function new(x : Float, y : Float) {
+        x_ = x;
+        y_ = y;
+
+        var fun = function() {
+            // this capturing
+            this.x_ = 10.0;
+            this.y_ = 20.0;
+        };
+
+        fun();
+    }
+
+    public function x() {
+        return x_;
+    }
+
+    public function y() {
+        return y_;
+    }
+
+}
+
+class HelloWorld {
+
+    public static function main() {
+        var pt = new Point(20.0, 10.0);
+
+        trace("x:" + pt.x());
+        trace("y:" + pt.y());
+    }
+}
+{% endhighlight %}
+
+要是没有this捕获, 那匿名函数的作用会大打折扣.
