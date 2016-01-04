@@ -450,7 +450,7 @@ class Array<T> {
 
 &#160; &#160; &#160; &#160;单纯函数的泛型官网上没有说明, 可能实际上就没有, 因为正如上面动态类型的例子中所演示的, 用Dynamic就能模拟出泛型的效果, 还能通过参数限定.
 
-### 泛型参数限制
+## 泛型参数限制
 
 > [Constraint Parameters](http://haxe.org/manual/type-system-type-parameters.html#constraint-parameters)
 
@@ -674,7 +674,7 @@ enum Color {
 
 &#160; &#160; &#160; &#160;没有具体的文档, 意思是说没有C++/Objective-C中那样所谓的接口和实现分离吗? 那样的做法的确很不人道, 我在C#的文章中就提到过, 看来碰到知音了. 不过稍微现代一点的语言, 比如JAVA, C#都早就是这样了, 说明持这样看法的人不是一个两个了.
 
-##异常(try/catch)
+## 异常(try/catch)
 
 > Exceptions (try/catch)
 
