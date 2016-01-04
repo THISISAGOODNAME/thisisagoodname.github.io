@@ -490,3 +490,4 @@ var user = {
 };
 {% endhighlight %}
 
+&#160; &#160; &#160; &#160;了解javascript的人, 一眼就能看出, 这就是javascript Object的一种定义方式. 到这还没有什么, 作为静态语言, Haxe还真的给上面这种对象定义了类型, 比如, 上面的point类似就是`{ x : Int, y : Int }`, 而user的类型是`{ name : String, age : Int, pos : Array<{ x : Int, y : Int }> }`, 这是个很神奇的事情. 可以通过刚提到的`$type`来验证.
