@@ -517,3 +517,5 @@ public static function getLength(pt) {
     return pt.x + pt.y;
 }
 {% endhighlight %}
+
+&#160; &#160; &#160; &#160;此时就完全可以接受上面typedef的Point类型对象. 更加神奇的是, 假如你真的传入了一个不对的对象, Haxe能在编译期就发现错误... 这简直逆天了. 在具有极为动态特性的时候, 还能有强大的编译期类型检测, 你还能说什么...
