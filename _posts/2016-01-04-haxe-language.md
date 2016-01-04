@@ -852,3 +852,52 @@ class TimesLoop {
 &#160; &#160; &#160; &#160;虽然还没能用上Ruby的Blocks, 但是形式上已经类似了.
 
 &#160; &#160; &#160; &#160;主要注意的是, 实际使用中我发现, 这种Using的用法只能在import一个类后立刻使用, 使得没法在当前文件中定义一个对象, 然后使用using, 这也算是个缺憾.
+
+## 宏条件编译
+
+> Conditional Compilation
+
+&#160; &#160; &#160; &#160;在流程控制那一节, 我们可以看到因为node和Haxe本身的Sys库不兼容, 所以需要分别实现, 实现在多个不同的文件自然是没有问题, 但是同样的就无法共用共有的部分了, C++中这种问题常用宏指定的条件编译来解决. Haxe也有类似的命令, 命令格式也很类似, 如下:
+
+{% highlight haxe %}
+#if js
+import js.Node;
+#end
+
+class HelloWorld {
+    public static function main() {
+
+    #if js
+        Node.process.stdin.resume();
+        Node.process.stdin.setEncoding('utf8');
+        Node.process.stdin.on('data', function (chunk) {
+            var choice : String = chunk.trim();
+            switch( choice ) {
+                case "y", "Y":
+                    Node.console.log("You surely want it!");
+                case "n", "N":
+                    Node.console.log("you don't want it?!");
+                default:
+                    Node.console.log("Not a valid choice.");
+            }
+        });
+    #else
+        var choice : String = "";
+        while (true) {
+            choice = Sys.stdin().readLine();
+
+            switch( choice ) {
+                case "y", "Y":
+                    Sys.println("You surely want it!");
+                case "n", "N":
+                    Sys.println("you don't want it?!");
+                    break;
+                default:
+                    Sys.println("Not a valid choice.");
+            }
+        }
+    #end
+    }
+}
+{% endhighlight %}
+
