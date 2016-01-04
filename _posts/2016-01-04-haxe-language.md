@@ -855,7 +855,7 @@ class TimesLoop {
 
 ## 宏条件编译
 
-> Conditional Compilation
+> [Conditional Compilation](http://haxe.org/manual/lf-condition-compilation.html)
 
 &#160; &#160; &#160; &#160;在流程控制那一节, 我们可以看到因为node和Haxe本身的Sys库不兼容, 所以需要分别实现, 实现在多个不同的文件自然是没有问题, 但是同样的就无法共用共有的部分了, C++中这种问题常用宏指定的条件编译来解决. Haxe也有类似的命令, 命令格式也很类似, 如下:
 
@@ -901,3 +901,70 @@ class HelloWorld {
 }
 {% endhighlight %}
 
+## 迭代器
+
+> Iterators
+
+&#160; &#160; &#160; &#160;很难理解, 为什么这会是个语言特性.
+
+&#160; &#160; &#160; &#160;在Haxe中迭代器都继承自Iterator的一个结构.
+
+{% highlight haxe %}
+typedef Iterator<T> = {
+    function hasNext() : Bool;
+    function next() : T;
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;然后就能在for-in中进行迭代了, 不可思议的是,(再次提到) 为啥没有普通的for循环啊~~~ 不讲了, 迭代器太普遍了.
+
+## 宏
+
+> [Macros](http://old.haxe.org/manual/macros)
+
+&#160; &#160; &#160; &#160;这绝对是个惊天地泣鬼神的特性, 在Ruby中也只是部分实现, 只有Lisp这种天然没有语法(只有S表达式的)的语言, 实现了宏, 在这之前, 我也以为只有Lisp这种语言, 才能方便和优美的实现宏. 我还没有见过任何C语言系的语言实现过类似特性. 当然, 首先声明的是C++, C#中的#define宏并算不上真正的宏, 那只是简单的文本替换而已.
+
+&#160; &#160; &#160; &#160;真正的宏应该是如Lisp里一样, 其实就是一个函数, 只不过这个函数是在编译期运行(有语法规则), 并且运行后不是返回值, 而是返回一段程序代码. Haxe里的宏就是这样的宏.
+
+&#160; &#160; &#160; &#160;因为宏, 我们可以在Haxe中实现自己想要的语法, 比如在前面, 我们用using的注入, 实现了类似`5.times( callback( log, "Hello") );`的语法, 但是其实还离Ruby中有差距, Ruby中通过Block, 执行的实际是一段代码, 而不是如目前我在Haxe中实现的一样, 需要一个确定的函数, 这会限制times的应用范围, 并且也较为麻烦, 因为我总是得构建函数才能方便的使用times, 假如不方便的话, 构建times的意义就没有了.
+
+&#160; &#160; &#160; &#160;用宏的话, 能够稍微解决这个问题.
+
+{% highlight haxe %}
+// TimesLoop.hx
+import haxe.macro.Expr;
+import haxe.macro.Context;
+class TimesLoop {
+    @:macro public static function times( n : Int, e:Expr ) : Expr {
+        var n_expr = Context.makeExpr(n, Context.currentPos());
+        return macro for (i in 0...$n_expr) { $e; };
+    }
+}
+
+// HelloWorld.hx
+import TimesLoop;
+using TimesLoop;
+
+class HelloWorld {
+
+    public static function main() {
+        5.times( trace("HelloWorld") );
+
+        var x = 0;
+        5.times( trace(x++));
+    }
+}
+{% endhighlight %}
+
+这里实际上是用using + macro的方式实现了整数的表达式调用, 这里特意用trace(x++)的代码来证明, 这里不是单纯的函数调用, 而是表达式调用, 因为实际上会输出0,1,2,3,4, 而不是输出0 5次. 事实上, 表达式的调用灵活度要比函数调用灵活的多.
+
+&#160; &#160; &#160; &#160;上面的宏创建代码有些难以理解, 稍微解释上面times里的语法:
+
+1. 在Haxe中, 用$:macro的元数据来完成对宏函数的指定.
+2. 常用到的两个宏相关的类就是Expr和Context了, Expr本身是一个包含pos(位置)和expr(表达式)的结构.
+3. Context的makeExpr函数用于简单的从基本类型构造Expr.
+4. macro关键字可以通过$expr的方式, 实现从表达式到表达式的构建.
+ 
+&#160; &#160; &#160; &#160;到目前为止, 其实还不够完美, 在Ruby中可以用5.times { |x| print x}的语句输出01234, 而目前, Haxe中我们只能盲目的执行五次, 没法知道目前是执行到第几次了, 上面仅仅只能通过外部变量的方式实现了类似的功能.
+
+&#160; &#160; &#160; &#160;其实Haxe的宏还有@:build的部分, 用于生成一个类, 而不是上面这种通过函数返回表达式的方式. 这里不讲了.
