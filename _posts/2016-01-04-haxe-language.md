@@ -449,3 +449,27 @@ class Array<T> {
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;单纯函数的泛型官网上没有说明, 可能实际上就没有, 因为正如上面动态类型的例子中所演示的, 用Dynamic就能模拟出泛型的效果, 还能通过参数限定.
+
+## 泛型参数限制
+
+> [Constraint Parameters](http://haxe.org/manual/type-system-type-parameters.html#constraint-parameters)
+
+&#160; &#160; &#160; &#160;一般意义的泛型往往太过灵活, 所以Haxe加入了泛型参数限制的特性. 很类似C#的约束类型. 概念上类似, 就不写例子了, 只是语法上有差异:
+
+{% highlight haxe %}
+class EvtQueue<T : (Event, EventDispatcher)> {
+    var evt : T;
+    // ...
+}
+{% endhighlight %}
+
+## 对所有变量适用的先进类型推导, 包括函数参数, 返回值(除了类成员变量)
+
+> Advanced [Type Inference](http://haxe.org/manual/type-system-type-inference.html) for all variables including methods arguments and return types (except member variables)
+
+&#160; &#160; &#160; &#160;这个在上面最开始讲类型的地方就介绍过了, 不再重复.
+
+&#160; &#160; &#160; &#160;只在这里介绍一个辅助的标记`$type`, 在编译期这个标记会移除, 但是具有这个标记的表达式会保留, 同时通过Warning信息输出推导出来的类型, 作为方便调试的一个手段. 比如下面的代码:
+
+	var x : Int = $type(0);
+
