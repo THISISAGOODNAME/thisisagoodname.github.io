@@ -519,3 +519,53 @@ public static function getLength(pt) {
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;此时就完全可以接受上面typedef的Point类型对象. 更加神奇的是, 假如你真的传入了一个不对的对象, Haxe能在编译期就发现错误... 这简直逆天了. 在具有极为动态特性的时候, 还能有强大的编译期类型检测, 你还能说什么...
+
+## 严格静态的函数类型, 闭包和偏函数
+
+> Strictly typed function types, functions closures and partial applications
+
+{% highlight haxe %}
+class HelloWorld {
+
+    public static function makeIncrementor(base : Int) {
+        var count = base;
+        return function(num : Int) {
+            count += num;
+            return count;
+        }
+    }
+
+    public static function main() {
+
+        var obj1 = makeIncrementor(10);
+        var obj2 = makeIncrementor(20);
+
+        trace(obj1(1));
+        trace(obj1(1));
+
+        trace(obj2(2));
+        trace(obj2(2));
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;偏函数是一个很有用的特性, 在很早的时候C++为了支持这个特性鼓捣出了bind1st, bind2nd等恶心的函数, 在C++11中由bind统一了, 主要的作用就是可以让一个函数在经过少量的适配代码后就能应用到需要函数作为参数, 但是参数个数对不上的地方.
+
+&#160; &#160; &#160; &#160;其实本质上就算没有, 我们也可以通过新建一个函数, 然后调用原有函数实现, 只是有了原生的支持后会变得简单很多.
+
+{% highlight haxe %}
+function add( x: Float, y: Float ) {
+    return x + y;
+}
+
+var addOne = callback( add, 1 );
+
+addOne( 5 ); // returns 6
+{% endhighlight %}
+
+callback就是实现偏函数的函数, 有个遗憾是, 暂时没有(2.09版本)发现通过常见的通过占位符实现任意参数的bind, 目前只能依照参数从左至右的实现partical function. 在3.x版本中, callback将被废弃, 引入了通过占位符_实现的任意参数bind.
+
+届时, 以上的代码将会是类似`var addOne = add(1, _)`;
+
+> NOTES:3.x版本已经推出了
+
