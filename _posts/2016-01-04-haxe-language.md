@@ -473,3 +473,209 @@ class EvtQueue<T : (Event, EventDispatcher)> {
 
 	var x : Int = $type(0);
 
+## 具有结构化继承的匿名结构
+
+> Anonymous [Structures](http://haxe.org/manual/types-anonymous-structure.html) with structural subtyping
+
+&#160; &#160; &#160; &#160;这是个很让人惊叹的特性, 同样的也是因为Haxe其实源于Action Script. Haxe允许以以下的格式来定义新的对象, 这在Haxe被称作匿名结构(Anonymous Structures).
+
+{% highlight %}
+var point = { x : 1, y : -5};
+
+var user = {
+    name : "Nicolas",
+    age : 32,
+    pos : [ {x:0, y:0}, {x:0, y:0}],
+};
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;了解javascript的人, 一眼就能看出, 这就是javascript Object的一种定义方式. 到这还没有什么, 作为静态语言, Haxe还真的给上面这种对象定义了类型, 比如, 上面的point类似就是`{ x : Int, y : Int }`, 而user的类型是`{ name : String, age : Int, pos : Array<{ x : Int, y : Int }> }`, 这是个很神奇的事情. 可以通过刚提到的`$type`来验证.
+
+&#160; &#160; &#160; &#160;既然是类型, 你甚至就可以直接使用, 只是要是多次使用会稍微麻烦一点, 所以Haxe提供了C/C++里面的typedef来简化这种操作. 见下面的代码:
+
+{% highlight %}
+typedef Point = { x : Int, y : Int }
+
+class Path {
+        var start : Point;
+        var target : Point;
+        var current : Point;
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;这就是Haxe中定义一个对象简便的办法, 假如需要的是一个临时使用的对象, 的确不需要兴师动众的动用class来做了. 特别的, 虽然官方的例子中没有演示, 我上面已经演示了, Haxe的这种结构实际上也是支持函数成员的, 使得它的应用可以更加广泛.
+
+&#160; &#160; &#160; &#160;具体还有些细节, 这里就不一一列举了.
+
+&#160; &#160; &#160; &#160;需要稍微注意一点的是在Haxe中结构是按javascript那么动态实现的, 所以运行效率会低于静态实现的class类型. 但是带来一个好处, 就是Haxe官方所谓的*Structural Subtyping*, 其实又没有subtyping的语法, 只是当一个对象拥有另一个对象的所有成员时, 可以完全当作另一个对象使用, 这个有些类似Duck Typing.
+
+&#160; &#160; &#160; &#160;更进一步的是, 可以不指定函数参数的类型(似乎默认就是Dynamic), 然后自动适配structural.
+
+{% highlight haxe %}
+public static function getLength(pt) {
+    return pt.x + pt.y;
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;此时就完全可以接受上面typedef的Point类型对象. 更加神奇的是, 假如你真的传入了一个不对的对象, Haxe能在编译期就发现错误... 这简直逆天了. 在具有极为动态特性的时候, 还能有强大的编译期类型检测, 你还能说什么...
+
+## 严格静态的函数类型, 闭包和偏函数
+
+> Strictly typed function types, functions closures and partial applications
+
+{% highlight haxe %}
+class HelloWorld {
+
+    public static function makeIncrementor(base : Int) {
+        var count = base;
+        return function(num : Int) {
+            count += num;
+            return count;
+        }
+    }
+
+    public static function main() {
+
+        var obj1 = makeIncrementor(10);
+        var obj2 = makeIncrementor(20);
+
+        trace(obj1(1));
+        trace(obj1(1));
+
+        trace(obj2(2));
+        trace(obj2(2));
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;偏函数是一个很有用的特性, 在很早的时候C++为了支持这个特性鼓捣出了bind1st, bind2nd等恶心的函数, 在C++11中由bind统一了, 主要的作用就是可以让一个函数在经过少量的适配代码后就能应用到需要函数作为参数, 但是参数个数对不上的地方.
+
+&#160; &#160; &#160; &#160;其实本质上就算没有, 我们也可以通过新建一个函数, 然后调用原有函数实现, 只是有了原生的支持后会变得简单很多.
+
+{% highlight haxe %}
+function add( x: Float, y: Float ) {
+    return x + y;
+}
+
+var addOne = callback( add, 1 );
+
+addOne( 5 ); // returns 6
+{% endhighlight %}
+
+callback就是实现偏函数的函数, 有个遗憾是, 暂时没有(2.09版本)发现通过常见的通过占位符实现任意参数的bind, 目前只能依照参数从左至右的实现partical function. 在3.x版本中, callback将被废弃, 引入了通过占位符_实现的任意参数bind.
+
+届时, 以上的代码将会是类似`var addOne = add(1, _)`;
+
+> NOTES:3.x版本已经推出了
+
+## 有限制的多态函数
+
+> Polymorphic Methods (per-method type parameters), with constraints
+
+&#160; &#160; &#160; &#160;恕我愚钝, 官方也没有直接提供例子, 光看文本, 我不知道说的是什么, 函数重载? 函数调用时的多态性?
+
+## 函数的可选参数和默认参数
+
+> [Optional](http://haxe.org/manual/types-function-optional-arguments.html) and constant default value function arguments
+
+&#160; &#160; &#160; &#160;概念上很简单, 就不举例子了, 需要稍微注意一下的是Haxe奇怪的可选参数语法, 是在参数的最前面加?.
+
+## 指定的内联函数和常量的内联
+
+>Explicit [Inline](http://haxe.org/manual/class-field-inline.html) methods and constant inlined variables
+
+&#160; &#160; &#160; &#160;这是纯粹的运行效率考虑了, 用函数的inline来减少函数的调用开销, 通过常量替换实现减少中间变量. 这两个特性可能只有需要编译的语言才能实现了. 用的也是inline关键字, 用法和C++基本一样, 限制也是一样的, 那就是要求在编译器的确能够决定调用的函数内容, 才能形成内联, 比如动态绑定的情况, 就没法实现.
+
+## 可以使用this的匿名函数
+
+> Local function declarations with this capturing
+
+&#160; &#160; &#160; &#160;Haxe中可以用类似javascript的通过变量来定义函数, 毕竟起源于AS啊, 比如:
+
+	var fun = function() { };
+	
+上面的形式可以在一个局部定义, 此时函数像普通变量一样, 只在作用域内有效, 在外部无法访问.
+
+至于with this capturing的意思, 大概是指在这种情况下, 匿名函数还能调用this吧, 比如下面:
+
+{% highlight haxe %}
+class Point {
+    var x_ : Float;
+    var y_ : Float;
+    public function new(x : Float, y : Float) {
+        x_ = x;
+        y_ = y;
+
+        var fun = function() {
+            // this capturing
+            this.x_ = 10.0;
+            this.y_ = 20.0;
+        };
+
+        fun();
+    }
+
+    public function x() {
+        return x_;
+    }
+
+    public function y() {
+        return y_;
+    }
+
+}
+
+class HelloWorld {
+
+    public static function main() {
+        var pt = new Point(20.0, 10.0);
+
+        trace("x:" + pt.x());
+        trace("y:" + pt.y());
+    }
+}
+{% endhighlight %}
+
+要是没有this捕获, 那匿名函数的作用会大打折扣.
+
+## 自动闭包创建
+
+> Automatic closure creation
+
+&#160; &#160; &#160; &#160;就是闭包被, 难道哪个语言的闭包还不是自动创建的? 不明白. 指的是Objective-C中Blocks创建的时候需要手动指定哪些局部变量需要进行捕获才能更改吗?
+
+## 强大的枚举类型, 有构造函数参数和模型匹配
+
+> Powerful [Enums](http://haxe.org/manual/types-enum-instance.html) (with constructor parameters and pattern matching)
+
+&#160; &#160; &#160; &#160;不知道是何种原因, Nicolas对枚举似乎有强大的兴趣和偏好, 现代语言中的确对原来C/C++的枚举很反感, 所以一般都会让枚举变得强类型一些, 但是Haxe中就不仅仅是让枚举变的强类型而已, 而是极大的复杂化了枚举(或者说极大的强大?) 比如, 在Haxe中枚举支持构造函数参数:
+
+{% highlight haxe %}
+enum Color {
+        Red;
+        Green;
+        Blue;
+        Grey( v : Int );
+        Rgb( r : Int, g : Int, b : Int );
+        Alpha( a : Int, col : Color );
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;上面例子中的Grey, Rgb, Alpha就是带构造函数参数的枚举, 甚至在Alpha中递归引用了Color这个枚举类型. 问题是, 我没有发现这个到底有什么用, 因为枚举都是常量, 你可以如下定义Alpha:
+
+	Alpha( 127, Red );
+	Alpha( 255, Rgb(0,0,0) );
+
+&#160; &#160; &#160; &#160;定义后就不能更改, 然后呢? 我不知道然后怎么样了. 官方的文档中似乎是想用switch中, 在case语句中使用枚举的构造函数参数, 一则这种用处非常之小, 二则真的要用到, 定义一个枚举和一个class, 差异也不大了.
+
+## 没有声明, 只有表达式
+
+> No statements : only expressions
+
+&#160; &#160; &#160; &#160;没有具体的文档, 意思是说没有C++/Objective-C中那样所谓的接口和实现分离吗? 那样的做法的确很不人道, 我在C#的文章中就提到过, 看来碰到知音了. 不过稍微现代一点的语言, 比如JAVA, C#都早就是这样了, 说明持这样看法的人不是一个两个了.
+
+## 异常(try/catch)
+
+> Exceptions (try/catch)
+
+&#160; &#160; &#160; &#160;只有try catch没有finally的异常机制根本就不值得作为优点提出来(就像C++中的那样), 那是不完善的设计. 有意思的是在Haxe用catch Dynamic类型的异常作为捕获所有的异常, 因为内部没有为异常建立一个完整的树壮继承对象体系?
