@@ -768,3 +768,52 @@ public static function profile( fun: Void -> Dynamic ) {
 
 &#160; &#160; &#160; &#160;有了上述代码后, 你可以简单的在一个类里面通过@profile的Metadata来实现对一个静态函数开启和关闭profile.
 
+## 偏函数
+
+> Partial function call with callback
+
+&#160; &#160; &#160; &#160;上面提到过一次了, 怎么又来了? 凑数啊~~
+
+## Getter/Setter
+
+> Getter/Setter and more with [Properties](http://haxe.org/manual/class-field-property.html)
+
+&#160; &#160; &#160; &#160;这本身是个语法糖, 因为没有的语言会比较苦恼, 所以这个语法糖比较甜.
+
+基础语法是`public var x(getter,setter) : Int;` 的形式, 只是Haxe对getter, setter设定的可用修饰符还真的比较多:
+
+- 可以直接指定函数
+- null表示限定对象方法调用
+- default表示和成员变量修饰符的访问权限一样
+- dynamic只有当动态生成代码后才能访问(通过反射)
+- never表示不能访问
+
+&#160; &#160; &#160; &#160;一个例子如下
+
+{% highlight haxe %}
+class C {
+     public var ro(default,null) : Int;
+     public var wo(null,default) : Int;
+     public var x(getX,setX) : Int;
+     public var y(getX,never) : Int; // here y should always equal x
+     public var z(default, setZ) : Int;
+
+     private var my_x : Int;
+
+     private function getX():Int {
+             return my_x;
+     }
+
+     private function setX( v : Int ):Int {
+            if( v >= 0 )
+                 my_x = v;
+            return my_x;
+     }
+
+     private function setZ( v : Int ) : Int {
+            return z = v;
+     }
+
+}
+
+{% endhighlight %}
