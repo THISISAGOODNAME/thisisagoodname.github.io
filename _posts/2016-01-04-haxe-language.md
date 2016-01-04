@@ -638,3 +638,46 @@ class HelloWorld {
 {% endhighlight %}
 
 要是没有this捕获, 那匿名函数的作用会大打折扣.
+
+## 自动闭包创建
+
+> Automatic closure creation
+
+&#160; &#160; &#160; &#160;就是闭包被, 难道哪个语言的闭包还不是自动创建的? 不明白. 指的是Objective-C中Blocks创建的时候需要手动指定哪些局部变量需要进行捕获才能更改吗?
+
+## 强大的枚举类型, 有构造函数参数和模型匹配
+
+> Powerful [Enums](http://haxe.org/manual/types-enum-instance.html) (with constructor parameters and pattern matching)
+
+&#160; &#160; &#160; &#160;不知道是何种原因, Nicolas对枚举似乎有强大的兴趣和偏好, 现代语言中的确对原来C/C++的枚举很反感, 所以一般都会让枚举变得强类型一些, 但是Haxe中就不仅仅是让枚举变的强类型而已, 而是极大的复杂化了枚举(或者说极大的强大?) 比如, 在Haxe中枚举支持构造函数参数:
+
+{% highlight haxe %}
+enum Color {
+        Red;
+        Green;
+        Blue;
+        Grey( v : Int );
+        Rgb( r : Int, g : Int, b : Int );
+        Alpha( a : Int, col : Color );
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;上面例子中的Grey, Rgb, Alpha就是带构造函数参数的枚举, 甚至在Alpha中递归引用了Color这个枚举类型. 问题是, 我没有发现这个到底有什么用, 因为枚举都是常量, 你可以如下定义Alpha:
+
+	Alpha( 127, Red );
+	Alpha( 255, Rgb(0,0,0) );
+
+&#160; &#160; &#160; &#160;定义后就不能更改, 然后呢? 我不知道然后怎么样了. 官方的文档中似乎是想用switch中, 在case语句中使用枚举的构造函数参数, 一则这种用处非常之小, 二则真的要用到, 定义一个枚举和一个class, 差异也不大了.
+
+## 没有声明, 只有表达式
+
+> No statements : only expressions
+
+&#160; &#160; &#160; &#160;没有具体的文档, 意思是说没有C++/Objective-C中那样所谓的接口和实现分离吗? 那样的做法的确很不人道, 我在C#的文章中就提到过, 看来碰到知音了. 不过稍微现代一点的语言, 比如JAVA, C#都早就是这样了, 说明持这样看法的人不是一个两个了.
+
+## 异常(try/catch)
+
+> Exceptions (try/catch)
+
+&#160; &#160; &#160; &#160;只有try catch没有finally的异常机制根本就不值得作为优点提出来(就像C++中的那样), 那是不完善的设计. 有意思的是在Haxe用catch Dynamic类型的异常作为捕获所有的异常, 因为内部没有为异常建立一个完整的树壮继承对象体系?
+
