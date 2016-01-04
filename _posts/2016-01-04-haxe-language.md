@@ -480,7 +480,7 @@ class EvtQueue<T : (Event, EventDispatcher)> {
 
 &#160; &#160; &#160; &#160;这是个很让人惊叹的特性, 同样的也是因为Haxe其实源于Action Script. Haxe允许以以下的格式来定义新的对象, 这在Haxe被称作匿名结构(Anonymous Structures).
 
-{% highlight %}
+{% highlight haxe %}
 var point = { x : 1, y : -5};
 
 var user = {
