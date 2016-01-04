@@ -255,3 +255,197 @@ class HelloWorld {
 
 &#160; &#160; &#160; &#160;类作用域和函数作用域不用说了, 好消息是Haxe有块作用域, 也就是说, {}范围内定义的变量只在大括号范围内有效, 这个很有很有用. 假如不能这样的话, 需要用javascript扭曲的匿名函数hack, 太扭曲了.
 
+# Haxe特性
+
+&#160; &#160; &#160; &#160;因为Haxe是如此的冷门, 所以明明本文是讲Haxe特性的, 结果也拉入了一堆简介. 好了， 以下是正题. 我选择的特性列表直接来自于官方列出的列表[Language Features](http://old.haxe.org/doc/features#language-features), 没有什么比这个更有代表性了.
+
+## 基于模版(class-based)的类和接口模型(类似JAVA)
+
+> Classic Object-Oriented [class + interface model](http://haxe.org/manual/types-class-instance.html) (similar to Java)
+
+1. 类的访问限制只有public和private两层, 相对一些语言(比如JAVA)还在C++经典的三权限中去增加一个默认的package不同, Haxe甚至去掉了通常的private, 而把protected称为private, 并且默认状态就是private.
+2. 用new()表示构造函数.
+3. 用super来访问父类
+4. interface可以implement一个interface.
+5. 覆盖父类的函数时要求必须使用override关键字标志.(和C#一样)
+6. 允许在一个文件中定义多个类. 可以用private限定一个类只在当前文件中可用.
+
+&#160; &#160; &#160; &#160;下例我尽量多用了更多特性, 不过一个例子还是有些难, 看个风格吧, 反正和JAVA, C#很像.
+
+{% highlight haxe %}
+interface PointProto {
+    function length() : Float;
+}
+
+class Point {
+    var x_ : Float;
+    var y_ : Float;
+
+    public function new(x : Float, y : Float) {
+        this.x_ = x;
+        this.y_ = y;
+    }
+
+    public function x() : Float {
+        return x_;
+    }
+
+    public function y() : Float {
+        return y_;
+    }
+}
+
+class Point3D extends Point, implements PointProto{
+    var z_ : Float;
+
+    public function new(x : Float, y : Float, z : Float) {
+        super(x, y);
+        this.z_ = z;
+    }
+
+    public function z() : Float {
+        return z_;
+    }
+
+    public function length() : Float {
+        return Math.sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+    }
+}
+
+class HelloWorld {
+    public static function main() {
+        var p = new Point3D(1.0, 2.0, 3.0);
+        trace(p.length());
+    }
+}
+{% endhighlight %}
+
+## 静态类型但是有对动态类型的支持
+
+>Strict typing but with [Dynamic]([http://haxe.org/ref/dynamic](http://haxe.org/ref/dynamic) support
+
+&#160; &#160; &#160; &#160;这点很像C#, 我觉得也就就应该这样, 为啥非要需要区分动态语言和静态语言?
+
+这个世界上的语言有些很有意思的现象:
+
+1. 对于动态语言来说, 没有静态类型可以选择, 但是对于静态语言来说, 就算有动态语言的选择时, 一定是推荐你尽量使用静态类型, 因为效率和编译期的静态检查. 没有人会推荐你把一个同时有动态类型和静态类型的语言当作动态类型的来用, 比如C#, UnityScript, 还有Haxe.
+2. 对于语句必须以;结尾或者必须用{}的情况, 你没得选择. 对于语句完全不需要;和{}时, 也没得选择. 但是对于语句可以以;结尾也可以不以;结尾, 语句可以用{}也可以不用时, 一定是推荐你用;和{}, 因为更加严谨, 不容易出现错误. 比如javascript的;和类C语言的单行if语句.
+
+上面的例子可能还有一些, 不过总得来说, 开发社区还是有保守的倾向和对运行效率的追求.
+
+&#160; &#160; &#160; &#160;Dynamic除了可以把Haxe当作动态语言来用, 还有个好处就是不用模版来实现模版的功能.
+
+{% highlight haxe %}
+class HelloWorld {
+
+    public static function add(left_param : Dynamic, right_param : Dynamic) {
+        return left_param + right_param;
+    }
+
+    public static function main() {
+        trace( add( 1, 2.0) );
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;事实上, 上例要是用模版的话, add函数还需要是双模版(即T1, T2两个类型) 才能实现整数对浮点数的操作. 当然, 上例太弱智了, 但是真实情况下对多种类型进行一样的操作是完全可能的, 特别是你准备用duck typing的时候.
+
+&#160; &#160; &#160; &#160;有趣的是, Haxe在动态化上走的非常远, 一般情况下, 即使是Dynamic的对象, 也不能访问一个不存在的成员变量和成员函数, 只是把检测推迟到运行时了, 但是Haxe允许动态为Dynamic类型的对象添加成员变量, 甚至函数, 也就是说, 就像javascript里面的Object那样, 对于一个静态类型的语言加入这个特性大大的超乎我的想象. 不过回头想想, Haxe起源于flash社区的Action Script(javascript的方言), 也就没有那么奇怪了. 只是因为Haxe的静态特性又太深入, 使得我有些都忘了它的起源, 这点和UnityScript很不一样.
+
+{% highlight haxe %}
+class HelloWorld {
+
+    public static function main() {
+        var obj : Dynamic = {};
+        obj.name = "Simon";
+        obj.hello = function() {
+            trace("hello," + obj.name);
+        }
+
+        obj.hello();
+    }
+}
+{% endhighlight %}
+
+## 参数化动态类型
+
+> Parameterized Dynamic Variables
+
+&#160; &#160; &#160; &#160;在Dynamic如此自由后, 作为静态类型的语言, Haxe加入了参数化动态类型这个新的特性, 作用如下:
+
+{% highlight haxe %}
+class HelloWorld {
+
+    public static function main() {
+        var dyn : Dynamic<String> = cast {};
+        dyn.name = "Paul";
+        dyn.age = "28";   // can't be dyn.age = 28;
+
+        trace( dyn.name + ":" + dyn.age );
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;而使用了参数化的动态类型后, (比如dyn变量被设定为Dynamic<String>)一个变量能在参数化的范围内, 随意的访问成员变量, 但是, 仍然是有限制的, 比如上例中的dyn, 就不能将其成员变量赋值成字符串意外的类型.
+
+&#160; &#160; &#160; &#160;更觉的是, 这个参数化类型甚至能被继承... 具体的就还是看[官方的介绍](http://haxe.org/manual/types-dynamic.html#implementing-dynamic)吧, 因为这样的特性已经超出我的想象了, 所以不知道什么时候能用上.
+
+## 包和模块的直接支持
+
+> Packages and [modules](http://haxe.org/manual/type-system-modules-and-paths.html)
+
+&#160; &#160; &#160; &#160;默认情况下一个.hx文件就是一个module, 此时是以文件名为模块名的, 比如下例, 我讲上面例子中的add函数拆分到一个新的文件中去:
+
+{% highlight haxe %}
+// file: utility.hx
+class Utility {
+
+    public static function add(left_param : Dynamic, right_param : Dynamic) {
+        return left_param + right_param;
+    }
+}
+
+// file: helloworld.hx
+import Utility;
+
+class HelloWorld {
+
+    public static function main() {
+        trace( Utility.add( 1, 2.0) );
+    }
+}
+{% endhighlight %}
+
+值得注意的有以下几点:
+
+1. 一个模块中可以有多个类.
+2. 默认时每个类都是public的, 外部都可以访问, 设定为private时, 该类为模块内的internal内, 只能在模块内访问.
+3. 模块名只与文件名有关, 和文件里面的类没有关系. 同时, 就算文件名为全小写, import的时候仍然要求首字符大写, 并且可以正常import.
+4. 导入后, 实际已经将导入模块的所有类型都加入到了全局空间, 不需要加模块名即可访问, 假如有冲突的话, 仍然可以通过模块名的限定来取得指定模块的类型.
+
+另外, 有可选的关键字package.
+
+## 泛型
+
+> Generics ([type parameters](http://haxe.org/manual/type-system-type-parameters.html)) with one or several constraints, but not [variance](http://haxe.org/manual/type-system-variance.html)
+
+&#160; &#160; &#160; &#160;在静态类型上走远了, 总会需要泛型的, 不然一些基础的容器会很累人, Haxe也又泛型, 基本的语法如下:
+
+{% highlight haxe %}
+class Array<T> {
+
+    function new() {
+        // ...
+    }
+
+    function get( pos : Int ) : T {
+        // ...
+    }
+
+    function set( pos : Int, val : T ) : Void {
+        // ...
+    }
+}
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;单纯函数的泛型官网上没有说明, 可能实际上就没有, 因为正如上面动态类型的例子中所演示的, 用Dynamic就能模拟出泛型的效果, 还能通过参数限定.
