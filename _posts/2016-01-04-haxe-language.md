@@ -494,7 +494,7 @@ var user = {
 
 &#160; &#160; &#160; &#160;既然是类型, 你甚至就可以直接使用, 只是要是多次使用会稍微麻烦一点, 所以Haxe提供了C/C++里面的typedef来简化这种操作. 见下面的代码:
 
-{% highlight %}
+{% highlight haxe %}
 typedef Point = { x : Int, y : Int }
 
 class Path {
