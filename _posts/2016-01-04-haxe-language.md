@@ -509,3 +509,11 @@ class Path {
 &#160; &#160; &#160; &#160;具体还有些细节, 这里就不一一列举了.
 
 &#160; &#160; &#160; &#160;需要稍微注意一点的是在Haxe中结构是按javascript那么动态实现的, 所以运行效率会低于静态实现的class类型. 但是带来一个好处, 就是Haxe官方所谓的*Structural Subtyping*, 其实又没有subtyping的语法, 只是当一个对象拥有另一个对象的所有成员时, 可以完全当作另一个对象使用, 这个有些类似Duck Typing.
+
+&#160; &#160; &#160; &#160;更进一步的是, 可以不指定函数参数的类型(似乎默认就是Dynamic), 然后自动适配structural.
+
+{% highlight haxe %}
+public static function getLength(pt) {
+    return pt.x + pt.y;
+}
+{% endhighlight %}
