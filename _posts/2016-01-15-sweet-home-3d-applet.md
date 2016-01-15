@@ -468,3 +468,7 @@ ant applet
 {% endhighlight %}
 
 &#160; &#160; &#160; &#160;之后，在delpoy文件夹下，就能看到几个web页面，启动server运行这几个网页即可(也许需要解决**安全设置已阻止自签名的应用程序运行**的问题)，生成的网页和[页首给的demo](http://acidg.pub/sweethome3dapplet/SweetHome3DApplet.html)类似。
+
+如下图：
+
+![示意图](http://img17.poco.cn/mypoco/myphoto/20160115/23/17800049220160115231654029.jpg)
