@@ -443,4 +443,28 @@ public class AudioDemo extends Applet
 
 >你可以使用你电脑上的test.wav来测试上面的实例。
 
+# Sweet Home 3D Applet 
 
+## 下载Sweet Home 3D源码
+
+&#160; &#160; &#160; &#160;[下载地址](http://sourceforge.net/projects/sweethome3d/files/SweetHome3D-source/SweetHome3D-5.1-src/SweetHome3D-5.1-src.zip/download)
+
+## 编译Sweet Home 3D
+
+&#160; &#160; &#160; &#160;运行下面的命令,需要先安装[Ant](http://ant.apache.org)工具
+
+{% highlight bash %}
+# 生成安全密钥
+keytool -genkey -keystore keys.p12 -alias SweetHome3D -storetype pkcs12
+
+# 在deploy/lib生成依赖文件
+ant java3dLibraries
+
+# 在deploy/lib生成Sweet Home 3D调用的实例页面 
+ant javaWebStart
+
+# 在deploy/lib生成Sweet Home 3D Applet
+ant applet
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;之后，在delpoy文件夹下，就能看到几个web页面，启动server运行这几个网页即可(也许需要解决**安全设置已阻止自签名的应用程序运行**的问题)，生成的网页和[页首给的demo](http://acidg.pub/sweethome3dapplet/SweetHome3DApplet.html)类似。
