@@ -11,7 +11,7 @@ tags: [shader,体素化]
 [原文链接](https://developer.nvidia.com/content/basics-gpu-voxelization)
 By Masaya Takeshige, posted Mar 22 2015 at 11:44PM
 
-![Voxelization](https://developer.nvidia.com/sites/default/files/styles/main_image/public/akamai/gameworks/blog/Voxelization_blog_fig_1.png?itok=2lWIG73x)
+<img src="https://developer.nvidia.com/sites/default/files/styles/main_image/public/akamai/gameworks/blog/Voxelization_blog_fig_1.png?itok=2lWIG73x" style="width: 45%;" />
 
 <!-- more -->
 
@@ -136,3 +136,120 @@ if ((primMax.x – voxelMin.x) * (primMinX.x – voxelMax.x) >= 0.0  ||
     discard;
 }
 {% endhighlight %}
+
+# Edge-Voxel Condition Test
+
+Checking the edge-voxel condition is done in in each of the three axis-aligned planes. For each edge, we calculate the signed distance from the edge to the voxel’s vertices. The maximum signed distance value across all the voxel’s vertices is used for the test. In the following picture, the edge with the red normal vector is checked with the vertex colored red, which is the voxel corner with the maximum signed distance along the red normal. The other two edges (green and blue) are checked similarly. If all of the calculated signed distances are positive, this test is passed.
+
+![Figure 13](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_13.png)
+
+<center>Figure 13: Edge-Voxel condition testing.</center>
+
+The following code snippet shows the edge-voxel condition tests in the pixel shader.
+
+{% highlight c++ %}
+//calculate edge vectors in voxel coordinate space
+float3 e0 = IN.VoxPos[1] - IN.VoxPos[0];
+float3 e1 = IN.VoxPos[2] - IN.VoxPos[1];
+float3 e2 = IN.VoxPos[0] - IN.VoxPos[2];
+float3 planeNormal = cross(e0, e1);
+
+// for testing in XY plane projection
+{
+     float isFront = -sign(planeNormal.z);
+
+     float2 eNrm[3];
+     eNrm[0] = float2(e0.y, -e0.x) * isFront;
+     eNrm[1] = float2(e1.y, -e1.x) * isFront;
+     eNrm[2] = float2(e2.y, -e2.x) * isFront;
+
+     float2      an[3];
+     an[0] = abs(eNrm[0]);
+     an[1] = abs(eNrm[1]);
+     an[2] = abs(eNrm[2]);
+
+     // calculate signed distance offset from a voxel center
+
+     // to the voxel vertex which has maximum signed
+
+     // distance value.
+     float3      eOfs;
+     eOfs.x = (an[0].x + an[0].y) * voxelExtentH;
+     eOfs.y = (an[1].x + an[1].y) * voxelExtentH;
+     eOfs.z = (an[2].x + an[2].y) * voxelExtentH;
+
+     // calculate signed distance of each edges.
+     float3      ef;
+     ef.x = eOfs.x –
+
+dot(IN.VoxPos[0].xy - voxelCenter.xy , eNrm[0]);
+     ef.y = eOfs.y –
+
+dot(IN.VoxPos[1].xy - voxelCenter.xy , eNrm[1]);
+     ef.z = eOfs.z –
+
+dot(IN.VoxPos[2].xy - voxelCenter.xy , eNrm[2]);
+
+     // test is passed if all of signed distances are positive.
+     if (ef.x < 0 || ef.y < 0 || ef.z < 0)
+           return false;
+}
+
+// tests in YZ and ZX plane projection are also done as well.
+{% endhighlight %}
+
+# GPU Voxelization Using MSAA
+
+As we described above, to manually implement conservative rasterization on the GPU, we extended the edges of primitives in the Geometry Shader, which consumes many GPU cycles. In this section, we describe another GPU voxelization approach using MSAA, which does not require expansion of the primitive to get conservative rasterization.
+
+![Figure 14](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_14.png)
+
+<center>Figure 14: 8xMSAA sample locations</center>
+
+Without MSAA, the pixel shader is only invoked for pixels whose centers are covered by a primitive, as we previously discussed.
+
+However, when enabling 8xMSAA, the pixel shader is invoked if any of the subsamples are covered by a primitive. This subsample region covers most of the pixel in 8xMSAA. Additionally, the pixel shader is invoked only once, regardless how many subsamples are covered in a pixel.  This is really close to actual conservative rasterization, as long as you have sufficient count and spacing of subsample points.  So by using MSAA we don’t need to expand the primitive’s edges, there are no extra pixel shader calls, and the geometry shader is much simpler!  This also enables us to skip those primitive-voxel intersection tests which we needed to do to remove the extra voxels!
+
+However, this method is not genuine conservative rasterization.  Primitives which lie in-between subsamples still have a possibility not to be voxelized properly. Additionally, you need to create an MSAA render target to bind, which slightly increases the memory cost in vidmem (probably not that big of a deal). If you can utilize Forced Sample Count in DX11.1, you can enable MSAA rasterization without binding an MSAA render target.
+
+So this is a relatively aggressive method, as it has a possibility to have “holes”, which are avoidable by making sure the voxel grid is fine/high-res enough for the sizes of voxelized primitives.
+
+The following three pictures are examples of pixel shader invocations in different rasterization methods.
+
+![Figure 15](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_15.png)
+
+<center>Figure 15: Conventional Rasterization</center>
+
+![Figure 16](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_16.png)
+
+<center>Figure 16: Conservative Raster via edge extension</center>
+
+![Figure 17](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_17.png)
+
+<center>Figure 17: Conservative Raster via MSAArender target</center>
+
+The following three pictures are also examples of voxelizations without voxel-primitive intersection tests.
+
+![Figure 18](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_18.png)
+
+<center>Figure 18: Conventional Rasterization.  Cracks due to high gradients.</center>
+
+![Figure 19](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_19.png)
+
+<center>Figure 19: Conservative Rasterization with edge extension. Cracks from conventional rasterization are fixed, but we can see extra voxels.</center>
+
+![Figure 20](https://developer.nvidia.com/sites/default/files/akamai/gameworks/images/Voxelization/Voxelization_blog_fig_20.png)
+
+<center>Figure 20: Conservative rasterization with MSAA render target. No holes or redundant voxels</center>
+
+# Conclusion
+
+In this article, we have described the basics of GPU voxelization. You can choose methods as you like to fit your purpose. Currently, MSAA voxelization is reasonable in most cases, but you might need to implement an accurate method as a reference.  Also, if you are running on Maxwell or higher GPU architecture then you should definitely use the official conservative rasterization functions and you can skip edge extension issues.
+
+# References
+
+- An Accurate Method for Voxelizing Polygon Meshes[Huang et al. 98]
+- Fast Parallel Surface and Solid Voxelization on GPUs [Michael et al. 10]
+- Octree-Based Sparse Voxelization Using the GPU Hardware Rasterizer [Cyril et al. 11]
+- A Topological Approach to Voxelization [Samuli Laine, 2013]
+- GPU Gems 2 Chapter 42. Conservative Rasterization
