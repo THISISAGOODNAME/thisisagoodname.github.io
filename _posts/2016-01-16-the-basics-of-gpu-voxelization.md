@@ -119,8 +119,8 @@ The following pseudocode illustrates this process.
 
 {% highlight c++ %}
 void getAABB(in float3 v1, in float3 v2, in float3 v3, out float3 primMin, out float3 primMax) {
-     primMin = min(min(v1.x, v2.x), v3.x);
-     primMax = max(max(v1.x, v2.x), v3.x);
+    primMin = min(min(v1.x, v2.x), v3.x);
+    primMax = max(max(v1.x, v2.x), v3.x);
 }
 {% endhighlight %}
 
@@ -132,6 +132,7 @@ float3 voxelMin = voxelPosf – 0.5;
 float3 voxelMax = voxelPosf + 0.5;
 if ((primMax.x – voxelMin.x) * (primMinX.x – voxelMax.x) >= 0.0  ||
      (primMax.y – voxelMin.y) * (primMinX.y – voxelMax.y) >= 0.0 ||
-     (primMax.z – voxelMin.z) * (primMinX.z – voxelMax.z) >= 0.0)
-　　discard;
+     (primMax.z – voxelMin.z) * (primMinX.z – voxelMax.z) >= 0.0) {
+    discard;
+}
 {% endhighlight %}
