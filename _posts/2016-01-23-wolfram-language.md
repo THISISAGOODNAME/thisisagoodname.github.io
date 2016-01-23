@@ -71,12 +71,12 @@ h3 {
 &#160; &#160; &#160; &#160;刚才扯了半天没用的，还是谈一下一个让我震惊到无以复加的语言 -- wolfram language吧。
 
 ## 基于知识的编程
-
+I
 &#160; &#160; &#160; &#160;专门面向新一代程序员的 Wolfram 语言涵盖了大量内置算法和知识，所有内容都可以通过其简练统一的符号式语言自动获取。Wolfram 语言的设计原理——基于超过25年的开发历程——清晰灵活，可通过本地和云端， 实现小规模到大规模程序扩展的即时部署，从而造就了世界上最高效的编程语言。
 
 ## 原理和概念
 
-<div class="inner">
+<div class="inner" style="height: 326px;">
 
 <div class="principle-concept">
   <div class="text">
@@ -307,3 +307,6 @@ h3 {
 
 > 上述摘自wolfram language官网介绍
 
+# Wolfram language的惊人之处
+
+&#160; &#160; &#160; &#160;本来想介绍一下wolfram语言的，但是这个语言基于mathematica的，mathematica能用的，wolfram language都支持。想要学习一下mathematica的话，[请看这里](http://www.wolfram.com/language/fast-introduction-for-programmers/)
