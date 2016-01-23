@@ -15,8 +15,10 @@ tags: [编程语言,wolfram]
 
 <style>
 .principle-concept {
-    border-top: 0;
-    margin-top: 0;
+    margin: 50px 0 0;
+    padding: 50px 0 0;
+    border-top: 1px solid #dcdcdc;
+    width: 100%;
 }
 
 .text {
@@ -37,6 +39,7 @@ tags: [编程语言,wolfram]
 h3 {
 	color: red;
 }
+
 </style>
 
 * Table of Contents
@@ -85,7 +88,7 @@ h3 {
     </div>
 </div>
 
-<hr width=500 />
+
 
 <div class="principle-concept">
   <div class="image">
@@ -104,7 +107,7 @@ h3 {
   </div>
 </div>
 
-<hr width=500 />
+
 
 <div class="principle-concept">
   <div class="text">
@@ -123,7 +126,7 @@ h3 {
   </div>
 </div>
 
-<hr width=500 />
+
 
 <div class="principle-concept">
   <div class="image">
@@ -131,7 +134,7 @@ h3 {
   </div>
   <div class="text">
     <p class="description"><span id="everything-is-an-expression"></span>所有内容都是表达式</p>
-    <h2 class="title">用符号表达式表示所有内容</h2>
+    <h3 class="title">用符号表达式表示所有内容</h3>
     <p>Wolfram 语言用符号表达式表示所有数据、公式、代码、图形、文档、界面等，使得编程的灵活性和能力达到一个新的水平。</p>
     <ul>
       <li>增量编程：任意片段的程序都可以立即运行</li>
@@ -142,4 +145,156 @@ h3 {
   </div>
 </div>
 
-<hr width=500 />
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="wdf-wolfram-data-framework"></span>WDF：Wolfram 数据框架</p>
+    <h3 class="title">拥有范围广阔的内置世界模型</h3>
+    <p>通过 Wolfram|Alpha 的体系，Wolfram 语言不仅能够计算抽象的数据结构，而且可以直接引用真实世界的事物。</p>
+    <ul>
+      <li>对单位、日期和地理位置等的完美处理</li>
+      <li>对成千上万真实世界实体的标准表示</li>
+      <li>表示真实世界数据的可扩展的符号式结构框架</li>
+      <li>不断更新在 Wolfram|Alpha 中实际测试的知识库</li>
+    </ul>
+  </div>
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle5.png" alt="">
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle6-zh.png" alt="">
+  </div>
+  <div class="text">
+    <p class="description"><span id="natural-language-understanding-nlu"></span>自然语言理解（NLU）</p>
+    <h3 class="title">在语言中混入自由格式的语言输入</h3>
+    <p>建立在 Wolfram|Alpha 的突破性基础上，Wolfram 语言可以允许您在编码中混入常见的自由格式的自然语言。</p>
+    <ul>
+      <li>无需编程知识便可开始使用 Wolfram 语言</li>
+      <li>用日常名称便捷指定真实世界的实体</li>
+      <li>广泛的自然语言理解（NLU）、在 Wolfram|Alpha 中的实际测试</li>
+      <li>在编程时，用 NLU 指定真实世界的对象和概念</li>
+      <li>在您编写的程序中加入对自然语言的理解</li>
+    </ul>
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="universal-deployment"></span>通用部署</p>
+    <h3 class="title">可在任何平台部署语言：桌面、云端、移动终端、嵌入......</h3>
+    <p>建立在25年多的软件设计的基础之上，可以在现代生产环境的任意环节快速部署 Wolfram 语言程序。</p>
+    <ul>
+      <li>在云端或本地的畅通运行</li>
+      <li>对任何 Wolfram 语言程序快速创建网页 API</li>
+      <li>在软件或硬件系统中无缝嵌入 Wolfram 语言</li>
+      <li>用 Wolfram 语言符号式描述其自身部署</li>
+    </ul>
+  </div>
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle7-zh.png" alt="">
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle8.png" alt="">
+  </div>
+  <div class="text">
+    <p class="description"><span id="cdf-computable-document-format"></span>CDF：可计算文档格式</p>
+    <h3 class="title">使可计算文档成为语言的一部分</h3>
+    <p>Wolram 语言的内置“笔记本”文档将可执行代码与文本、图形、界面等相混合。</p>
+    <ul>
+      <li>创建一个含有编码、范例、说明等的单个文档</li>
+      <li>程序化创建功能齐全的报告和文档</li>
+      <li>快速创建由计算支持的交互式元素</li>
+      <li>Wolfram 演示项目中涵盖了一万种范例</li>
+    </ul>
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="wolframlink-wolfram-connected-devices-project-etc"></span><em>WolframLink</em>、Wolfram 设备连接项目等</p>
+    <h3 class="title">与外界便捷连通</h3>
+    <p>Wolfram 语言中内置有与多种语言、服务、程序、格式和设备的连通功能。</p>
+    <ul>
+      <li>用符号表达式标准化与外部数据和程序的交互操作</li>
+      <li>通过 Wolfram 云端与外部进行无缝连接</li>
+      <li>在语言中直接处理与设备的实时交互</li>
+    </ul>
+  </div>
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle9.png" alt="">
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle10.png" alt="">
+  </div>
+  <div class="text">
+  <p class="description"><span id="everything-is-interactive"></span>一切都是交互式的</p>
+  <h3 class="title">将程序的编写和执行整合在一起</h3>
+  <p>Wolfram 语言的原生环境有着完全的交互性，并可以让您快速运行任意一段代码。</p>
+    <ul>
+      <li>快速试运行您编辑的所有内容</li>
+      <li>即刻生成视图并分析您的程序代码</li>
+      <li>无缝隙地进行增量或探索编程</li>
+    </ul>
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="completely-scalable"></span>完全的伸缩性</p>
+    <h3 class="title">可创建任意大小的程序</h3>
+    <p>Wolfram 语言的大小可从单行程序到数百万行程序，并可用于单个用户以及大型公共部署。</p>
+    <ul>
+      <li>用于交互使用和大型编程的便捷 IDE</li>
+      <li>创建 Wolfram 语言代码并可立即并行执行</li>
+      <li>年度单行竞赛展示语言表现力</li>
+      <li>Wolfram|Alpha 含有超过1500万行的 Wolfram 语言代码库</li>
+    </ul>
+  </div>
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle11.png" alt="">
+    </div>
+</div>
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle12.png" alt="">
+  </div>
+  <div class="text">
+    <p class="description"><span id="multiparadigm-fusion-language"></span>多范型融合语言</p>
+    <h3 class="title">语言应尽可能的富有表现力</h3>
+    <p>凭借其独特的符号字符，Wolfram 语言是对许多编程模式、文体和内容的经典融合。</p>
+    <ul>
+      <li>几乎所有的 Wolfram 语言都要比其他语言简洁</li>
+      <li>内置结构直接与概念相连接</li>
+      <li>大范围工业强度的函数编程</li>
+      <li>基于模式的符号编程</li>
+      <li>强大的理论基础</li>
+    </ul>
+  </div>
+</div>
+
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="twenty-five-plus-year-lineage"></span>25年多的演变</p>
+    <h2 class="title">保持着长期的统一性和愿景</h2>
+    <p>作为 <em>Mathematica</em> 开发的一部分，25年多来 Wolfram 语言的核心一直保持着代码的通用性。</p>
+    <ul>
+      <li>持续25年以上的设计审查过程</li>
+      <li>由 Stephen Wolfram 带领的长期团队</li>
+    </ul>
+  </div>
+  <div class="image no-top-padding">
+    <img src="http://www.wolfram.com/language/principles/images/principle13.png" alt="">
+  </div>
+</div>
+
+> 上述摘自wolfram language官网介绍
+
