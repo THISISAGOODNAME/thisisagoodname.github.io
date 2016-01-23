@@ -381,3 +381,17 @@ Wolfram 语言知道数千种 **真实世界实体**：
 ![docs](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123171045036.png)
 
 而且从文档里也可以看出，wolfram language绝对是一门真正的全能型编程语言，而不是一些人眼中“只能求解数学问题逼格还不如matlab高的东西”。
+
+# 调戏 wolfram language
+
+&#160; &#160; &#160; &#160;安装mathematica确实是个人品活，不过安装完之后调戏wolfram language还是很有意思的。个人觉得比调戏ios的siri和微软的小娜好玩多了。
+
+![myDemo1](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123172711095.png)
+
+![myDemo2](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123172822081.png)
+
+![myDemo3](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123172839057.png)
+
+![mydemo4](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123172858010.png)
+
+还有更多稀奇古怪的功能，等待大家去发现。我个人已经建议下学期大三开设的计算机图形学课程使用这门语言来上(本来想用webgl)，如果导师那通过的话，我就要准备实验了，233.
