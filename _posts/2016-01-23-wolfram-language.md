@@ -20,7 +20,7 @@ tags: [编程语言,wolfram]
 }
 
 .text {
-    width: 550px;
+    width: 360px;
     float: left;
 }
 
@@ -32,6 +32,10 @@ tags: [编程语言,wolfram]
 
 .image img {
 	border: none;
+}
+
+h3 {
+	color: red;
 }
 </style>
 
@@ -80,3 +84,62 @@ tags: [编程语言,wolfram]
       <img src="http://www.wolfram.com/language/principles/images/principle1.png" alt="">
     </div>
 </div>
+
+<hr width=500 />
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle2.png" alt="">
+  </div>
+  <div class="text">
+    <p class="description"><span id="meta-algorithms-and-superfunctions"></span>元算法和超级函数</p>
+    <h3 class="title">最大限度的自动化</h3>
+    <p>Wolfram 语言的理念是最大限度的自动化，因此程序员只需专注于界定他们想要做的，语言可以自动分析出解决方法。</p>
+    <ul>
+      <li>拥有可供自动算法选择的上千种独创的元算法</li>
+      <li>向专业人员提供细节调控功能；其他人员则可利用自动操作功能</li>
+      <li>计算、演示、连接、界面等的自动化</li>
+      <li>最小化代码的长度和复杂性</li>
+    </ul>
+  </div>
+</div>
+
+<hr width=500 />
+
+<div class="principle-concept">
+  <div class="text">
+    <p class="description"><span id="everything-fits-together"></span>所有方面的完美统和</p>
+    <h3 class="title">最大化连贯性设计</h3>
+    <p>通过对核心设计原理的高度集中实现了功能性的巨大跨越，Wolfram 语言保持了统一和考究的结构，从而达到整体的完美统和。</p>
+    <ul>
+      <li>跨越所有领域的即时互用性</li>
+      <li>最大化编程架构的灵活性</li>
+      <li>最大化可预测性和可学习性</li>
+      <li>编码的可读性和可理解性</li>
+    </ul>
+  </div>
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle3.png" alt="">
+  </div>
+</div>
+
+<hr width=500 />
+
+<div class="principle-concept">
+  <div class="image">
+    <img src="http://www.wolfram.com/language/principles/images/principle4.png" alt="">
+  </div>
+  <div class="text">
+    <p class="description"><span id="everything-is-an-expression"></span>所有内容都是表达式</p>
+    <h2 class="title">用符号表达式表示所有内容</h2>
+    <p>Wolfram 语言用符号表达式表示所有数据、公式、代码、图形、文档、界面等，使得编程的灵活性和能力达到一个新的水平。</p>
+    <ul>
+      <li>增量编程：任意片段的程序都可以立即运行</li>
+      <li>可立刻在系统中表示任何格式的数据</li>
+      <li>代码中可包含任意对象，比如图像和文档等</li>
+      <li>程序可以立即操纵结构和内容</li>
+    </ul>
+  </div>
+</div>
+
+<hr width=500 />
