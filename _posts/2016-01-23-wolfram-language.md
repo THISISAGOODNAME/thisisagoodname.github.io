@@ -169,7 +169,7 @@ h3 {
   </div>
 </div>
 
-<div class="principle-concept">
+<div class="principle-concept" style="height: 400px;">
   <div class="image">
     <img src="http://www.wolfram.com/language/principles/images/principle6-zh.png" alt="">
   </div>
@@ -291,7 +291,7 @@ h3 {
 <div class="principle-concept">
   <div class="text">
     <p class="description"><span id="twenty-five-plus-year-lineage"></span>25年多的演变</p>
-    <h2 class="title">保持着长期的统一性和愿景</h2>
+    <h3 class="title">保持着长期的统一性和愿景</h3>
     <p>作为 <em>Mathematica</em> 开发的一部分，25年多来 Wolfram 语言的核心一直保持着代码的通用性。</p>
     <ul>
       <li>持续25年以上的设计审查过程</li>
