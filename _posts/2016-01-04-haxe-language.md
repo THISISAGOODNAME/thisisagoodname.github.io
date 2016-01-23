@@ -3,7 +3,7 @@ layout: post
 title: "[转载]一种语言, 适合任何时候使用 -- Haxe特性杂谈"
 description: "[转载]一种语言, 适合任何时候使用 -- Haxe特性杂谈"
 category: haxe
-tags: [haxe]
+tags: [haxe,编程语言]
 ---
 
 &#160; &#160; &#160; &#160;转述正文之前，先夹杂一些私货，顺便推荐[codepen.io](http://codepen.io/)
