@@ -23,6 +23,7 @@ tags: [编程语言,wolfram]
     padding: 50px 0 0;
     border-top: 1px solid #dcdcdc;
     width: 100%;
+    height: 300px;
 }
 
 .text {
