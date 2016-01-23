@@ -14,6 +14,10 @@ tags: [编程语言,wolfram]
 <!-- more -->
 
 <style>
+.inner {
+	width: 610px;
+}
+
 .principle-concept {
     margin: 50px 0 0;
     padding: 50px 0 0;
@@ -70,6 +74,8 @@ h3 {
 &#160; &#160; &#160; &#160;专门面向新一代程序员的 Wolfram 语言涵盖了大量内置算法和知识，所有内容都可以通过其简练统一的符号式语言自动获取。Wolfram 语言的设计原理——基于超过25年的开发历程——清晰灵活，可通过本地和云端， 实现小规模到大规模程序扩展的即时部署，从而造就了世界上最高效的编程语言。
 
 ## 原理和概念
+
+<div class="inner">
 
 <div class="principle-concept">
   <div class="text">
@@ -294,6 +300,8 @@ h3 {
   <div class="image no-top-padding">
     <img src="http://www.wolfram.com/language/principles/images/principle13.png" alt="">
   </div>
+</div>
+
 </div>
 
 > 上述摘自wolfram language官网介绍
