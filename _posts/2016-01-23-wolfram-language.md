@@ -76,9 +76,9 @@ I
 
 ## 原理和概念
 
-<div class="inner" style="height: 326px;">
+<div class="inner">
 
-<div class="principle-concept">
+<div class="principle-concept"  style="height: 326px;">
   <div class="text">
     <p class="description"><span id="knowledge-based-programming"></span>基于知识的编程</p>
     <h3 class="title">内置尽可能多的知识</h3>
@@ -309,4 +309,75 @@ I
 
 # Wolfram language的惊人之处
 
-&#160; &#160; &#160; &#160;本来想介绍一下wolfram语言的，但是这个语言基于mathematica的，mathematica能用的，wolfram language都支持。想要学习一下mathematica的话，[请看这里](http://www.wolfram.com/language/fast-introduction-for-programmers/)
+&#160; &#160; &#160; &#160;本来想介绍一下wolfram语言的，但是这个语言基于mathematica的，mathematica能用的，wolfram language都支持。想要学习一下mathematica的话，[请看这里](http://www.wolfram.com/language/fast-introduction-for-programmers/)。而且如果只是单纯的变量、函数、语法，那和别的语言比也没啥特殊的。我说一下的个人特别敬佩的两个地方
+
+## 自然语言输入
+
+&#160; &#160; &#160; &#160;先看几个官网的样例
+
+在行首敲入 `=` 指定自然语言输入：
+
+![demo1](http://img17.poco.cn/mypoco/myphoto/20160123/16/17800049220160123165207017.png)
+
+很多时候，你可以从自然语言中产生代码：
+
+![demo2](http://img17.poco.cn/mypoco/myphoto/20160123/16/17800049220160123165227035.png)
+
+使用 `=` `=` 获取完整的 Wolfram Alpha 报告(因为wolfram language其实是基于[Wolfram Alpha](http://www.wolframalpha.com/)知识引擎的)：
+
+![demo3](http://img17.poco.cn/mypoco/myphoto/20160123/16/17800049220160123165250095.png)
+
+## 描述真实世界的实体
+
+&#160; &#160; &#160; &#160;在 Wolfram 语言中，真实世界实体只是另一种符号表达式.
+
+Wolfram 语言知道数千种 **真实世界实体**：
+
+- 国家 
+- 城市 
+- 化学品
+- 物种 
+- 电影 
+- 人物 
+- 卫星 
+- 机场 
+- 公司 
+- ...
+
+使用自然语言指定实体很方便：
+
+![demo4](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170008041.png)
+
+实体有很多属性. 这是其中的一个**值**：
+
+![demo5](http://img17.poco.cn/mypoco/myphoto/20160123/17/1780004922016012317003105.png)
+
+使用 `entity["Properties"]` 找到属性列表.
+
+当输入自然语言时，`···` 用于消除歧义：
+
+![demo6](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170052018.png)
+
+![demo7](http://img17.poco.cn/mypoco/myphoto/20160123/17/1780004922016012317011208.png)
+
+使用 `CTRL` + `=` 输入单位和度量：
+
+![demo8](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170136030.png)
+
+`InputForm` 显示符号表达式的结构：
+
+![demo9](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170154068.png)
+
+`GeoPosition` 代表一个地理位置：
+
+![demo10](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170225046.png)
+
+`DateObject` 代表日期/时间：
+
+![demo11](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123170243043.png)
+
+完整的wolfram language 文档可以在[这里](http://reference.wolfram.com/language/)或者mathematica的帮助里看到。文档自带官方中文，英语弱也不用怕。
+
+![docs](http://img17.poco.cn/mypoco/myphoto/20160123/17/17800049220160123171045036.png)
+
+而且从文档里也可以看出，wolfram language绝对是一门真正的全能型编程语言，而不是一些人眼中“只能求解数学问题逼格还不如matlab高的东西”。
