@@ -2,7 +2,7 @@
 layout: post
 title: "emscripten getting start"
 description: "emscripten getting start"
-category: html5
+category: emscripten
 tags: [html5,c++,emscripten]
 ---
 * Table of Contents
