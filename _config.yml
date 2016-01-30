@@ -62,7 +62,10 @@ Blogroll:
       title: He-tao's blog
     - name: micstu
       href: http://uiharu.moe/
-      title: Mictus's website      
+      title: Mictus's website 
+    - name: kkrainbow
+      href: http://kkrainbow.github.io/
+      title: Rainbow's blog     
 
 
 ### Build settings
