@@ -37,8 +37,8 @@ tags: [建模,sketchup]
 - ▷ 全面支持SketchUp Pro版本的渲染及输出
 
 lumenRT 2015特性视频
-
 <iframe height=498 width=510 src="http://player.youku.com/embed/XODE2NzIwOTI0" frameborder=0 allowfullscreen></iframe>
+
 
 官方网站： [http://www.lumenrt.com/](http://www.lumenrt.com/)
 
