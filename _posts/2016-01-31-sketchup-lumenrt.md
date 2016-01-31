@@ -38,7 +38,7 @@ tags: [建模,sketchup]
 
 lumenRT 2015特性视频
 
-<iframe height="498px" width="510px" src="http://player.youku.com/embed/XODE2NzIwOTI0" frameborder=0 allowfullscreen></iframe>
+<iframe height="498px" width="510px" src="http://player.youku.com/embed/XODE2NzIwOTI0" frameborder=0 allowfullscreen=""></iframe>
 
 官方网站： [http://www.lumenrt.com/](http://www.lumenrt.com/)
 
