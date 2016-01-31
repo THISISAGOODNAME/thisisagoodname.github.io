@@ -14,8 +14,6 @@ tags: [建模,sketchup]
 
 <!-- more -->
 
-<iframe height=498 width=510 src="http://player.youku.com/embed/XODE2NzIwOTI0" frameborder=0 allowfullscreen></iframe>
-
 # lumenRT简介
 
 &#160; &#160; &#160; &#160;LumenRT是e-on软件推出的一款实时的三维可视化虚拟现实建筑项目的革命性产品。
@@ -37,6 +35,10 @@ tags: [建模,sketchup]
 - ▷ 三维产品能够在任何机器上运行 
 - ▷ 令人难以置信的简单快捷操作
 - ▷ 全面支持SketchUp Pro版本的渲染及输出
+
+lumenRT 2015特性视频
+
+<iframe height="498px" width="510px" src="http://player.youku.com/embed/XODE2NzIwOTI0" frameborder=0 allowfullscreen></iframe>
 
 官方网站： [http://www.lumenrt.com/](http://www.lumenrt.com/)
 
