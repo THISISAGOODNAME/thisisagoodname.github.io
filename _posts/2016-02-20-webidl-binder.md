@@ -174,3 +174,6 @@ MyClass process(MyClass& input);
 // WebIDL
 [Value] MyClass process([Ref] MyClass input);
 {% endhighlight %}
+
+# Const
+
