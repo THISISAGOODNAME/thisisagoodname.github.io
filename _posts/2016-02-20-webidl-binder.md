@@ -70,7 +70,7 @@ interface Bar {
 &#160; &#160; &#160; &#160;IDL定义和C++源文件之间的映射关系非常明显。需要注意几件事
 
 - IDL类定义包括了一个和接口同名返回值为`void`的函数。这个构造器可以在JavaScript中直接调用来生成实例，但是必须在IDL中定义，即使C++使用了默认构造器(比如上例中的`Foo`)
-- 在WebIDL中使用的类型名不一定和他们在C++中定义时相同(举个例子，上例中`int`被映射为`long`)。更多关于映射的信息见[*WebIDL types*](#WebIDL types)
+- 在WebIDL中使用的类型名不一定和他们在C++中定义时相同(举个例子，上例中`int`被映射为`long`)。更多关于映射的信息见[*WebIDL types*](#webidl-types)
 
 > 结构体`structs`和类定义的方法相同 -- 同样都使用`interface`关键字
 
@@ -377,7 +377,7 @@ c.virtualFunc = function() { .. };
 |`unsigned long`|	`unsigned long`|
 |`int`|	`long`|
 |`void`|	`void`|
-|`void*`	|`any or VoidPtr (see [void*](#void*))`|
+|`void*`	|`any` or `VoidPtr` (see [void*](#void*))|
 
 > WebIDL的详细文档可以参考[W3C规范](https://www.w3.org/TR/WebIDL/)
  
