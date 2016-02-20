@@ -131,6 +131,7 @@ Module.destroy(b); // If the C++ object requires clean up
 {% endhighlight %} 
 
 > 当在JavaScript中创建C++对象时，需要显示调用C++构造器。但是没有办法得知某个JavaScript对象要被垃圾回收，所以胶水语言不能自动调用析构函数
+> <br>
 > 通常你需要销毁你自己创建的对象，取决于你移植的类库
 
 # Pointers, References, Value types (Ref and Value)
@@ -176,4 +177,211 @@ MyClass process(MyClass& input);
 {% endhighlight %}
 
 # Const
+
+&#160; &#160; &#160; &#160;C++中使用`const`修饰的参数和返回值类型可以在IDL中使用`[Const]`来指定。
+
+&#160; &#160; &#160; &#160;例如，下面的代码片段显示了C++和IDL的一个函数返回一个指针常量对象。
+
+{% highlight cpp %}
+//C++
+const myObject* getAsConst();
+{% endhighlight %}
+
+{% highlight cpp %}
+// WebIDL
+[Const] myObject getAsConst();
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;对象中使用常量指定的**属性**需要`readonly`关键字而不是`[Const]`，例如
+
+{% highlight cpp %}
+//C++
+const int numericalConstant;
+{% endhighlight %}
+
+{% highlight cpp %}
+// WebIDL
+readonly attribute long numericalConstant;
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;这会在绑定时产生一个`get_numericalConstant()`方法，但是没有相对应的setter方法
+
+> 多重修饰词是可以出现的。比如，一个返回常量引用的方法需要在IDL中使用`[Ref, Const]`来修饰
+
+# Un-deletable classes (NoDelete)
+
+&#160; &#160; &#160; &#160;如果一个类不能被删除(析构函数是私有的)，需要在IDL文件中添加`[NoDelete]`修饰
+
+{% highlight cpp %}
+[NoDelete]
+interface Foo {
+...
+};
+{% endhighlight %}
+
+# Defining inner classes and classes inside namespaces (Prefix)
+
+&#160; &#160; &#160; &#160;在某个命名空间(或者另一个类)中定义的类需要在IDL中使用`Prefix`来指定范围。之后当类在C++胶水语言中被音乐，都需要前缀。
+
+&#160; &#160; &#160; &#160;举个例子，下面的IDL定义确保`Inner`类指的是`MyNameSpace::Inner`
+
+{% highlight cpp %}
+[Prefix="MyNameSpace::"]
+interface Inner {
+..
+};
+{% endhighlight %}
+
+# Operators
+
+&#160; &#160; &#160; &#160;可以使用`[Operator=]`来粘合C++操作符：
+
+{% highlight cpp %}
+[Operator="+="] TYPE1 add(TYPE2 x);
+{% endhighlight %}
+
+- 操作符的命名是任意的，`add`只是用来举例
+- 现在仅限包含`=`的操作符，比如：`+=`、`-=`、`*=`
+
+# enums
+
+&#160; &#160; &#160; &#160;枚举类型在C++和IDL中定义非常类似
+
+{% highlight cpp %}
+// C++
+enum AnEnum {
+  enum_value1,
+  enum_value2
+};
+
+// WebIDL
+enum AnEnum {
+  "enum_value1",
+  "enum_value2"
+};
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;当枚举类型在命名空间内部时，稍有复杂
+
+{% highlight cpp %}
+// C++
+namespace EnumNamespace {
+  enum EnumInNamespace {
+        e_namespace_val = 78
+  };
+};
+
+// WebIDL
+enum EnumNamespace_EnumInNamespace {
+  "EnumNamespace::e_namespace_val"
+};
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;当枚举在一个类中定义时，枚举和类的接口定义是分离的
+
+{% highlight cpp %}
+// C++
+class EnumClass {
+ public:
+  enum EnumWithinClass {
+        e_val = 34
+  };
+  EnumWithinClass GetEnum() { return e_val; }
+
+  EnumNamespace::EnumInNamespace GetEnumFromNameSpace() { return EnumNamespace::e_namespace_val; }
+};
+
+
+
+// WebIDL
+enum EnumClass_EnumWithinClass {
+  "EnumClass::e_val"
+};
+
+interface EnumClass {
+  void EnumClass();
+
+  EnumClass_EnumWithinClass GetEnum();
+
+  EnumNamespace_EnumInNamespace GetEnumFromNameSpace();
+};
+{% endhighlight %}
+
+# Sub-classing C++ base classes in JavaScript (JSImplementation)
+
+&#160; &#160; &#160; &#160;*WebIDL Binder*允许C++基类在JavaScript中作为子类，在下面的IDL片段中，`[JSImplementation="Base"]`表示相关接口(`ImplJS`)是C++类`Base`的一个JavaScript实现
+
+{% highlight cpp %}
+[JSImplementation="Base"]
+interface ImplJS {
+        void ImplJS();
+        void virtualFunc();
+        void virtualFunc2();
+};
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;在实行的粘合和编译过程后，你可以在JavaScript用如下方法运行接口
+
+{% highlight cpp %}
+var c = new ImplJS();
+c.virtualFunc = function() { .. };
+{% endhighlight %}
+
+&#160; &#160; &#160; &#160;当C++代码中有指向`Base`实例的指针并调用`virtualFunc()`时，会到达上面定义的JavaScript代码
+
+- 你**必须**在IDL中列举`JSImplementation`类(`ImplJS`)的全部方法，不然编译会出错
+- 你也需要在IDL文件中提供`Base`类的接口定义
+
+# Pointers and comparisons
+
+&#160; &#160; &#160; &#160;所以绑定方法都应该接收包装好的对象(包含一个原始指针)而不是直接接收原始指针。通常你不需要处理原始指针(这些通常是简单的内存地址或者整数形式表示)。如果你需要处理原始指针，在编译好的代码中使用下面的函数会很有用
+
+- `wrapPointer(ptr, Class)` - 接收一个原始指针(一个整数)，返回一个包装好的对象
+
+> 如果不传递`Class`参数，会被假定为root类(很有可能不是你想要的)
+
+- `getPointer(object)` - 返回一个原始指针
+- `castObject(object, Class)` - 返回另一个类，但有相同指针的包装
+- `compare(object1, object2)` - 比较两个对象的指针
+
+> 一个特定类的指针总有一个单独的包对象。这运行你在其他地方使用普通的JavaScript代码来给对象添加数据(比如object.attribute = someData)
+> <br>
+> `compare()`应该代替指针的直接比较，因为有可能出现不同的包对象使用通一个个指针(一个类是另一个类的子类的时候)
+
+# NULL 
+
+&#160; &#160; &#160; &#160;所有返回指针、引用或者对象的绑定函数会返回一个包装好的指针。因为通过返回包，你可以获取输出并传递给另一个绑定方法，而且不需要检查参数的类型。
+
+&#160; &#160; &#160; &#160;但是在返回`NULL`指针时你可能会疑惑。在使用粘合时，返回的指针可能是`NULL`(是一个全局实例，表示0的指针)而不是`null`(JavaScript内建的null对象)或者是数值0
+
+# void*
+
+&#160; &#160; &#160; &#160;`void*`类型在IDL文件中使用`VoidPtr`来表示，你也可以用`nay`类型来表示。
+
+&#160; &#160; &#160; &#160;两者的区别是`VoidPtr`更像一个指针，可以用来获取一个包对象，而`any`更像一个32位正式(这也是Emscripten编译后的原始指针的存在形式)
+
+# WebIDL types
+
+&#160; &#160; &#160; &#160;WebIDL中的类型名和C++不完全相同，以下是一些常见类型的映射
+
+|    C++    |     IDL    |
+|:----------|:-----------|
+|`bool`|`boolean`|
+|`float`|	`float`|
+|`double`	|`double`|
+|`char`	|`byte`|
+|`char*`|	`DOMString (represents a JavaScript string)`|
+|`unsigned char`	|`octet`|
+|`unsigned short int`	|`unsigned short`|
+|`unsigned short`	|`unsigned short`|
+|`unsigned long`|	`unsigned long`|
+|`int`|	`long`|
+|`void`|	`void`|
+|`void*`	|`any or VoidPtr (see [void*](#void*))`|
+
+> WebIDL的详细文档可以参考[W3C规范](https://www.w3.org/TR/WebIDL/)
+ 
+# Test and example code
+
+&#160; &#160; &#160; &#160;[test_webidl](https://github.com/kripken/emscripten/tree/master/tests/webidl)，其中涵盖了绝大部分情况。
 
