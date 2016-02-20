@@ -377,7 +377,7 @@ c.virtualFunc = function() { .. };
 |`unsigned long`|	`unsigned long`|
 |`int`|	`long`|
 |`void`|	`void`|
-|`void*`	|`any` or `VoidPtr` (see [void*](#void*))|
+|`void*`	|`any` or `VoidPtr` (see [void*](#void))|
 
 > WebIDL的详细文档可以参考[W3C规范](https://www.w3.org/TR/WebIDL/)
  
