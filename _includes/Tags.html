@@ -1,6 +1,11 @@
 
 <div class="sidebar-module">
   <h4>{{ site.locales[site.default_locale].Tags }}</h4>
+
+  <canvas width="235" height="235" id="myTagCloudCanvas">
+    <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  </canvas>
+
   <div id="tagcloud">
   	<ul>
   	  {% for tag in site.tags %}
