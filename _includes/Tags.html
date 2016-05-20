@@ -4,17 +4,18 @@
 
   <canvas width="235" height="235" id="myTagCloudCanvas">
     <p>Anything in here will be replaced on browsers that support the canvas element</p>
+    <div id="tagcloud">
+    <ul>
+      {% for tag in site.tags %}
+        <li>
+          <a href="{{ site.baseurl }}/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">{{ tag[0] }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
   </canvas>
 
-  <div id="tagcloud">
-  	<ul>
-  	  {% for tag in site.tags %}
-  	    <li>
-  	      <a href="{{ site.baseurl }}/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">{{ tag[0] }}</a>
-  	    </li>
-      {% endfor %}
-  	</ul>
-  </div>
+  
   <!-- {% for tag in site.tags %}
     <a href="{{ site.baseurl }}/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">{{ tag[0] }}</a> &nbsp;
   {% endfor %} -->
