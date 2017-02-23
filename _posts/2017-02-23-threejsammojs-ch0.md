@@ -15,7 +15,7 @@ tags: [html5,bullet]
 
 1. bullet引擎和OpenGL结合创建简单的场景
 2. **three.js和ammo.js创建简单的场景**
-3. 配合Heightmap创建地形
+3. 创建地形
 4. 制作车辆
 5. 柔体-绳索
 6. 柔体-布料
