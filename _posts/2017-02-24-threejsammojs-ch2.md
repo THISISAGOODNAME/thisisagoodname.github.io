@@ -6,6 +6,10 @@ category: html5
 tags: [html5,bullet]
 ---
 
+&#160; &#160; &#160; &#160;接下来就是刚体物理的中最有意思的部分，车辆物理，也是刚体运动学中的难点。[运行效果](http://aicdg.com/learn-ammojs/Demo3-vehicle.html)
+
+<!-- more -->
+
 1. bullet引擎和OpenGL结合创建简单的场景
 2. three.js和ammo.js创建简单的场景
 3. 创建地形
@@ -15,10 +19,6 @@ tags: [html5,bullet]
 7. 柔体-有体积的柔体
 8. 使用blender引擎模拟物理场景
 
-
-&#160; &#160; &#160; &#160;接下来就是刚体物理的中最有意思的部分，车辆物理，也是刚体运动学中的难点。[运行效果](http://aicdg.com/learn-ammojs/Demo3-vehicle.html)
-
-<!-- more -->
 
 &#160; &#160; &#160; &#160;和之前的demo不太一样，一开始就展示了运行场景。一个用WSAD控制小车运动的场景，应该还是比较有趣的。
 
