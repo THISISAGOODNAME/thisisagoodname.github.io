@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "卡马克快速平方根"
-description: ""
+description: "卡马克快速平方根"
 category: math
 tags: [math]
 ---
