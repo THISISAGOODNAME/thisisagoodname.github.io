@@ -17,7 +17,7 @@ tags: [WebAssembly,html5,c++,emscripten]
 
 &#160; &#160; &#160; &#160;最简单的开发方式就是继续使用emscripten，关于emscripten用法我写过[很多文章](http://aicdg.com/categories/#emscripten)，不赘述了。现在直接讲一下给emscripten添加wasm支持的方法。
 
-&#160; &#160; &#160; &#160;特别说明一下，如果想要在Windows下编译支持wasm的emscripten，需要[Visual Studio 2015 Community with Update 3](https://www.visualstudio.com/downloads/)或者更新版本的VS编译器(minGW不行)。还需要安装[cmake](https://cmake.org/download/)。
+&#160; &#160; &#160; &#160;特别说明一下，如果想要在Windows下编译支持wasm的emscripten，需要[Visual Studio 2015 Community with Update 3](https://www.visualstudio.com/downloads/)或者更新版本的VC++编译器(minGW不行)。还需要安装[cmake](https://cmake.org/download/)。还有git这个相信已经是所有开发者已经必备的东西。
 
 ```bash
 $ git clone https://github.com/juj/emsdk.git
