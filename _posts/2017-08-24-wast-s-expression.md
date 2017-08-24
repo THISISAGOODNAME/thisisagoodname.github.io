@@ -259,3 +259,264 @@ fetchAndInstantiate('logger.wasm', importObject).then(function(instance) {
 });
 ```
 
+## WebAssembly内存
+
+&nbsp; &nbsp; &nbsp; &nbsp;上面的例子是一个相当简单的日志函数：它只是打印一个整数！要是我们想输出一个文本字符串呢？为了处理字符串及其他复杂数据类型，WebAssembly提供了内存。按照WebAssembly的定义，内存就是一个随着时间增长的字节数组。WebAssembly包含诸如i32.load和i32.store指令来实现对[线性内存](http://webassembly.org/docs/semantics/#linear-memory)的读写。
+
+&nbsp; &nbsp; &nbsp; &nbsp;从JavaScript的角度来看，内存就是一个包括一切的大的可变大小的ArrayBuffer。从字面上来说，这也是asm.js所做的（除了它不能改变大小；参考asm.js[编程模型](http://asmjs.org/spec/latest/#programming-model)）。
+
+&nbsp; &nbsp; &nbsp; &nbsp;因此，一个字符串就是位于这个线性内存某处的字节序列。让我们假设我们已经把一个合适的字符串字节写入到了内存中；那么，我们该如何把那个字符串传递给JavaScript呢？
+
+&nbsp; &nbsp; &nbsp; &nbsp;关键在于JavaScript能够通过WebAssembly.Memory()接口创建WebAssembly线性内存实例并且能够通过相关的实例方法获取已经存在的内存实例（当前每一个模块实例只能有一个内存实例）。内存实例拥有一个[buffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory/buffer)获取器，它返回一个指向整个线性内存的ArrayBuffer。
+
+&nbsp; &nbsp; &nbsp; &nbsp;内存实例也能够增长。举例来说，在JavaScript中可以调用`Memory.grow()`方法。由于ArrayBuffer不能改变大小，所以，当增长产生的时候，当前的ArrayBuffer会被移除并且一个新的ArrayBuffer会被创建并指向新的、更大的内存。这意味着为了向JavaScript传递一个字符串，我们所需要做的就是把字符串在线性内存中的偏移量以及某种表示其长度的方法传递出去。
+
+&nbsp; &nbsp; &nbsp; &nbsp;虽然有许多不同的方法在字符串自身当中保存字符串的长度（例如，C字符串）；但是，这里为了简单起见，我们仅仅把偏移量和长度都作为参数：
+
+```lisp
+(import "console" "log" (func $log (param i32) (param i32)))
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;在JavaScript端，我们可以使用[文本解码器API](https://developer.mozilla.org/en-US/docs/Web/API/TextDecoder)从而轻松地把我们的字节解码为一个JavaScript字符串。（这里，我们使用utf8，不过，许多其他编码也是支持的。）
+
+```javascript
+consoleLogString(offset, length) {
+  var bytes = new Uint8Array(memory.buffer, offset, length);
+  var string = new TextDecoder('utf8').decode(bytes);
+  console.log(string);
+}
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;这个谜题的最后一部分就是consoleLogString从哪里获得WebAssembly的内存（memory）实例。这里，WebAssembly给我们很大灵活性：我们既可以使用JavaScript创建一个[内存对象](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Memory)并让WebAssembly模块导入这个内存或者我们让WebAssembly模块创建这个内存并把它导出给JavaScript。
+
+&nbsp; &nbsp; &nbsp; &nbsp;为了简单起见，让我们用JavaScript创建它，然后把它导入到WebAssembly。我们的导入语句编写如下：
+
+```lisp
+(import "js" "mem" (memory 1))
+```
+
+> `1`表示导入的内存必须至少有1页内存。（WebAssembly定义一页为64KB。）
+
+&nbsp; &nbsp; &nbsp; &nbsp;因此，让我们看一个完整的打印字符串“Hi”的模块。在一个常规的已编译的C程序，你会调用一个函数来为字符串分配一段内存，但是，因为我们正在编写自己的汇编并且我们拥有整个线性内存，所以，我们可以使用数据（data）段把字符串内容写入到一个全局内存中。数据段允许字符串字节在实例化时被写在一个指定的偏移量。而且，它与原生的可执行格式中的数据（.data）段是类似的。
+
+我们最终的wasm模块看起来像这样：
+
+```lisp
+(module
+  (import "console" "log" (func $log (param i32 i32)))
+  (import "js" "mem" (memory 1))
+  (data (i32.const 0) "Hi")
+  (func (export "writeHi")
+    i32.const 0  ;; pass offset 0 to log
+    i32.const 2  ;; pass length 2 to log
+    call $log))
+```
+
+> 注意上面的双分号语法，它允许在WebAssembly文件中添加注释。
+
+&nbsp; &nbsp; &nbsp; &nbsp;现在，我们可以从JavaScript中创建一个1页的内存（Memory ）然后把它传递进去。这会在控制台输出"Hi"。
+
+```javascript
+var memory = new WebAssembly.Memory({initial:1});
+
+var importObj = { console: { log: consoleLogString }, js: { mem: memory } };
+
+fetchAndInstantiate('logger2.wasm', importObject).then(function(instance) {
+  instance.exports.writeHi();
+});
+```
+
+## WebAssembly表格
+
+&nbsp; &nbsp; &nbsp; &nbsp;为了结束WebAssembly文本格式之旅，让我们看看最难理解的、常常令人迷惑的WebAssembly部分：表格。总的来说，表格是从WebAssembly代码中通过索引获取的可变大小的引用数组。
+
+&nbsp; &nbsp; &nbsp; &nbsp;为了了解为什么表格是必须的，我们首先需要观察前面看到的call指令，它接受一个静态函数索引并且只调用了一个函数——但是，如果被调用者是一个运行时值呢？
+
+- 在JavaScript中，我们总是看到：函数是一等值。
+- 在C/C++中，我们看到了函数指针。
+- 在C++中，我们看到了虚函数。
+
+&nbsp; &nbsp; &nbsp; &nbsp;ebAssembly需要一种做到这一点的调用指令，因此，我们有了接受一个动态函数操作数的call_indirect指令。问题是，在WebAssembly中，当前操作数的仅有的类型是i32/i64/f32/f64。
+
+&nbsp; &nbsp; &nbsp; &nbsp;WebAssembly可以增加一个anyfunc类型（"any"的含义是该类型能够持有任何签名的函数），但是，不幸的是，由于安全原因，这个anyfunc类型不能存储在线性内存中。线性内存会把存储的原始内容作为字节暴露出去并且这会使得wasm内容能够任意的查看和修改原始函数地址，而这在网络上是不被允许的。
+
+&nbsp; &nbsp; &nbsp; &nbsp;解决方案是在一个表格中存储函数引用，然后作为 代替，传递表格索引——它们只是i32类型值。因此，call_indirect的操作数可以是一个i32类型索引值。
+
+### 在wasm中定义一个表格
+
+&nbsp; &nbsp; &nbsp; &nbsp;那么，我们该如何在表格中放置wasm函数呢？就像数据段能够用来通过字节初始化线性内存区域一样，元素（elem）段能够用来通过函数初始化表格区域：
+
+```lisp
+(module
+  (table 2 anyfunc)
+  (elem (i32.const 0) $f1 $f2)
+  (func $f1 (result i32)
+    i32.const 42)
+  (func $f2 (result i32)
+    i32.const 13)
+  ...
+)
+```
+
+- 在(table 2 anyfunc)中，数字2表示的是表格的初始大小（也就是它将存储两个引用）并且anyfunc声明的是这些引用的元素类型是“一个具有任何签名的函数”。在当前的WebAssembly版本中，这是唯一被允许的元素类型，但是在将来，更多的元素类型会加入进来。
+- 函数(func)部分跟任何其他声明的wasm函数没有什么两样。她们是我们将会在表格中引用的函数（作为例子，每一个只是返回一个静态值）。值得注意的是，函数部分声明的顺序并不重要——你可以在任何地方声明你的函数然后在你的元素段（elem section）中引用它们。
+- 元素段（elem section）能够将一个模块中的任意函数子集以任意顺序列入其中并允许出现重复。列入其中的函数将会被表格引用并且引用顺序是其出现的顺序。
+- 元素段（elem section）中的(i32.const 0)值是一个偏移量——它需要在元素段开始的位置声明，其作用是表明函数引用是在表格中的什么索引位置开始存储的。这里我们指定的偏移量是0，表格大小是2（参考上面），因此，我们可以在索引0和1的位置填入两个引用。如果想在偏移量1的位置开始写入引用，那么，我们必须使用(i32.const 1)并且表格大小必须是3.
+
+> 未初始化的元素会被设定一个默认的调用即抛出（throw-on-call）值。
+
+&nbsp; &nbsp; &nbsp; &nbsp;在JavaScript中，可以创建这样一个表格实例的等价的函数调用看起来如下所示：
+
+```javascript
+function() {
+  // table section
+  var tbl = new WebAssembly.Table({initial:2, element:"anyfunc"});
+
+  // function sections:
+  var f1 = function() { … }
+  var f2 = function() { … }
+
+  // elem section
+  tbl.set(0, f1);
+  tbl.set(1, f2);
+};
+```
+
+### 使用表格
+
+&nbsp; &nbsp; &nbsp; &nbsp;现在，表格已经定义好了，我们需要用某种方法使用它。让我们使用下面的代码段来做到这一点：
+
+```lisp
+(type $return_i32 (func (result i32))) ;; if this was f32, type checking would fail
+(func (export "callByIndex") (param $i i32) (result i32)
+  get_local $i
+  call_indirect $return_i32)
+```
+
+- `(type $return_i32 (func (param i32)))`代码块使用一个引用名字定义了一个类型。该类型被用来在后续的表格函数引用调用时进行类型检查。这里，我们声明的是该引用是一个返回值为i32类型的函数。
+- 接下来，我们定义了一各导出名字为callByIndex的函数。它有一个接受i32类型的参数$i。
+- 在函数里面，我们在栈顶压入一个值——该值就是传递给参数$i的值。
+- 最后，我们使用call_indirect指令调用表格中的函数——这隐含的意思是$的值从栈顶出栈。最终的结果就是callByIndex函数会调用表格中的第$i个函数。
+你也可以在命令调用的时候显式地声明call_indirect的参数，就像下面这样：
+
+```lisp
+(call_indirect $return_i32 (get_local $i))
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;在更高层面，像JavaScript这样更具表达力的语言，你可以设想使用一个数组（或者更有可能的是对象）来完成相同的事情。伪代码看起来像这样：`tbl[i]()`。
+
+&nbsp; &nbsp; &nbsp; &nbsp;回到类型检查。因为WebAssembly是带有类型检查的并且anyfunc的含义是任何函数签名，所以，我们必须在调用点提供假定的被调用函数签名。这里，我们包含了一个$return_i32类型来告诉程序期望的是一个返回值为i32类型的函数。如果被调用函数没有一个匹配的签名（比如说返回值是f32类型的），那么，程序会抛出WebAssembly.RuntimeError异常。
+
+&nbsp; &nbsp; &nbsp; &nbsp;那么，是什么把call_indirect指令和我们要是用的表格联系起来的呢？答案是，现在每一个模块实例只允许唯一一个表格存在，这也就是call_indirect指令隐式地使用的表格。在将来，当多表格被允许了，我们需要在代码行中指明一个某种形式的表格标识符：
+
+```
+call_indirect $my_spicy_table $i32_to_void
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;完整的模块看起来如下所示并且能够在我们的wasm-table.wat示例文件中找到：
+
+```lisp
+(module
+  (table 2 anyfunc)
+  (func $f1 (result i32)
+    i32.const 42)
+  (func $f2 (result i32)
+    i32.const 13)
+  (elem (i32.const 0) $f1 $f2)
+  (type $return_i32 (func (result i32)))
+  (func (export "callByIndex") (param $i i32) (result i32)
+    get_local $i
+    call_indirect $return_i32)
+)
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;我们使用下面的JavaScript把它加载到一个网页中：
+
+```
+fetchAndInstantiate('wasm-table.wasm').then(function(instance) {
+  console.log(instance.exports.callByIndex(0)); // 返回42
+  console.log(instance.exports.callByIndex(1)); // 返回13
+  console.log(instance.exports.callByIndex(2));
+  // 返回一个错误，因为在表格中没有索引值2
+});
+```
+
+> 就像内存一样，表格也能够从JavaScript中创建 (参考 [WebAssembly.Table()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/Table))并且能够导入和导出到其他wasm模块。
+ 
+### 改变表格和动态链接
+
+&nbsp; &nbsp; &nbsp; &nbsp;因为JavaScript对于函数引用有完全的存取权限，所以，从JavaScript中通过grow()、get()和set()方法能够改变表格对象。
+
+&nbsp; &nbsp; &nbsp; &nbsp;因为表格是可变的，所以，它们能够用来实现复杂的加载时和运行时[动态链接](http://webassembly.org/docs/dynamic-linking)。当程序被动态地链接，多个实例共享相同的内存和表格。这与原生应用程序的多个.dll共享一个进程地址空间是等价的。
+
+&nbsp; &nbsp; &nbsp; &nbsp;为了看看实际情况，我们会创建一个包含一个内存对象和一个表格对象的导入对象并且把这个导入对象传递到多个[instantiate()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate)调用中去。
+
+我们的.wat看起来像这样：
+
+shared0.wat:
+
+```lisp
+(module
+  (import "js" "memory" (memory 1))
+  (import "js" "table" (table 1 anyfunc))
+  (elem (i32.const 0) $shared0func)
+  (func $shared0func (result i32)
+   i32.const 0
+   i32.load)
+)
+```
+
+shared1.wat:
+
+```lisp
+(module
+  (import "js" "memory" (memory 1))
+  (import "js" "table" (table 1 anyfunc))
+  (type $void_to_i32 (func (result i32)))
+  (func (export “doIt”) (result i32)
+   i32.const 0
+   i32.const 42
+   i32.store  ;; store 42 at address 0
+   i32.const 0
+   call_indirect $void_to_i32)
+)
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;运行逻辑如下：
+
+1. 函数shared0func在shared0.wat中定义并存储在我们的导出表格中。
+2. 该函数创建一个常量值0，然后使用i32.load指令从给定的内存索引值加载存储的值。给定的索引值为0——该指令会将之前的值出栈。所以，shared0func加载并返回存储在内存索引0处的值。
+3. 在shared1.wat中，我们导出了一个名为doIt的函数——这个函数创建了两个常量值，分别为0和42，然后使用i32.store指令把给定的值存储在导入内存的给定索引处。同样的，该指令会把这些值出栈，所以，结果就是把42存储在内存索引0处。
+4. 在这个函数的最后一部分，我们创建了常量值0，然后调用表格中索引0处的函数，该函数正是我们之前在shared0.wat中的使用元素代码段（elem block）存储的shared0func。
+5. shared0func在被调用之后会加载我们在shared1.wat中使用i32.store指令存储在内存中的42。
+
+&nbsp; &nbsp; &nbsp; &nbsp;上面的表达式会隐式地把这些值出栈，但是，你可以在使用指令的时候进行显式地声明。例如：
+
+```lisp
+(i32.store (i32.const 0) (i32.const 42))
+(call_indirect $void_to_i32 (i32.const 0))
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;在转换为汇编之后，我们可以在JavaScript中通过下面的代码使用shared0.wasm和shared1.wasm：
+
+```javascript
+var importObj = {
+  js: {
+    memory : new WebAssembly.Memory({ initial: 1 }),
+    table : new WebAssembly.Table({ initial: 1, element: "anyfunc" })
+  }
+};
+
+Promise.all([
+  fetchAndInstantiate('shared0.wasm', importObj),
+  fetchAndInstantiate('shared1.wasm', importObj)
+]).then(function(results) {
+  console.log(results[1].exports.doIt());  // prints 42
+});
+```
+
+&nbsp; &nbsp; &nbsp; &nbsp;每一个将被编译的模块都可以导入相同的内存和表格对象，这也就是共享相同的线性内存和表格的“地址空间”。
+
+# 小结
+
+&nbsp; &nbsp; &nbsp; &nbsp;WebAssembly的纯文本格式就是这样，不算太难，但也不太简单。想深入理解的话可以看[MDN提供的DEMO](https://github.com/mdn/webassembly-examples)。就个人观点，实际开发还是更推荐直接使用emscripten。
