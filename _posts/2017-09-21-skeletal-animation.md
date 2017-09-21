@@ -6,8 +6,6 @@ category: CG
 tags: [CG,图形学,html5,webGL]
 ---
 
-TODO: 未完成
-
 &#160; &#160; &#160; &#160;现如今，骨骼动画系统是三维动画软件和游戏渲染系统的重要组成部分。骨骼动画系统的轮子现如今已经非常多，基本上所有渲染引擎和游戏引擎都提供了，比如unity(mecanim),unreal,ogre,urho3D, 也有IKinema这样独立的动画系统。
 
 <!-- more -->
@@ -34,6 +32,8 @@ TODO: 未完成
 
 &#160; &#160; &#160; &#160;Joints和scene node不是一一对应单独操作的的。Scene node中的每个顶点的变换只受Scene node自身影响，而骨骼动画使用一种名为顶点蒙皮(*vertex skinning*)的技术，每个顶点的位置要受多个关节位置和选择角度的影响。
 
+![顶点蒙皮示例](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-210938@2x.png)
+
 <center>顶点蒙皮示例</center>
 
 &#160; &#160; &#160; &#160;如果Scene node单独控制，在胳膊肘这种关节转角处，一定程度选择之后就会出现缺口，严重影响画面体验。虽然讲肢节使用胶囊体，以及一些贴图技术可以改善视觉体验，但是工作量巨大而且限制颇多，很容易发生贴图内陷和贴图撕裂的问题。
@@ -55,19 +55,35 @@ $$
 
 ### Direct vertex weightings
 
+![Direct vertex weightings](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-210954@2x.png)
+
 <center>Direct vertex weightings</center>
 
 &#160; &#160; &#160; &#160;首先是直接使用关节和权重的方法。**v0** 是要画的点，受关节 **j0** 和 **j1** 影响，影响程度相同； **v1** 受关节 **j1** 和 **j2** 影响，**j2** 影响程度更大。两种情况点点均使用的是local position。
 
+$$
+finalposv_0 = posv_0 + 0.5 \cdot posj_0 + 0.5 \cdot posj_1 
+$$
+
 ### Weighted anchor positions
+
+![Weighted anchor positions](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-211002@2x.png)
 
 <center>Weighted anchor positions</center>
 
 &#160; &#160; &#160; &#160;接下来是使用锚点和权重的方法，最终位置完全由锚点位置以及权重决定。在本例中， **v0** 受两个锚点影响 **w0** 和 **w1** ，两者的权重相同。这就意味着 **v0** 会在 **w0** 和 **w1** 的中点上。
 
+$$
+posv_0 = 0.5 * (posj_0 + posw_0) + 0.5 * (posj_1 + posw_1)
+$$
+
 ## Bind Pose
 
 &#160; &#160; &#160; &#160;当一个网格和内部隐藏的骨骼绑定完成(该过程通常被称作绑骨(rigging))，通常会把模型置为一个通用的姿势，一般称为*bind pose*。对于双足生物(比如人)，bind pose一般是双腿稍稍分开，双臂向两侧伸开，接近一个T型。这个姿势也通常是建模时人形物体建模的造型。
+
+![Bind Pose](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-211011@2x.png)
+
+<center>Bind Pose</center>
 
 ## Animating Skeletal Meshes
 
@@ -86,6 +102,8 @@ $$
 &#160; &#160; &#160; &#160;由于顶点着色器的工作方式，每个顶点的顶点着色器都需要完全相同的数据，一个顶点可能只受一个关节点影响，但另一个顶点可能受很多顶点的影响。通常，为了效率考虑，每个顶点作用的关节点是有限的，一般为4或者8。每个顶点都有4/8个vertex skinning attribute，如果没有那么多，就将权重设置为0。传到顶点着色器的uniform数据也有限制，一般限制为硬件蒙皮支持的最大数量，有些硬件顶点最多256个向量变量--意味者顶点着色器中最多使用256个vec4变量，也就是最多64个joint(一个mat4是4个vec4)。如果坐标只用xyz三个分量，最多就是85个joint。如果使用一个vec4表示位移，一个vec4的四元数表示旋转，那最多就是128个joint。
 
 ## quaternions
+
+![绕轴旋转](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-211021@2x.png)
 
 <center>绕旋转轴 *(Vx, Vy, Vz)* 旋转角 *a* </center>
 
@@ -114,7 +132,7 @@ $$
 
 # 实例程序
 
-<示例图>
+![miku demo](http://7xqrar.com1.z0.glb.clouddn.com/skanQQ20170921-211048@2x.png)
 
 <center>空格键： 开始/暂停动画</center>
 
