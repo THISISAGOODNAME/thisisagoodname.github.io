@@ -60,7 +60,7 @@ if (model->GetNumAnimationStates())
 }
 ```
 
-> 注意，如果要暂停动画，可以state->AddTime(timeStep)
+> 注意，如果要暂停动画，可以state->AddTime(0);
 
 &nbsp; &nbsp; &nbsp; &nbsp;完整代码可以参考[这里](https://github.com/THISISAGOODNAME/urho3DSamples/blob/master/samples/11-navigation/main.cpp)
 
