@@ -3,7 +3,7 @@ layout: post
 title: "你好，Urho3D"
 description: "你好，Urho3D"
 category: c++
-tags: [c++,游戏引擎]
+tags: [c++,游戏引擎,Urho3D]
 ---
 
 &nbsp; &nbsp; &nbsp; &nbsp;我昨天博文好像说[Urho3D](https://urho3d.github.io/)配置复杂来着，我必须自打50大板。Urho3D配置不仅不复杂，而且是异常的简单清晰明快。
