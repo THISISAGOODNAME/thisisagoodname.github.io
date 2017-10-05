@@ -92,6 +92,8 @@ if (animCtrl->IsPlaying(WALKING_ANI)) {
 
 > AnimationController会自动处理动画加载，帧更新问题，非常方便
 
+&nbsp; &nbsp; &nbsp; &nbsp;完整代码可以参考[这里](https://github.com/THISISAGOODNAME/urho3DSamples/blob/master/samples/14-crowdNavigation/main.cpp)
+
 # 应用场景
 
 &nbsp; &nbsp; &nbsp; &nbsp;手工控制虽然比较麻烦，但是响应性更好一些，比较推荐处理玩家操作角色。自动控制动画则用来绘制NPC的逻辑。
