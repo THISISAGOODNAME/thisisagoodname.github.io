@@ -12,11 +12,11 @@ tags: [CG,图形学,shader,OepnGL,webGL]
 
 # 一些效果图吧
 
-[pic1](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231318@2x.png)
+![pic1](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231318@2x.png)
 
-[pic2](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231303@2x.png)
+![pic2](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231303@2x.png)
 
-[pic3](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231348@2x.png)
+![pic3](http://7xqrar.com1.z0.glb.clouddn.com/GLSLBasic/QQ20171029-231348@2x.png)
 
 # 关于该shader sandbox的一些说明：
 
