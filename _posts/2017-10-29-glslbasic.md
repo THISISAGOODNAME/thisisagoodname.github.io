@@ -6,7 +6,7 @@ category: shader
 tags: [CG,图形学,shader,OepnGL,webGL]
 ---
 
-&nbsp; &nbsp; &nbsp; &nbsp;上周还是上上周，膜拜某位dalao指点江山。谈了一句关于shader的问题。我当晚就想了一下，shadertoy等主流shader sandbox确实有很多牛逼的demo，但是面向初学者的却不太多。所以我总结了一些初学者常用的demo，涵盖基础光照，NPR，基于过程渲染，图像混合，图像处理等内容，方便初学者查阅。在线观看地址[http://aicdg.com/GLSLbasic/]
+&nbsp; &nbsp; &nbsp; &nbsp;上周还是上上周，膜拜某位dalao指点江山。谈了一句关于shader的问题。我当晚就想了一下，shadertoy等主流shader sandbox确实有很多牛逼的demo，但是面向初学者的却不太多。所以我总结了一些初学者常用的demo，涵盖基础光照，NPR，基于过程渲染，图像混合，图像处理等内容，方便初学者查阅。在线观看地址[http://aicdg.com/GLSLbasic/](http://aicdg.com/GLSLbasic/)
 
 <!-- more -->
 
