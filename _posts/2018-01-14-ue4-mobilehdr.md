@@ -35,9 +35,9 @@ tags: [UE4]
 
 &nbsp; &nbsp; &nbsp; &nbsp;烘焙后，在content目录下会出现几个shader的bin文件，比如DefaultGalobalShader\_PCD3D\_SM5.bin和DefaultGalobalShader\_OPENGL\_ES31.bin。不过这个文件并不是真的shader，只是个DefaultShader的索引。真正的shader其实还是在每个Material里面。UE4的Material文件，就是贴图+各个renderpass的usf文件，usf是Unreal Engine文本格式是shader代码，大体上就是HLSL，编译器使用的是Epic自己维护的HLSLcc，现在微软开源了[DirectXShaderCompiler](https://github.com/Microsoft/DirectXShaderCompiler)，而且还添加了[SPIR-V的支持](https://github.com/Microsoft/DirectXShaderCompiler/wiki/SPIR%E2%80%90V-CodeGen)，也许Epic会陆续替换成微软的编译器吧，毕竟SPIR-V在openGL 4.5是ARB扩展，openGL4.6和vulkan可以直接使用，而且SPIR-V生成GLSL和ESSL也非常方便。
  
-&nbsp; &nbsp; &nbsp; &nbsp;回到正题，Material文件包含贴图信息和shader信息，也就是材质独立，这个我和同事确实有不同观点，我个人毕竟赞同这种做法，这样材质之间相互独立，复用性强。但是他们则认为shader和贴图独立更好，毕竟shader和贴图都有可能复用。也许是因为我只会GLSL吧，没有DX(HLSL)开发者写shader时的模块化意识。
+&nbsp; &nbsp; &nbsp; &nbsp;回到正题，Material文件包含贴图信息和shader信息，也就是材质独立，这个我和同事确实有不同观点，我个人比较赞同这种做法，这样材质之间相互独立，复用性强。(substance的sbs材质也是这种组织形式)但是他们则认为shader和贴图独立更好，毕竟shader和贴图都有可能复用。也许是因为我只会GLSL吧，没有DX(HLSL)开发者写shader时的模块化意识。
 
-&nbsp; &nbsp; &nbsp; &nbsp;回到r.mobileHDR的议题。Unreal Engine在preInit renderer设备的时候(initRHI)，在移动平台，会根据mobileHDR是否开启，来选择使用shader是Linear64还是Gamma32色彩空间。之后，就会在材质uasset文件中找正确的shader来使用。然后，烘焙的坑来了。比较开启r.mobileHDR和不开启r.mobileHDR烘焙出的材质，可以看到，材质里会有和你选择导出的platform相同数量的shader，拿TMobile#lightPolice#MaxLightCout[Linear64|Gamma32]举例，这个材质只存在一对VS和PS，以Linear64结尾或者Gamma32结尾。也就是说烘焙的过程，只烘焙了LDR或者HDR一种素材。
+&nbsp; &nbsp; &nbsp; &nbsp;回到r.mobileHDR的议题。Unreal Engine在preInit renderer设备的时候(initRHI)，在移动平台，会根据mobileHDR是否开启，来选择使用shader是Linear64还是Gamma32色彩空间。之后，就会在材质uasset文件中找正确的shader来使用。然后，烘焙的坑来了。比较开启r.mobileHDR和不开启r.mobileHDR烘焙出的材质，可以看到，材质里会有和你选择导出的platform相同数量的shader，拿TMobile#lightPolice#MaxLightCout[Linear64\|Gamma32]举例，这个材质只存在一对VS和PS，以Linear64结尾或者Gamma32结尾。也就是说烘焙的过程，只烘焙了LDR或者HDR一种素材。
 
 # 运行时可选mobileHDR的Walk around
 
