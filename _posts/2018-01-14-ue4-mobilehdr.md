@@ -39,15 +39,15 @@ tags: [UE4]
 
 &nbsp; &nbsp; &nbsp; &nbsp;回到r.mobileHDR的议题。Unreal Engine在preInit renderer设备的时候(initRHI)，在移动平台，会根据mobileHDR是否开启，来选择使用shader是Linear64还是Gamma32色彩空间。之后，就会在材质uasset文件中找正确的shader来使用。然后，烘焙的坑来了。比较开启r.mobileHDR和不开启r.mobileHDR烘焙出的材质，可以看到，材质里会有和你选择导出的platform相同数量的shader，拿TMobile#lightPolice#MaxLightCout[Linear64\|Gamma32]举例，这个材质只存在一对VS和PS，以Linear64结尾或者Gamma32结尾。也就是说烘焙的过程，只烘焙了LDR或者HDR一种素材。
 
-# 运行时可选mobileHDR的Walk around
+# 运行时可选mobileHDR的Work around
 
-&nbsp; &nbsp; &nbsp; &nbsp;有了上述的理论基础，其实可以很简单的进行一种walk around的方法。就是烘焙两次，然后运行时动态选择是加载LDR的asset还是HDR的asset。通过我个人的实验，这种方法是可行的，只要记得Engine内置asset和你个人的asset都替换即可。内置Material出错会直接崩溃。自己的Material出错不会崩溃，但是会使用系统内置的Material，就是灰黑色的那个。
+&nbsp; &nbsp; &nbsp; &nbsp;有了上述的理论基础，其实可以很简单的进行一种work around的方法。就是烘焙两次，然后运行时动态选择是加载LDR的asset还是HDR的asset。通过我个人的实验，这种方法是可行的，只要记得Engine内置asset和你个人的asset都替换即可。内置Material出错会直接崩溃。自己的Material出错不会崩溃，但是会使用系统内置的Material，就是灰黑色的那个。
 
 &nbsp; &nbsp; &nbsp; &nbsp;这种方法当然非常辣鸡，因为烘焙资源两份，基本是不能接受的。对于手机游戏，安装包过大会直接影响用户下载的欲望。
 
 # 更好的解决方法
 
-&nbsp; &nbsp; &nbsp; &nbsp;更好的解决方法，相信大家都猜到了，就是修改烘焙的逻辑，让Linear64和Gamma32两种空间的shader都打到Material里。shader其实不算大，大的是材质文件里的贴图。上述walk around方法LDR和HDR的Material中其实存放了相同的贴图，所以冗余较大。我从上周五开始，已经在研究UE4资源烘焙的逻辑了，希望这个猜想是可行的。不过考虑到Epic对于mobileHDR的态度，Epic应该是不可能接纳这个patch的，我也许会放在我个人的GitHub上，也许这个patch就真的随历史自生自灭吧，毕竟HDR和几个post effect都跑不起来的低端机的保有量也不大了。也许真的在Epic眼里，如果连`r.MobileContentScaleFactor`和`r.MaterialQualityLevel`都优化不了的设备，都应该直接丢垃圾桶算了。
+&nbsp; &nbsp; &nbsp; &nbsp;更好的解决方法，相信大家都猜到了，就是修改烘焙的逻辑，让Linear64和Gamma32两种空间的shader都打到Material里。shader其实不算大，大的是材质文件里的贴图。上述work around方法LDR和HDR的Material中其实存放了相同的贴图，所以冗余较大。我从上周五开始，已经在研究UE4资源烘焙的逻辑了，希望这个猜想是可行的。不过考虑到Epic对于mobileHDR的态度，Epic应该是不可能接纳这个patch的，我也许会放在我个人的GitHub上，也许这个patch就真的随历史自生自灭吧，毕竟HDR和几个post effect都跑不起来的低端机的保有量也不大了。也许真的在Epic眼里，如果连`r.MobileContentScaleFactor`和`r.MaterialQualityLevel`都优化不了的设备，都应该直接丢垃圾桶算了。
 
 # 补充：UE4的feature level
 
