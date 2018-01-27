@@ -27,4 +27,4 @@ tags: [UE4]
 
 &nbsp; &nbsp; &nbsp; &nbsp;`/Engine/Source/Runtime/Renderer/Private/MobileBasePassRendering.h`，引擎源码的这个文件的`ShouldCacheShaderByPlatformAndOutputFormat`，将它的返回值改为true写死。这样烘焙出来的material.uasset就同时含有LDR和HDR的shader了。
 
-&nbsp; &nbsp; &nbsp; &nbsp;不过，再次提醒一下，这么做有很多一直和未知的错误，希望大家谨慎使用。考虑到EPIC官方绝对不会修复这个问题，也希望诸位大佬能协助小弟排查一下这样的后果和代价，除了内存和包容量之外。
+&nbsp; &nbsp; &nbsp; &nbsp;不过，再次提醒一下，这么做有很多一直和未知的错误，希望大家谨慎使用。考虑到EPIC官方绝对不会修复这个问题，也希望诸位大佬能协助小弟排查一下这样的后果和代价。
