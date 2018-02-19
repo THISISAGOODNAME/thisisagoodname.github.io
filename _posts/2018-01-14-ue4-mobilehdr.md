@@ -33,6 +33,8 @@ tags: [UE4]
 
 # UE4 烘焙后的Material的uasset文件
 
+&nbsp; &nbsp; &nbsp; &nbsp;<span style="color:red">更正</span>：Unreal的材质文件不包含贴图，真的是纯shader就大的不行。在移动设备上内存和包体大小都比较吃紧，因此使用各种压缩材质分离材质是必须的，即便可能会使加载时间变长等新问题。
+
 &nbsp; &nbsp; &nbsp; &nbsp;烘焙后，在content目录下会出现几个shader的bin文件，比如DefaultGalobalShader\_PCD3D\_SM5.bin和DefaultGalobalShader\_OPENGL\_ES31.bin。不过这个文件并不是真的shader，只是个DefaultShader的索引。真正的shader其实还是在每个Material里面。UE4的Material文件，就是贴图+各个renderpass的usf文件，usf是Unreal Engine文本格式是shader代码，大体上就是HLSL，编译器使用的是Epic自己维护的HLSLcc，现在微软开源了[DirectXShaderCompiler](https://github.com/Microsoft/DirectXShaderCompiler)，而且还添加了[SPIR-V的支持](https://github.com/Microsoft/DirectXShaderCompiler/wiki/SPIR%E2%80%90V-CodeGen)，也许Epic会陆续替换成微软的编译器吧，毕竟SPIR-V在openGL 4.5是ARB扩展，openGL4.6和vulkan可以直接使用，而且SPIR-V生成GLSL和ESSL也非常方便。
  
 &nbsp; &nbsp; &nbsp; &nbsp;回到正题，Material文件包含贴图信息和shader信息，也就是材质独立，这个我和同事确实有不同观点，我个人比较赞同这种做法，这样材质之间相互独立，复用性强。(substance的sbs材质也是这种组织形式)但是他们则认为shader和贴图独立更好，毕竟shader和贴图都有可能复用。也许是因为我只会GLSL吧，没有DX(HLSL)开发者写shader时的模块化意识。
