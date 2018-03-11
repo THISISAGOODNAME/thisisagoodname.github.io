@@ -36,23 +36,24 @@ links:
     - title: my posts
       url: http://aicdg.com/posts
       key_trigger: 2
+    - title: categories
+      url: http://aicdg.com/series
+      key_trigger: 3
     - title: tags
       url: http://aicdg.com/tags
-      key_trigger: 3
-    - title: about me
-      url: http://aicdg.com/about
       key_trigger: 4
     - title: about me
-      url: http://aicdg.com/series
+      url: http://aicdg.com/about
       key_trigger: 5
-    - title: categories
-      url: http://aicdg.com/oldblog
-      key_trigger: 6
   section_2:
     - title: github
       url: https://github.com/THISISAGOODNAME
       new_tab: true
       key_trigger: g
+    - title: old blog
+      url: http://aicdg.com/oldblog
+      new_tab: true
+      key_trigger: o
     - title: search
       url: ""
       key_trigger: s #WARNING: search only works with "s"
