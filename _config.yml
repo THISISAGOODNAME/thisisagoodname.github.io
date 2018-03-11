@@ -14,6 +14,7 @@ gplus_username:
 linkedin_public_url: 245399100 # Example: For public profile 'www.linkedin.com/in/john-smith', 'john-smith' is your linkedin_public_url
 disqus_username: aicdg
 profile_picture: http://aicdg.com/oldblog/images/chrysanthemum.jpg
+favicon: http://aicdg.com/oldblog/images/chrysanthemum.ico
 
 # Build settings
 markdown: kramdown
