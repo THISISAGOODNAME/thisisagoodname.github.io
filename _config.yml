@@ -1,75 +1,88 @@
-### Site info:
+# Site settings
 title: 菊长的菊花田
-tagline: Qinghuai,Jiecao,Neihan,Xiaxian,we got them all!
-author: 彦君 杨
-email: yangyj19931231@gmail.com
-description: "菊长就是我，我就是菊长." # You can edit this line in _config.yml. It will appear in your document head meta and in your feed.xml site description
-keywords: "Unity3D, MMD, 前端技术"
-baseurl: "http://aicdg.com" # the subpath of your site, e.g. /blog/
-url: "http://thisisagoodname.github.io" # the base hostname & protocol for your site
-production_url : http://aicdg.com
-locale: zh_CN
+description: "新菊花田 ..."
+baseurl: "" # for test: remove string '/space-jekyll-template' to ''
+url: "http://aicdg.com" # for test: remove string 'http://victorvoid.github.io' to '' but in production: 'https://yourusername.githu.io'
 
-### Personal info and site tools info:
-qq_username: 1156587053
+# User settings
+username: AICDG
+user_title: AICDG - Game Engine Engineer
+email: 1156587053@qq.com
+twitter_username: 
 github_username:  THISISAGOODNAME
-disqus_shortname: AICDG
-favicon:     "/images/chrysanthemum.ico"
-aboutme: 我就是菊长，喜欢U3D，MMD前端等一切花里胡哨的技术. # these are shown on aboutme-sidebar.
-aboutme_photo: /images/chrysanthemum.jpg# your photo.
-google_analytics_key: UA-62751145-1 # put YOUR key here to enable tracking! (blank to disable)
+gplus_username:  
+linkedin_public_url: 245399100 # Example: For public profile 'www.linkedin.com/in/john-smith', 'john-smith' is your linkedin_public_url
+disqus_username: aicdg
+profile_picture: http://aicdg.com/oldblog/images/chrysanthemum.jpg
 
-
-### Site setting:
-ShowContactInfo: "True" # Personal Info (twitter,github,email) can be seen on aboutme-sidebar, those info only shown where ShowContactInfo == True
-default_column: "two" # blog style: two columns, if default_column != "two", you will see a one column blog.
-default_locale: "cn" # blog sidebar language set, only include: English(en) and Chinese (cn)
-
-locales:
-    en:
-      Aboutme: "About Me"
-      Archives: "Archives"
-      Blogroll: "Blogroll"
-      Categories: "Categories"
-      Copyright_Notice: "Copyright Notice"
-      Recent_Posts: "Recent Posts"
-      Tags: "Tags"
-      Previous: "Older"
-      Next: "Newer"
-      PostedInCategories: "Posted in"
-      Taggedwith: "and tagged"
-      PostDate: "on "
-      Google_search: "Site Search"
-    cn:
-      Aboutme: "关于我"
-      Archives: "存档"
-      Blogroll: "良师益友"        
-      Categories: "分类目录"    
-      Copyright_Notice: "版权声明"
-      Recent_Posts: "近期文章"
-      Tags: "标签" 
-      Previous: "前一页"
-      Next: "后一页"
-      PostedInCategories: "目录:"   
-      Taggedwith: "| 标签:"
-      PostDate: "| 发表时间: "
-      Google_search: "站内搜索"
-### your Blogroll info, only name can shown on the page.
-
-Blogroll:
-    - name: he-tao
-      href: http://sighingnow.github.io
-      title: He-tao's blog
-    - name: micstu
-      href: http://uiharu.moe/
-      title: Mictus's website 
-    - name: kkrainbow
-      href: http://kkrainbow.github.io/
-      title: Rainbow's blog     
-
-
-### Build settings
+# Build settings
 markdown: kramdown
 highlighter: rouge
-paginate: 5
-excerpt_separator: <!-- more -->
+permalink: /:title/
+
+# html minify
+compress_html:
+  clippings: all
+  comments: all
+  endings: []
+  profile: false
+
+# Links to include in menu navigation
+links:
+  section_1:
+    - title: home
+      url: /
+      key_trigger: 1
+    - title: my posts
+      url: /posts
+      key_trigger: 2
+    - title: tags
+      url: /tags
+      key_trigger: 3
+    - title: about me
+      url: /about
+      key_trigger: 4
+  section_2:
+    - title: github
+      url: https://github.com/THISISAGOODNAME
+      new_tab: true
+      key_trigger: g
+    - title: search
+      url: ""
+      key_trigger: s #WARNING: search only works with "s"
+  section_3:
+    - title: blogroll
+      url: /blogroll
+      key_trigger: f
+    - title: He-tao's blog
+      url: http://sighingnow.github.io
+      new_tab: true
+      key_trigger: H
+    - title: Mictus's website
+      url: http://blog.mottomo.moe/
+      new_tab: true
+      key_trigger: C
+    - title: Rainbow's blog
+      url: http://kkrainbow.github.io/
+      new_tab: true
+      key_trigger: K
+
+# projects in header index
+projects:
+  - name: learn-ammojs
+    url: https://github.com/THISISAGOODNAME/learn-ammojs
+
+# blogroll info
+blogrolls:
+  - name: he-tao
+    href: http://sighingnow.github.io
+    title: He-tao's blog
+  - name: micstu
+    href: http://uiharu.moe/
+    title: Mictus's website 
+  - name: kkrainbow
+    href: http://kkrainbow.github.io/
+    title: Rainbow's blog   
+
+# exclude my node related stuff
+exclude: ['package.json', 'src', 'node_modules']

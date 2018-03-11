@@ -1,0 +1,19 @@
+---
+layout: minimal
+title: "Blogroll"
+permalink: /blogroll/index.html
+description: "Blogroll"
+---
+
+<img itemprop="image" class="img-rounded about_perfil" title="菊花" src="http://aicdg.com/oldblog/images/chrysanthemum.jpg" alt="菊花">
+
+<h2>My projects</h2>
+
+<div class="aboutme">
+	<ul class="recent">
+		{% for blogroll in site.blogrolls %}
+	    	<li><a href="{{ blogroll.href }}"><h3 class="project-name" itemprop="name">{{ blogroll.title }}</h3></a></li>
+	    {% endfor %}
+	</ul>
+</div>
+
