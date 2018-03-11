@@ -31,17 +31,23 @@ compress_html:
 links:
   section_1:
     - title: home
-      url: ./
+      url: http://aicdg.com/
       key_trigger: 1
     - title: my posts
-      url: ./posts
+      url: http://aicdg.com/posts
       key_trigger: 2
     - title: tags
-      url: ./tags
+      url: http://aicdg.com/tags
       key_trigger: 3
     - title: about me
-      url: ./about
+      url: http://aicdg.com/about
       key_trigger: 4
+    - title: about me
+      url: http://aicdg.com/series
+      key_trigger: 5
+    - title: categories
+      url: http://aicdg.com/oldblog
+      key_trigger: 6
   section_2:
     - title: github
       url: https://github.com/THISISAGOODNAME
@@ -52,7 +58,7 @@ links:
       key_trigger: s #WARNING: search only works with "s"
   section_3:
     - title: blogroll
-      url: ./blogroll
+      url: http://aicdg.com/blogroll
       key_trigger: f
     - title: He-tao's blog
       url: http://sighingnow.github.io
