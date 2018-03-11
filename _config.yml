@@ -31,16 +31,16 @@ compress_html:
 links:
   section_1:
     - title: home
-      url: /
+      url: ./
       key_trigger: 1
     - title: my posts
-      url: /posts
+      url: ./posts
       key_trigger: 2
     - title: tags
-      url: /tags
+      url: ./tags
       key_trigger: 3
     - title: about me
-      url: /about
+      url: ./about
       key_trigger: 4
   section_2:
     - title: github
@@ -52,7 +52,7 @@ links:
       key_trigger: s #WARNING: search only works with "s"
   section_3:
     - title: blogroll
-      url: /blogroll
+      url: ./blogroll
       key_trigger: f
     - title: He-tao's blog
       url: http://sighingnow.github.io
