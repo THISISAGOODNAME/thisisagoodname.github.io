@@ -43,7 +43,7 @@ Shader "Custom/SurfaceShader" {
         
         struct Input {
             float2 uv_MainTex;
-	    };
+        };
 		
         half _Glossiness;
         half _Metallic;
@@ -66,8 +66,8 @@ Shader "Custom/SurfaceShader" {
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
             o.Alpha = c.a;
-	    }
-		ENDCG 
+        }
+        ENDCG 
     }
     FallBack "Diffuse"
 }
