@@ -27,9 +27,9 @@ Shader "Custom/SurfaceShader" {
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
-	}
+    }
 	
-	SubShader {
+    SubShader {
         Tags { "RenderType"="Opaque" }
         LOD 200
         CGPROGRAM
@@ -43,7 +43,7 @@ Shader "Custom/SurfaceShader" {
         
         struct Input {
             float2 uv_MainTex;
-		};
+	    };
 		
         half _Glossiness;
         half _Metallic;
@@ -55,7 +55,7 @@ Shader "Custom/SurfaceShader" {
         instancing.
         // #pragma instancing_options assumeuniformscaling
         UNITY_INSTANCING_CBUFFER_START(Props)
-            // put more per-instance properties here
+        // put more per-instance properties here
         UNITY_INSTANCING_CBUFFER_END
         
         void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -66,9 +66,9 @@ Shader "Custom/SurfaceShader" {
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
             o.Alpha = c.a;
-		}
+	    }
 		ENDCG 
-	}
+    }
     FallBack "Diffuse"
 }
 ```
@@ -142,8 +142,8 @@ inline fixed4 LightingLambert (SurfaceOutput s, UnityGI gi)
     c.a = s.Alpha;
     #ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
         c.rgb += s.Albedo * gi.indirect.diffuse;
-	#endif
-	return c; 
+    #endif
+    return c; 
 }
 ```
 
@@ -162,33 +162,33 @@ Shader "Custom/SurfaceShaderBlinnPhong" {
 		_Shininess ("Shininess", Range (0.03, 1)) = 0.078125
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" }
-		LOD 200
-		CGPROGRAM
-		#pragma surface surf BlinnPhong fullforwardshadows 
-		#pragma target 3.0
-		
-        sampler2D _MainTex;
-        float _Shininess;
-        
-        struct Input {
+	    Tags { "RenderType"="Opaque" }
+	    LOD 200
+	    CGPROGRAM
+	    #pragma surface surf BlinnPhong fullforwardshadows 
+	    #pragma target 3.0
+	    
+	    sampler2D _MainTex;
+	    float _Shininess;
+	    
+	    struct Input {
             float2 uv_MainTex;
-		};
-		
-        fixed4 _Color;
-        UNITY_INSTANCING_CBUFFER_START(Props)
-            // put more per-instance properties here
-        UNITY_INSTANCING_CBUFFER_END
-        
-		void surf (Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color; 
-			o.Albedo = c.rgb;
-			o.Specular = _Shininess;
-			o.Gloss = c.a;
-			o.Alpha = 1.0f;
-		}
-		ENDCG 
-	}
+	    };
+	    
+	    fixed4 _Color;
+	    UNITY_INSTANCING_CBUFFER_START(Props)
+	        // put more per-instance properties here
+	    UNITY_INSTANCING_CBUFFER_END
+	    
+	    void surf (Input IN, inout SurfaceOutput o) {
+	        fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+            o.Albedo = c.rgb;
+            o.Specular = _Shininess;
+            o.Gloss = c.a;
+            o.Alpha = 1.0f;
+        }
+        ENDCG 
+    }
     FallBack "Diffuse"
 }
 ```
@@ -202,13 +202,13 @@ inline fixed4 UnityPhongLight (SurfaceOutput s, half3 viewDir, UnityLight light)
     
     fixed diff = max (0, dot (s.Normal, light.dir));
     
-	float nh = max (0, dot (s.Normal, h));
-	float spec = pow (nh, s.Specular*128.0) * s.Gloss;
-	
-	fixed4 c;
-	c.rgb = s.Albedo * light.color * diff + light.color * _SpecColor.rgb * spec; 
-	c.a = s.Alpha;
-	return c;
+    float nh = max (0, dot (s.Normal, h));
+    float spec = pow (nh, s.Specular*128.0) * s.Gloss;
+    
+    fixed4 c;
+    c.rgb = s.Albedo * light.color * diff + light.color * _SpecColor.rgb * spec;
+    c.a = s.Alpha;
+    return c;
 }
 ```
 
@@ -270,9 +270,9 @@ inline fixed4 LightingPhong (SurfaceOutput s, half3 viewDir, UnityGI gi)
     
     #ifdef UNITY_LIGHT_FUNCTION_APPLY_INDIRECT
         c.rgb += s.Albedo * gi.indirect.diffuse;
-	#endif
-	
-	return c; 
+    #endif
+    
+    return c; 
 }
 ```
 
