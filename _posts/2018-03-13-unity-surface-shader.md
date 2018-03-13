@@ -173,7 +173,7 @@ Shader "Custom/SurfaceShaderBlinnPhong" {
 	    
 	    struct Input {
             float2 uv_MainTex;
-	    };
+        };
 	    
 	    fixed4 _Color;
 	    UNITY_INSTANCING_CBUFFER_START(Props)
@@ -187,7 +187,7 @@ Shader "Custom/SurfaceShaderBlinnPhong" {
             o.Gloss = c.a;
             o.Alpha = 1.0f;
         }
-        ENDCG 
+        ENDCG
     }
     FallBack "Diffuse"
 }
