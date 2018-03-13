@@ -22,7 +22,7 @@ $$
 &nbsp; &nbsp; &nbsp; &nbsp;$F(l, h)$是Fresnel项，决定物体表面的光反射的量。菲涅尔效应就是物体表面同时发生反射和折射的现象。一般使用schlick的一个近似经验模型：
 
 $$
-F_{schlick}(v,h)=c_{spec} + (1-c_{spec})(1-(v \cdot h)^5)
+F_{schlick}(v,h)=c_{spec} + (1-c_{spec})(1-(v \cdot h))^5
 $$
 
 &nbsp; &nbsp; &nbsp; &nbsp;其中，$c_{spec}$指高光颜色。
