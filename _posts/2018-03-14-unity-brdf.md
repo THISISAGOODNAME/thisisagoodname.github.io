@@ -131,10 +131,15 @@ $$
 
 $$
 f_d = \frac{baseColor}{\pi} (1 + (F_{D90} - 1)(1 - cos \theta_l)^5) (1 + (F_{D90} - 1)(1 - cos \theta_v)^5)
+$$
+
+其中：
+
+$$
 F_{D90} = 0.5 + 2 \times  roughness \times cos^2\theta_d 
 $$
 
-> $theta_x$指法向量$n$和向量$x$的点积，向量$d$就是光线$l$和视线$v$的半向量
+> $\theta_x$指法向量$n$和向量$x$的点积，向量$d$就是光线$l$和视线$v$的半向量
 
 公式看着有点乱，但是用代码实现就很清晰了：
 
