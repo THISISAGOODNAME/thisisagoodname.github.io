@@ -113,7 +113,7 @@ float denominator = sqr(NdotH) * (alphaSqr - 1.0) + 1.0f;
 D = alphaSqr / (PI * sqr( denominator));
 ```
 
-&nbsp; &nbsp; &nbsp; &nbsp;到此为止，CookTorrance的**D**,**F**,**G**三个分量实现完毕，但是，CookTorrance只有高光没有漫反射，为了看到完整的物体，还需要补充扩散模型(diffuse)。通常使用Lambert就行了，但是还有一些更好的选择。比如我们接下来要实现的。
+&nbsp; &nbsp; &nbsp; &nbsp;到此为止，CookTorrance的**D**,**F**,**G**三个分量实现完毕，但是，CookTorrance只有高光没有漫反射，为了看到完整的物体，还需要补充漫反射(diffuse)部分。通常使用Lambert就行了，但是还有一些更好的选择。比如我们接下来要实现的。
 
 # Disney BRDF
 
