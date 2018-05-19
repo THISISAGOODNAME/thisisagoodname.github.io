@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "移动GPU RBDR研究"
-description: "移动GPU RBDR研究"
+title: "移动GPU TBDR研究"
+description: "移动GPU TBDR研究"
 image: ""
 date: 2018-05-19 17:31:34
 categories: 研究
