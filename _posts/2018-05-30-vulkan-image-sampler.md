@@ -5,7 +5,7 @@ description: "vulkan纹理映射"
 image: ""
 date: 2018-05-30 18:31:34
 categories: 研究
-tags: [研究]
+tags: [研究,UE4]
 ---
 
 &nbsp; &nbsp; &nbsp; &nbsp;最近调试UE4的vulkan的时候发现TileRendering有问题(多贴图复用同一个Sampler对象的时候有问题)。用frame debugger的时候发现贴图和素材对应关系不是很直观，所以从新记录一下两者的绑定方式。
