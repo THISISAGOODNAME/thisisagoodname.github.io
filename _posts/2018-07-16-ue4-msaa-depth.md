@@ -95,7 +95,7 @@ tags: [研究,UE4]
 
 &nbsp; &nbsp; &nbsp; &nbsp;到此，ios和Android上的 MSAA 和 depth 冲突的问题，部分处理了，但是还不完整。如果有大神能解决 vulkan 上 multisample depth/stencil resolve 的问题，请一定告诉我。
 
-
+&nbsp; &nbsp; &nbsp; &nbsp;然后是关于vulkan的吐槽，本来以为vulkan设计只是复杂，没想到还会出现功能上的缺失。而且我们私下讨论还说，vulkan的标准制定者一定不怎么做游戏，不然不会缺失一大堆实用功能。反观metal，API层面直接支持msaa depth resolve，framebuffer fetch，depthstencilbuffer fetch，shader storage。。。相当多openGL 扩展被直接写到了metal作为标准的一部分。这才是天天用的人设计的API。
 
 
 
