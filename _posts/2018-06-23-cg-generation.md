@@ -33,9 +33,9 @@ tags: [研究]
 
 &nbsp; &nbsp; &nbsp; &nbsp;有人看到Emotion Engine，可能就和unity，unreal，cry engine这些游戏引擎混了，其实Emotion Engine并非游戏引擎，而是PS2的一个硬件模块。
 
-![PS2 Emotion Engine](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/ps2-ee-diagram.jpeg)
+![PS2 Emotion Engine](http://aicdg.com/assets/img/blogimg/cgingeneration/ps2-ee-diagram.jpeg)
 
-![PS2 硬件架构图](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/ps2-block-diagram.jpeg)
+![PS2 硬件架构图](http://aicdg.com/assets/img/blogimg/cgingeneration/ps2-block-diagram.jpeg)
 
 &nbsp; &nbsp; &nbsp; &nbsp;EE指整个PS2处理器和子系统的，也可以特指PS2的128位MIPS CPU。PS2还有两个专用向量单元(Vector Unit)，VU0和VU1。VU0和EE CPU直联，可以处理开发者在C程序中编写的特殊 inline Assembly code。VU1集成在GS(Graphics Synthesizer)内部，VU1无法直接运行用户内嵌代码，需要用户用汇编编写程序，然后发送程序到VU1执行。
 
@@ -61,11 +61,11 @@ tags: [研究]
 
 &nbsp; &nbsp; &nbsp; &nbsp;两个阶段就是两个render pass。而在两个render pass直接传递数据，就要依靠RTT技术了，需要设计一个G-buffer，用来存储场景的几何体信息。
 
-![延迟渲染G-buffer](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/20180623165044.png)
+![延迟渲染G-buffer](http://aicdg.com/assets/img/blogimg/cgingeneration/20180623165044.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;对于场景中的光源，可以在渲染的几何处理阶段和材质处理阶段的中间，额外增加一个光源处理阶段，用来记录各个像素累计光源的情况。
 
-![延迟渲染管线](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/20180623165103.png)
+![延迟渲染管线](http://aicdg.com/assets/img/blogimg/cgingeneration/20180623165103.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;常见的延迟渲染就是这样，总结一下延迟渲染的优缺点
 
@@ -91,7 +91,7 @@ tags: [研究]
 3. 移动平台像素处理能力也相对较弱(TAA这种软抗锯齿开销也很大)
 
 &nbsp; &nbsp; &nbsp; &nbsp;接下来以mali GPU为例介绍一下移动平台的TBDR技术
-![mali TBDR](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/mali-tbdr.png)
+![mali TBDR](http://aicdg.com/assets/img/blogimg/cgingeneration/mali-tbdr.png)
 
 **目标**：减少渲染期间所需的功耗巨大的外部内存访问
 
@@ -135,19 +135,19 @@ tags: [研究]
 2. Light culling：保存影响该像素的光源信息
 3. Final shading：最终渲染，和传统的前向渲染方式相同
 
-![F+管线](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/QQ20180623-185445@2x.png)
+![F+管线](http://aicdg.com/assets/img/blogimg/cgingeneration/QQ20180623-185445@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;F+的Light culling和Final shading两个阶段最重要的特征，就是 **基于瓦片**。
 
-![基于瓦片的光源剔除](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/QQ20180623-185628@2x.png)
+![基于瓦片的光源剔除](http://aicdg.com/assets/img/blogimg/cgingeneration/QQ20180623-185628@2x.png)
 
-![光源剔除结果](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/QQ20180623-185617@2x.png)
+![光源剔除结果](http://aicdg.com/assets/img/blogimg/cgingeneration/QQ20180623-185617@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;如同上文移动端渲染中所说，基于瓦片进行光源和图元剔除之后，绘制压力和带宽需求已经大大降低。因为之前进行了z prepass，还能将被遮挡的图元提前去除，进一步降低了overdraw。
 
 &nbsp; &nbsp; &nbsp; &nbsp;F+渲染性能和延迟渲染的比较(数据来源于AMD)。
 
-![性能提升情况](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/QQ20180623-204938@2x.png)
+![性能提升情况](http://aicdg.com/assets/img/blogimg/cgingeneration/QQ20180623-204938@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;F+渲染改进了什么：
 
@@ -159,7 +159,7 @@ tags: [研究]
 6. AMD在2012年的新图形API mantle，对于Sony和微软设计多线程渲染接口时提供了思路和原型。依靠多线程异步渲染，进一步增加了drawCall的数量
 
 
-![动态光源个数](http://7xqrar.com1.z0.glb.clouddn.com/image/cgingeneration/QQ20180623-211031@2x.png)
+![动态光源个数](http://aicdg.com/assets/img/blogimg/cgingeneration/QQ20180623-211031@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;F+渲染的历史遗留问题：仍然需要保存巨大的G-Buffer和light Buffer。就是说，F+渲染相比延迟渲染，着重解决了带宽占用的问题，但是显存占用问题依旧严重。(这也是移动平台迟迟不用F+的原因)
 

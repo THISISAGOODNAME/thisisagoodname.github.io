@@ -43,7 +43,7 @@ tags: [研究]
 
 &nbsp; &nbsp; &nbsp; &nbsp;光入射到物体表面时，同时发生反射和折射。
 
-![菲涅尔](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-111629@2x.png)
+![菲涅尔](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-111629@2x.png)
 
 ### 1. 反射定理
 
@@ -80,12 +80,12 @@ $$
 &nbsp; &nbsp; &nbsp; &nbsp;反射率随入射角变化曲线：
 
 **金属**：
-![菲涅尔曲线-金属](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-113230@2x.png)
+![菲涅尔曲线-金属](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-113230@2x.png)
 
 **非金属**：
-![菲涅尔曲线-非金属](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-113242@2x.png)
+![菲涅尔曲线-非金属](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-113242@2x.png)
 
-![现象](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-114306@2x.png)
+![现象](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-114306@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;在接近平行物体表面观察的情况下，非金属平整表面也有很明显的镜面效果。
 
@@ -95,7 +95,7 @@ $$
 
 ## 1. 图形学中几何光学模型的限制
 
-![物体表面实际情况](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-120818@2x.png)
+![物体表面实际情况](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-120818@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;**目前为止的理论要求我们所处理的表面是绝对光滑的**，但只有相当于微观原子尺寸上，表面才可能绝对光滑，在实际物体表面物体是有微小的无规则起伏的。
 
@@ -105,13 +105,13 @@ $$
 
 &nbsp; &nbsp; &nbsp; &nbsp;假设我们能够处理微观尺寸，则来自同一个方向的光照会被反射至多个方向。那么只要能够模拟这个行为，就能在像素尺寸模拟微观结构的光学行为。所以可以定义一个法线分布函数，以代替单个像素的法线值。
 
-![微面元理论](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-121007@2x.png)
+![微面元理论](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-121007@2x.png)
 
 ## 3. 法线分布函数D
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数表示微面元发现方向的统计分布。给定一个入射方向，一个微面元有多大概率朝向半向量方向。
 
-![半向量](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-121322@2x.png)
+![半向量](http://aicdg.com/assets/img/blogimg/QQ20180603-121322@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数有各向同性、各向异性之分。
 
@@ -126,7 +126,7 @@ $$
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数虽然模拟了表面的凹凸的情况，但是缺忽略了一个问题，那就是微面元上光线被凹凸遮挡的问题。
 
-![微面元上光线被凹凸遮挡](http://7xqrar.com1.z0.glb.clouddn.com/image/optics/QQ20180603-175007@2x.png)
+![微面元上光线被凹凸遮挡](http://aicdg.com/assets/img/blogimg/QQ20180603-175007@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;为了解决这个问题，引入一个阴影补偿函数G，来模拟表面凹凸遮挡阴影的情况。
 
