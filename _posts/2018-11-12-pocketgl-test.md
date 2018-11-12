@@ -12,9 +12,7 @@ tags: [研究]
 
 <script src="http://aicdg.com/assets/js/pocket.gl.min.js"></script>
 
-<p>
-	<div id="container" style="position: relative; width:600px;"></div>
-</p>
+<div id="container" style="position: relative; width:600px;margin-left: auto;margin-right: auto;"></div>
 
 	
 <script>
