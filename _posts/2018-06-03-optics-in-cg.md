@@ -111,7 +111,7 @@ $$
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数表示微面元发现方向的统计分布。给定一个入射方向，一个微面元有多大概率朝向半向量方向。
 
-![半向量](http://aicdg.com/assets/img/blogimg/QQ20180603-121322@2x.png)
+![半向量](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-121322@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数有各向同性、各向异性之分。
 
@@ -126,7 +126,7 @@ $$
 
 &nbsp; &nbsp; &nbsp; &nbsp;法线分布函数虽然模拟了表面的凹凸的情况，但是缺忽略了一个问题，那就是微面元上光线被凹凸遮挡的问题。
 
-![微面元上光线被凹凸遮挡](http://aicdg.com/assets/img/blogimg/QQ20180603-175007@2x.png)
+![微面元上光线被凹凸遮挡](http://aicdg.com/assets/img/blogimg/optics/QQ20180603-175007@2x.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;为了解决这个问题，引入一个阴影补偿函数G，来模拟表面凹凸遮挡阴影的情况。
 
