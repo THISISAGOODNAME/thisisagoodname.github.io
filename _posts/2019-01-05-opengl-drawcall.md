@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "openGL渲染"
-description: "openGL渲染"
+title: "openGL drawcall 类型"
+description: "openGL drawcall 类型"
 image: ""
 date: 2019-01-05 15:40:08
 categories: 研究
