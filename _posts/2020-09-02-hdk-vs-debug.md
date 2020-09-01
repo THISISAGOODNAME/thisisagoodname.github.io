@@ -37,8 +37,8 @@ tags: [Houdini,HDK]
 
 &nbsp; &nbsp; &nbsp; &nbsp;有时发现明明已经把调试器attach了，但是断点却不触发，这是因为Visual Studio可能会把houdini识别为python进程，attach了一个python的调试器
 
-[attach python debugger](http://aicdg.com/assets/img/blogimg/houdini/hdkdebug/Snipaste_2020-09-01_23-55-16.png)
+![attach python debugger](http://aicdg.com/assets/img/blogimg/houdini/hdkdebug/Snipaste_2020-09-01_23-55-16.png)
 
 &nbsp; &nbsp; &nbsp; &nbsp;将调试类型设置为native即可修复
 
-[native debugger](http://aicdg.com/assets/img/blogimg/houdini/hdkdebug/Snipaste_2020-09-01_23-55-27.png)
+![native debugger](http://aicdg.com/assets/img/blogimg/houdini/hdkdebug/Snipaste_2020-09-01_23-55-27.png)
