@@ -62,6 +62,6 @@ dxc -spirv -T ps_6_0 -E frag hlsl/shader.hlsl -Fo frag.spv -Zi
 
 # renderdoc在vulkan下调试hlsl的截屏
 
-![spv debug](http://aicdg.com/assets/img/blogimg、vulkan、shaderdebugHLSL/Snipaste_2020-10-12_23-33-52.png)
+![spv debug](http://aicdg.com/assets/img/blogimg/vulkan/shaderdebugHLSL/Snipaste_2020-10-12_23-33-52.png)
 
-![hlsl debug](http://aicdg.com/assets/img/blogimg、vulkan、shaderdebugHLSL/Snipaste_2020-10-12_23-34-21.png)
+![hlsl debug](http://aicdg.com/assets/img/blogimg/vulkan/shaderdebugHLSL/Snipaste_2020-10-12_23-34-21.png)
