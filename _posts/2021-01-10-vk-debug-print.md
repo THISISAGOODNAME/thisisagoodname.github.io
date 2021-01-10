@@ -191,7 +191,6 @@ float4 frag(VSOutput pin) : SV_TARGET
 {
 	return float4(pin.Color, 1.0);
 }
-
 ```
 
 
