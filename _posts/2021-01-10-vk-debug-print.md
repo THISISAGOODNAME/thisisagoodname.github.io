@@ -202,3 +202,4 @@ dxc -spirv -T vs_6_0 -E vert hlsl/shader.hlsl -Fo vert.spv -O0
 
 ## 最终效果
 
+![debug_printf](http://aicdg.com/assets/img/blogimg/vulkan/debugprintf/debugprintf.jpg)
