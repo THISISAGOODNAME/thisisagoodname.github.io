@@ -196,7 +196,7 @@ float4 frag(VSOutput pin) : SV_TARGET
 
 
 
-> GLSL中不要忘记`#extension GL_EXT_debug_printf : enable`,HLSL dxc编译器如果开启优化编译器会crash，现在如果要在hlsl打log，请先关闭优化
+&nbsp; &nbsp; &nbsp; &nbsp; GLSL中不要忘记`#extension GL_EXT_debug_printf : enable`,HLSL dxc编译器如果开启优化编译器会crash，现在如果要在hlsl打log，请先关闭优化
 
 ```bash
 dxc -spirv -T vs_6_0 -E vert hlsl/shader.hlsl -Fo vert.spv -O0
